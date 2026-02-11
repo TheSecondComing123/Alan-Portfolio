@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Alan Bagel</title>
+  <meta name="viewport" content="width=device-width" />
+  <meta name="description" content="The portfolio website for Alan Bagel." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- Home Window-->
+  <main>
+    <div class="window" id="home">
+      <h1 class="window-title">Alan Bagel</h1>
+      <h3 class="window-subtitle">student, programmer, co-founder</h3>
+      <p class="description">
+        A student programmer with an interest in coding and a love for bagels.
+      </p>
+    </div>
+
+    <!-- Projects Window -->
+    <div class="window" id="projects">
+      <h1 class="window-title">Projects</h1>
+      <p class="description">
+        A collection of my programming projects, showcasing my skills and creativity.
+      </p>
+    </div>
+
+    <!-- Technologies Window -->
+    <div class="window" id="technologies">
+      <h1 class="window-title">Technologies</h1>
+      <p class="description">
+        A list of programming languages, frameworks, and tools that I have experience with.
+      </p>
+    </div>
+  </main>
+
+  <!-- Window Switcher -->
+  <nav>
+    <button id="home" class="nav-button" onclick="switchWindow('home')" title="Home">
+      <i class="fas fa-house"></i>
+    </button>
+    <button id="projects" class="nav-button" onclick="switchWindow('projects')" title="Projects">
+      <i class="fas fa-briefcase"></i>
+    </button>
+    <button id="technologies" class="nav-button" onclick="switchWindow('technologies')" title="Technologies">
+      <i class="fas fa-microchip"></i>
+    </button>
+  </nav>
+
+  <script src="js/index.js" defer></script>
+</body>
+
+</html>
