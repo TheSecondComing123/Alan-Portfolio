@@ -1,30 +1,21 @@
 :root {
-  --primary: hsla(127, 55%, 40%, 1);
-  --primary-dark: hsla(127, 55%, 32%, 1);
-  --primary-light: hsla(127, 55%, 50%, 1);
-  --background: hsla(0, 0%, 8%, 1);
-  --white: hsla(0, 0%, 100%, 1);
-  --grey: hsla(0, 0%, 40%, 1);
-
-  --black-60: hsla(0, 0%, 0%, 0.6);
-  --black-40: hsla(0, 0%, 0%, 0.4);
-  --black-30: hsla(0, 0%, 0%, 0.3);
-  --white-10: hsla(0, 0%, 100%, 0.1);
-
-  --shadow-sm: 0 4px 12px hsla(0, 0%, 0%, 0.3);
-  --shadow-md: 0 6px 16px hsla(0, 0%, 0%, 0.4);
-  --shadow-lg: 0 8px 32px hsla(0, 0%, 0%, 0.4);
+  --primary: hsl(127, 55%, 40%);
+  --primary-light: hsl(127, 55%, 50%);
+  --background: hsl(0, 0%, 8%);
+  --text: hsl(0, 0%, 100%);
+  --text-muted: hsl(0, 0%, 75%);
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  background-color: var(--background);
-  color: var(--white);
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--background);
+  color: var(--text);
   height: 100vh;
   overflow: hidden;
 }
@@ -34,7 +25,27 @@ main {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding-bottom: 100px;
+}
+
+.window-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .window {
@@ -42,82 +53,326 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 48px;
+  gap: 12px;
 
-h1 {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 3.5rem;
-  line-height: 1.2;
-  letter-spacing: -0.5px;
-  margin: 0 0 1rem 0;
-}
+  &#home {
+    margin-top: 50px;
+  }
 
-h1.window-title {
-  text-align: center;
-  color: var(--primary);
-}
+  h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
 
-h3.window-subtitle {
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 1.4;
-  letter-spacing: 0.5px;
-  color: var(--primary);
-  margin: -0.8rem 0 0 0;
-  text-transform: uppercase;
-}
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: -0.5rem;
+  }
 
-p {
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
-  line-height: 1.6;
-  margin: 0;
-}
+  p {
+    line-height: 1.6;
+  }
 
-.description {
-  font-size: 1rem;
-  text-align: center;
-  max-width: 600px;
-  margin: 1.5rem auto 0;
-  color: hsla(0, 0%, 75%, 1);
+  .description {
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 600px;
+    color: var(--text-muted);
+    margin: 0.5rem auto 0;
+  }
 }
 
 nav {
-  display: flex;
-  gap: 16px;
-  padding: 16px 28px;
   position: fixed;
   bottom: 30px;
   left: 50%;
-  transform: translateX(-50%);
-  background: hsla(0, 0%, 0%, 0.85);
+  translate: -50%;
+  display: flex;
+  gap: 16px;
+  padding: 16px 28px;
+  background: hsl(0, 0%, 0%, 0.85);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+  border: 1px solid hsl(127, 55%, 40%, 0.3);
   border-radius: 24px;
-  border: 1px solid hsla(127, 55%, 40%, 0.3);
 }
 
 button {
-  background: linear-gradient(135deg, hsla(127, 55%, 35%, 1), hsla(127, 55%, 50%, 1));
-  border: none;
-  padding: 14px;
-  border-radius: 14px;
-  width: 52px;
-  height: 52px;
+  padding: 12px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  border-radius: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover,
+  &:focus {
+    background: var(--primary);
+    color: var(--background);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.carousel {
+  background: hsl(0, 0%, 10%);
+  border: 1px solid hsl(127, 55%, 40%, 0.2);
+  border-radius: 12px;
+  padding: 32px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 16px hsl(0, 0%, 0%, 0.2);
+  transition: all 0.3s ease;
+}
+
+.carousel-item {
+  display: none;
+
+  &.active {
+    display: block;
+    animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &.active.prev {
+    animation-name: slideInLeft;
+  }
+
+  h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: hsl(0, 0%, 85%);
+    margin-bottom: 14px;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: "Space Grotesk", sans-serif;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--primary-light);
+      border-bottom-color: var(--primary);
+    }
+  }
+}
+
+.carousel-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    background: hsl(127, 55%, 40%, 0.12);
+    border: 1px solid hsl(127, 55%, 40%, 0.3);
+    border-radius: 6px;
+    color: hsl(127, 55%, 60%);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  border-radius: 8px;
+  color: var(--primary);
   font-size: 20px;
-  transition: background 0.2s ease, transform 0.2s ease;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background: var(--primary);
+    color: var(--background);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+
+  &.carousel-prev {
+    left: -50px;
+  }
+
+  &.carousel-next {
+    right: -50px;
+  }
 }
 
-button:hover {
-  background: var(--primary-light);
-  transform: scale(1.1);
+.carousel-counter {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: hsl(127, 55%, 50%, 0.8);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-button:active {
-  transform: scale(0.95);
+.technologies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+  justify-content: center;
+
+  .technology-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.2s ease;
+    flex-basis: calc(13% - 8px);
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    i {
+      font-size: 32px;
+    }
+
+    .tech-name {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  }
+}
+
+.contacts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 0.8rem;
+
+  .contact-value {
+    padding: 4px 8px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover,
+    &:focus {
+      border-color: var(--primary-light);
+      background: hsl(127, 55%, 40%, 0.08);
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-light);
+      outline-offset: 2px;
+    }
+
+    &.copied {
+      border-color: var(--primary-light);
+      background: hsl(127, 55%, 40%, 0.15);
+      animation: pulse 0.3s ease-out;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    translate: 30px;
+  }
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    translate: -30px;
+  }
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    scale: 1.05;
+  }
 }
