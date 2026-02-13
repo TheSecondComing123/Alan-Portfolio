@@ -69,28 +69,4 @@ function carousel(direction) {
   }
 }
 
-function copy(type, value, element) {
-  navigator.clipboard.writeText(value).then(() => {
-    const originalText = element.textContent;
-    element.textContent = "Copied!";
-    element.classList.add("copied");
-
-    setTimeout(() => {
-      element.textContent = originalText;
-      element.classList.remove("copied");
-    }, 1500);
-  });
-}
-
-document.addEventListener("keypress", (event) => {
-  const isContactValue = event.target.classList.contains("contact-value");
-  const isActivationKey = event.key === "Enter" || event.key === " ";
-
-  if (isContactValue && isActivationKey) {
-    event.preventDefault();
-    const value = event.target.getAttribute("data-value");
-    copy("", value, event.target);
-  }
-});
-
 init();
