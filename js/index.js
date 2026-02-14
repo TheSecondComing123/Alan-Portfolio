@@ -1,6 +1,5 @@
-const WINDOW_IDS = ["home", "projects", "work", "technologies"];
+const SECTION_IDS = ["home", "projects", "work", "technologies"];
 const app = document.getElementById("app");
-let currentCarouselIndex = 0;
 
 async function init() {
   await loadComponents();
@@ -10,12 +9,12 @@ async function init() {
     lucide.createIcons();
   }
 
-  document.querySelector(".carousel-item")?.classList.add("active");
-  switchWindow("home");
+  initializeScrollObserver();
+  setCurrentButton("home");
 }
 
 async function loadComponents() {
-  for (const id of WINDOW_IDS) {
+  for (const id of SECTION_IDS) {
     const response = await fetch(`components/${id}.html`);
     const html = await response.text();
     app.insertAdjacentHTML("beforeend", html);
@@ -40,33 +39,48 @@ function initializeNavigationIcons() {
 }
 
 function switchWindow(id) {
-  document.querySelectorAll(".window-container").forEach(container => {
-    container.classList.remove("active");
+  const section = document.getElementById(id);
+  if (!section) return;
+
+  setCurrentButton(id);
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+function initializeScrollObserver() {
+  const sections = SECTION_IDS
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) {
+      setCurrentButton(visible.target.id);
+    }
+  }, {
+    root: null,
+    rootMargin: "-42% 0px -42% 0px",
+    threshold: [0.18, 0.35, 0.6],
   });
 
-  setTimeout(() => {
-    document.getElementById(id)?.closest(".window-container")?.classList.add("active");
-  }, 10);
+  for (const section of sections) {
+    observer.observe(section);
+  }
+}
 
+function setCurrentButton(id) {
   document.querySelectorAll(".nav-button").forEach(button => {
     button.removeAttribute("aria-current");
   });
-  document.getElementById(`btn-${id}`).setAttribute("aria-current", "page");
-}
 
-function carousel(direction) {
-  const items = document.querySelectorAll(".carousel-item");
-  if (!items.length) return;
-
-  items[currentCarouselIndex].classList.remove("active", "prev");
-
-  const delta = direction === "next" ? 1 : -1;
-  currentCarouselIndex = (currentCarouselIndex + delta + items.length) % items.length;
-
-  if (direction === "prev") {
-    items[currentCarouselIndex].classList.add("active", "prev");
-  } else {
-    items[currentCarouselIndex].classList.add("active");
+  const active = document.getElementById(`btn-${id}`);
+  if (active) {
+    active.setAttribute("aria-current", "page");
   }
 }
 

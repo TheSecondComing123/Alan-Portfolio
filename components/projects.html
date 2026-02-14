@@ -4,66 +4,64 @@
     <p class="description">
       A collection of my programming projects, showcasing my skills and creativity.
     </p>
-    <div class="carousel-container">
-      <div class="carousel" role="region" aria-label="Projects carousel" aria-live="polite">
-        <div class="carousel-item">
-          <h2 class="carousel-title">Microcosm</h2>
-          <p class="carousel-description">2D rogue-like game built with Pygame and OpenGL, where you play as a microbe
-            surviving in a hostile petri dish against escalating enemy waves. I implemented procedural encounter
-            generation, adaptive enemy AI with behavior states, and enemy scaling tied to player progression, run
-            duration, and performance. Combat uses frame-precise hit detection, invulnerability windows, and
-            telegraphed attacks, while rendering includes layered particle effects and dynamic lighting passes. I also
-            applied high-level math and competitive-programming style optimization to keep updates efficient under
-            heavy load, including vectorized movement calculations, aggressive state pruning, and low-overhead
-            collision filtering. The result is a fast, replayable loop that stays technically tight and readable even
-            in high-intensity fights.</p>
-          <div class="carousel-tags" role="list" aria-label="Project technologies">
-            <span class="tag" role="listitem">Python</span>
-            <span class="tag" role="listitem">Pygame</span>
-            <span class="tag" role="listitem">OpenGL</span>
-          </div>
-          <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank" rel="noopener noreferrer"
-            aria-label="View Microcosm project">View Project</a>
+    <section class="project-grid" role="list" aria-label="Projects">
+      <article class="project-card" role="listitem">
+        <h2 class="project-title">Microcosm</h2>
+        <p class="project-description">A 2D rogue-like built with Pygame and OpenGL, where each run pushes harder as
+          enemy pressure ramps up. The core focus is responsive combat, readable visual feedback, and high-intensity
+          fights that stay smooth under load.</p>
+        <ul class="project-highlights" aria-label="Microcosm highlights">
+          <li>Procedural encounters and adaptive enemy AI with scaling based on progression, run duration, and player
+            performance.</li>
+          <li>Frame-precise combat systems including invulnerability windows, telegraphed attacks, and tight collision
+            handling.</li>
+          <li>Math-heavy optimization work using vectorized movement, aggressive state pruning, and low-overhead
+            collision filtering.</li>
+        </ul>
+        <div class="project-tags" role="list" aria-label="Project technologies">
+          <span class="tag" role="listitem">Python</span>
+          <span class="tag" role="listitem">Pygame</span>
+          <span class="tag" role="listitem">OpenGL</span>
         </div>
-        <div class="carousel-item">
-          <h2 class="carousel-title">ACSL Academy</h2>
-          <p class="carousel-description">Full-stack ACSL learning platform built with Next.js, Tailwind, and Supabase,
-            then deployed on Vercel for fast global access. It contains 30+ structured lessons across core programming
-            and computer science topics, plus guided quizzes, account-based progress tracking, dedicated practice
-            problem banks, and timed contest-style sets. Students can train by topic, simulate competitive conditions,
-            and review performance history over time. I built the content flow around progressive difficulty so users
-            move from fundamentals into harder logic and implementation patterns without getting stuck early. The
-            platform also supports fast lesson iteration, structured feedback loops, and data-backed refinement of
-            practice sets based on where students struggle most. The goal is to make ACSL preparation consistent,
-            measurable, and genuinely effective for both self-study and coached workflows.</p>
-          <div class="carousel-tags" role="list" aria-label="Project technologies">
-            <span class="tag" role="listitem">Next.js</span>
-            <span class="tag" role="listitem">Tailwind</span>
-            <span class="tag" role="listitem">Supabase</span>
-          </div>
-          <a href="https://acsl-academy.vercel.app" class="project-link" target="_blank" rel="noopener noreferrer"
-            aria-label="View ACSL Academy project">View Project</a>
+        <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank" rel="noopener noreferrer"
+          aria-label="View Microcosm project">View Project</a>
+      </article>
+
+      <article class="project-card" role="listitem">
+        <h2 class="project-title">ACSL Academy</h2>
+        <p class="project-description">A full-stack ACSL preparation platform built with Next.js, Tailwind, and
+          Supabase, deployed on Vercel for fast access and iteration. It is designed for consistent practice,
+          measurable progress, and contest-focused training.</p>
+        <ul class="project-highlights" aria-label="ACSL Academy highlights">
+          <li>30+ structured lessons across core ACSL programming and CS topics with progressive difficulty pacing.</li>
+          <li>Dedicated practice problem banks and timed contest-style sets for realistic competition prep.</li>
+          <li>Account-based progress tracking, quiz workflows, and data-backed refinement of training content.</li>
+        </ul>
+        <div class="project-tags" role="list" aria-label="Project technologies">
+          <span class="tag" role="listitem">Next.js</span>
+          <span class="tag" role="listitem">Tailwind</span>
+          <span class="tag" role="listitem">Supabase</span>
         </div>
-        <div class="carousel-item">
-          <h2 class="carousel-title">The Legend of Rick</h2>
-          <p class="carousel-description">2D platformer built with Godot and GDScript, centered on responsive movement,
-            readable level design, and progression that increases challenge without spiking frustration. The game
-            includes multiple stage archetypes, checkpoint flow, enemy timing systems, and tuned physics for jump arcs,
-            momentum, and recovery windows. I iterated heavily on animation state handling and collision behavior so
-            movement feels smooth and predictable. Beyond core movement, I focused on level pacing, fail-state clarity,
-            and recovery timing so difficult sections feel learnable rather than random. Ongoing work is focused on
-            adding levels, boss-style encounters, and stronger pacing between platforming, combat, and humor beats,
-            while keeping the control feel consistent across all stage types.</p>
-          <div class="carousel-tags" role="list" aria-label="Project technologies">
-            <span class="tag" role="listitem">Godot</span>
-            <span class="tag" role="listitem">GDScript</span>
-          </div>
-          <span class="project-link" aria-label="The Legend of Rick coming soon">Coming soon</span>
+        <a href="https://acsl-academy.vercel.app" class="project-link" target="_blank" rel="noopener noreferrer"
+          aria-label="View ACSL Academy project">View Project</a>
+      </article>
+
+      <article class="project-card" role="listitem">
+        <h2 class="project-title">The Legend of Rick</h2>
+        <p class="project-description">A 2D platformer in Godot and GDScript focused on responsive controls, readable
+          challenge, and level flow that feels fair even at higher difficulty. The goal is clean movement feel with
+          strong pacing between platforming and combat moments.</p>
+        <ul class="project-highlights" aria-label="The Legend of Rick highlights">
+          <li>Tuned jump arcs, momentum, recovery windows, and collision behavior for consistent control feel.</li>
+          <li>Multiple stage archetypes with checkpoint flow, enemy timing systems, and clearer fail-state feedback.</li>
+          <li>Active expansion toward boss encounters and tighter pacing across gameplay and humor beats.</li>
+        </ul>
+        <div class="project-tags" role="list" aria-label="Project technologies">
+          <span class="tag" role="listitem">Godot</span>
+          <span class="tag" role="listitem">GDScript</span>
         </div>
-      </div>
-      <button class="carousel-btn carousel-prev" onclick="carousel('prev')"
-        aria-label="Previous project">&lsaquo;</button>
-      <button class="carousel-btn carousel-next" onclick="carousel('next')" aria-label="Next project">&rsaquo;</button>
-    </div>
+        <span class="project-link" aria-label="The Legend of Rick coming soon">Coming soon</span>
+      </article>
+    </section>
   </div>
 </div>
