@@ -1,4 +1,4 @@
-const WINDOW_IDS = ["home", "projects", "technologies"];
+const WINDOW_IDS = ["home", "projects", "work", "technologies"];
 const app = document.getElementById("app");
 let currentCarouselIndex = 0;
 
@@ -26,6 +26,7 @@ function initializeNavigationIcons() {
   const iconMap = {
     "btn-home": "home",
     "btn-projects": "briefcase",
+    "btn-work": "building-2",
     "btn-technologies": "cpu",
   };
 

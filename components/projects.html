@@ -8,18 +8,34 @@
       <div class="carousel" role="region" aria-label="Projects carousel" aria-live="polite">
         <div class="carousel-item">
           <h2 class="carousel-title">Microcosm</h2>
-          <p class="carousel-description">2D Rogue-like game built with Pygame and OpenGL.</p>
+          <p class="carousel-description">2D rogue-like game built with Pygame and OpenGL, where you play as a microbe
+            surviving in a hostile petri dish against escalating enemy waves. I implemented procedural encounter
+            generation, adaptive enemy AI with behavior states, and enemy scaling tied to player progression, run
+            duration, and performance. Combat uses frame-precise hit detection, invulnerability windows, and
+            telegraphed attacks, while rendering includes layered particle effects and dynamic lighting passes. I also
+            applied high-level math and competitive-programming style optimization to keep updates efficient under
+            heavy load, including vectorized movement calculations, aggressive state pruning, and low-overhead
+            collision filtering. The result is a fast, replayable loop that stays technically tight and readable even
+            in high-intensity fights.</p>
           <div class="carousel-tags" role="list" aria-label="Project technologies">
             <span class="tag" role="listitem">Python</span>
             <span class="tag" role="listitem">Pygame</span>
             <span class="tag" role="listitem">OpenGL</span>
           </div>
-          <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank"
-            rel="noopener noreferrer" aria-label="View Microcosm project">View Project</a>
+          <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank" rel="noopener noreferrer"
+            aria-label="View Microcosm project">View Project</a>
         </div>
         <div class="carousel-item">
           <h2 class="carousel-title">ACSL Academy</h2>
-          <p class="carousel-description">Full-stack online ACSL lessons built with Next.js, Tailwind, and Supabase.</p>
+          <p class="carousel-description">Full-stack ACSL learning platform built with Next.js, Tailwind, and Supabase,
+            then deployed on Vercel for fast global access. It contains 30+ structured lessons across core programming
+            and computer science topics, plus guided quizzes, account-based progress tracking, dedicated practice
+            problem banks, and timed contest-style sets. Students can train by topic, simulate competitive conditions,
+            and review performance history over time. I built the content flow around progressive difficulty so users
+            move from fundamentals into harder logic and implementation patterns without getting stuck early. The
+            platform also supports fast lesson iteration, structured feedback loops, and data-backed refinement of
+            practice sets based on where students struggle most. The goal is to make ACSL preparation consistent,
+            measurable, and genuinely effective for both self-study and coached workflows.</p>
           <div class="carousel-tags" role="list" aria-label="Project technologies">
             <span class="tag" role="listitem">Next.js</span>
             <span class="tag" role="listitem">Tailwind</span>
@@ -30,28 +46,23 @@
         </div>
         <div class="carousel-item">
           <h2 class="carousel-title">The Legend of Rick</h2>
-          <p class="carousel-description">2D platformer game built with Godot and GDScript.</p>
+          <p class="carousel-description">2D platformer built with Godot and GDScript, centered on responsive movement,
+            readable level design, and progression that increases challenge without spiking frustration. The game
+            includes multiple stage archetypes, checkpoint flow, enemy timing systems, and tuned physics for jump arcs,
+            momentum, and recovery windows. I iterated heavily on animation state handling and collision behavior so
+            movement feels smooth and predictable. Beyond core movement, I focused on level pacing, fail-state clarity,
+            and recovery timing so difficult sections feel learnable rather than random. Ongoing work is focused on
+            adding levels, boss-style encounters, and stronger pacing between platforming, combat, and humor beats,
+            while keeping the control feel consistent across all stage types.</p>
           <div class="carousel-tags" role="list" aria-label="Project technologies">
             <span class="tag" role="listitem">Godot</span>
             <span class="tag" role="listitem">GDScript</span>
           </div>
           <span class="project-link" aria-label="The Legend of Rick coming soon">Coming soon</span>
         </div>
-        <div class="carousel-item">
-          <h2 class="carousel-title">Unbound Labs</h2>
-          <p class="carousel-description">COO and lead developer of Unbound Labs, a network of websites with games,
-            proxies, and AI chatbot.</p>
-          <div class="carousel-tags" role="list" aria-label="Project technologies">
-            <span class="tag" role="listitem">Tauri</span>
-            <span class="tag" role="listitem">HTML</span>
-            <span class="tag" role="listitem">CSS</span>
-            <span class="tag" role="listitem">JavaScript</span>
-          </div>
-          <a href="https://unboundlabs.dev" class="project-link" target="_blank" rel="noopener noreferrer"
-            aria-label="View Unbound Labs project">View Project</a>
-        </div>
       </div>
-      <button class="carousel-btn carousel-prev" onclick="carousel('prev')" aria-label="Previous project">&lsaquo;</button>
+      <button class="carousel-btn carousel-prev" onclick="carousel('prev')"
+        aria-label="Previous project">&lsaquo;</button>
       <button class="carousel-btn carousel-next" onclick="carousel('next')" aria-label="Next project">&rsaquo;</button>
     </div>
   </div>
