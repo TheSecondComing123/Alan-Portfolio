@@ -9,6 +9,7 @@ async function init() {
     lucide.createIcons();
   }
 
+  initializeRevealAnimations();
   initializeScrollObserver();
   setCurrentButton("home");
 }
@@ -70,6 +71,172 @@ function initializeScrollObserver() {
 
   for (const section of sections) {
     observer.observe(section);
+  }
+}
+
+function initializeRevealAnimations() {
+  const sections = [...document.querySelectorAll(".window")];
+  if (sections.length === 0) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasGSAP = typeof window.gsap !== "undefined";
+  const hasScrollTrigger = typeof window.ScrollTrigger !== "undefined";
+
+  const revealPlan = [
+    {
+      selector: ".hero-kicker, .window-title, .window-subtitle, .description",
+      at: 0,
+      prepare(gsap, elements) {
+        gsap.set(elements, {
+          autoAlpha: 0,
+          y: 24,
+          filter: "blur(4px)",
+        });
+      },
+      to: {
+        autoAlpha: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 0.62,
+        ease: "power3.out",
+        stagger: {
+          each: 0.075,
+          from: "start",
+        },
+      },
+    },
+    {
+      selector: ".contact-panel, .project-card, .work-card",
+      at: 0.12,
+      prepare(gsap, elements) {
+        gsap.set(elements, {
+          autoAlpha: 0,
+          y: 28,
+          scale: 0.985,
+          rotationX: 5,
+          transformOrigin: "50% 100%",
+        });
+      },
+      to: {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        rotationX: 0,
+        duration: 0.66,
+        ease: "power2.out",
+        stagger: {
+          each: 0.11,
+          from: "start",
+        },
+      },
+    },
+    {
+      selector: ".contact-item, .technology-card",
+      at: 0.28,
+      prepare(gsap, elements) {
+        elements.forEach((element, index) => {
+          gsap.set(element, {
+            autoAlpha: 0,
+            x: index % 2 === 0 ? -16 : 16,
+            y: 10,
+            scale: 0.985,
+          });
+        });
+      },
+      to: {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        duration: 0.48,
+        ease: "power2.out",
+        stagger: {
+          each: 0.05,
+          from: "edges",
+        },
+      },
+    },
+    {
+      selector: ".project-highlights li, .work-highlights li",
+      at: 0.4,
+      prepare(gsap, elements) {
+        gsap.set(elements, {
+          autoAlpha: 0,
+          x: 18,
+        });
+      },
+      to: {
+        autoAlpha: 1,
+        x: 0,
+        duration: 0.44,
+        ease: "power2.out",
+        stagger: {
+          each: 0.06,
+          from: "start",
+        },
+      },
+    },
+  ];
+
+  const registered = new Set();
+  const sectionSequences = new Map();
+
+  for (const section of sections) {
+    const sequence = [];
+    sectionSequences.set(section, sequence);
+
+    for (const group of revealPlan) {
+      const targets = section.querySelectorAll(group.selector);
+      const elements = [];
+
+      for (const element of targets) {
+        if (registered.has(element)) continue;
+        registered.add(element);
+        elements.push(element);
+      }
+
+      if (elements.length === 0) continue;
+      sequence.push({
+        ...group,
+        elements,
+      });
+    }
+  }
+
+  const allTargets = [...sectionSequences.values()].flatMap(sequence => sequence.flatMap(item => item.elements));
+  if (allTargets.length === 0) return;
+
+  if (prefersReducedMotion || !hasGSAP || !hasScrollTrigger) {
+    for (const element of allTargets) {
+      element.style.opacity = "1";
+      element.style.transform = "none";
+      element.style.filter = "none";
+    }
+    return;
+  }
+
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
+  gsap.registerPlugin(ScrollTrigger);
+
+  for (const [section, sequence] of sectionSequences) {
+    if (sequence.length === 0) continue;
+
+    for (const group of sequence) {
+      group.prepare(gsap, group.elements);
+    }
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+        once: true,
+      },
+    });
+
+    for (const group of sequence) {
+      timeline.to(group.elements, group.to, group.at);
+    }
   }
 }
 
