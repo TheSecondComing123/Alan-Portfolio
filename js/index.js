@@ -1,5 +1,6 @@
 const SECTION_IDS = ["home", "projects", "work", "technologies"];
 const app = document.getElementById("app");
+let lenis;
 
 async function init() {
   await loadComponents();
@@ -9,9 +10,53 @@ async function init() {
     lucide.createIcons();
   }
 
+  initializeSmoothScroll();
   initializeRevealAnimations();
   initializeScrollObserver();
   setCurrentButton("home");
+}
+
+function initializeSmoothScroll() {
+  if (typeof Lenis === "undefined") return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  lenis = new Lenis({
+    duration: 1.5,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: "vertical",
+    gestureOrientation: "vertical",
+    smoothWheel: true,
+    wheelMultiplier: 1.0,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    lenis.on("scroll", () => {
+      ScrollTrigger.update();
+    });
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+  } else {
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }
+
+  window.addEventListener("resize", () => {
+    if (lenis) {
+      lenis.resize();
+    }
+  });
 }
 
 async function loadComponents() {
@@ -44,10 +89,19 @@ function switchWindow(id) {
   if (!section) return;
 
   setCurrentButton(id);
-  section.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
+
+  if (lenis) {
+    lenis.scrollTo(section, {
+      offset: 0,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+  } else {
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
 }
 
 function initializeScrollObserver() {
@@ -219,6 +273,26 @@ function initializeRevealAnimations() {
   const ScrollTrigger = window.ScrollTrigger;
   gsap.registerPlugin(ScrollTrigger);
 
+  // Configure ScrollTrigger to work with Lenis
+  if (lenis) {
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.animatedScroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+  }
+
   for (const [section, sequence] of sectionSequences) {
     if (sequence.length === 0) continue;
 
@@ -231,6 +305,7 @@ function initializeRevealAnimations() {
         trigger: section,
         start: "top 80%",
         once: true,
+        scroller: lenis ? document.body : window,
       },
     });
 

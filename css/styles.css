@@ -26,25 +26,49 @@
   padding: 0;
 }
 
-html,
-body {
+html {
   width: 100%;
   min-height: 100%;
-  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
+  width: 100%;
+  min-height: 100%;
   font-family: var(--font-body);
   color: var(--text);
   background: linear-gradient(180deg, hsl(0 0% 10%), var(--bg) 30%);
   overflow-x: hidden;
-  overflow-y: auto;
+  will-change: scroll-position;
 }
 
 main {
   width: 100%;
   min-height: 100%;
   padding-bottom: 168px;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .window-container {
@@ -59,6 +83,8 @@ main {
   flex-direction: column;
   gap: 18px;
   scroll-margin-top: 20px;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 #home {
@@ -478,7 +504,7 @@ nav {
   position: fixed;
   left: 50%;
   bottom: 20px;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   z-index: 30;
   display: flex;
   gap: 6px;
@@ -486,6 +512,8 @@ nav {
   border-radius: 20px;
   border: 1px solid var(--outline-variant);
   background: var(--surface-2);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 button {
@@ -771,7 +799,13 @@ button:focus-visible {
 
   html,
   body {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 
+  body,
+  main,
+  .window,
+  nav {
+    will-change: auto !important;
+  }
 }
