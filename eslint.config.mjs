@@ -1,10 +1,8 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import eslintConfigPrettier from 'eslint-config-prettier';
+import js from '@eslint/js'
+import globals from 'globals'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
-const modernEcmaGlobals = {
-  ...(globals.es2024 || globals.es2023 || globals.es2022 || {}),
-};
+const modernEcmaGlobals = { ...(globals.es2024 || globals.es2023 || globals.es2022 || {}) }
 
 export default [
   {
@@ -16,15 +14,12 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'commonjs',
-      globals: {
-        ...globals.node,
-        ...modernEcmaGlobals,
-      },
+      globals: { ...globals.node, ...modernEcmaGlobals },
     },
     rules: {
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-useless-assignment': 'off',
-      eqeqeq: ['error', 'always'],
+      'eqeqeq': ['error', 'always'],
       'object-shorthand': ['error', 'always'],
       'prefer-template': 'error',
     },
@@ -45,7 +40,7 @@ export default [
     },
     rules: {
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      eqeqeq: ['error', 'always'],
+      'eqeqeq': ['error', 'always'],
       'no-var': 'error',
       'prefer-const': 'error',
       'object-shorthand': ['error', 'always'],
@@ -53,4 +48,4 @@ export default [
     },
   },
   eslintConfigPrettier,
-];
+]

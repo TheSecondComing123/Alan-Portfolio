@@ -1,7 +1,15 @@
 {
-  "semi": true,
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "printWidth": 100,
-  "arrowParens": "always"
+  "printWidth": 92,
+  "arrowParens": "always",
+  "quoteProps": "consistent",
+  "bracketSameLine": true,
+  "singleAttributePerLine": true,
+  "objectWrap": "collapse",
+  "experimentalTernaries": true,
+  "experimentalOperatorPosition": "start",
+  "endOfLine": "lf"
 }

@@ -1,31 +1,27 @@
-const express = require('express');
-const compression = require('compression');
-const fs = require('fs/promises');
-const path = require('path');
-const matter = require('gray-matter');
-const MarkdownIt = require('markdown-it');
+const express = require('express')
+const compression = require('compression')
+const fs = require('fs/promises')
+const path = require('path')
+const matter = require('gray-matter')
+const MarkdownIt = require('markdown-it')
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-const IS_VERCEL = Boolean(process.env.VERCEL);
-const BLOG_DIR = path.join(__dirname, 'content', 'blog');
-const BLOG_PAGE_TITLE = 'Blog';
+const app = express()
+const PORT = process.env.PORT || 3000
+const IS_VERCEL = Boolean(process.env.VERCEL)
+const BLOG_DIR = path.join(__dirname, 'content', 'blog')
+const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
-  'Long-form notes on building products, optimizing systems, and improving as an engineer.';
-const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.';
-const markdown = new MarkdownIt({
-  html: false,
-  linkify: true,
-  typographer: true,
-});
+  'Long-form notes on building products, optimizing systems, and improving as an engineer.'
+const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
+const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 
 function parseDateInput(input) {
   if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
-    const [year, month, day] = input.split('-').map(Number);
-    return new Date(year, month - 1, day);
+    const [year, month, day] = input.split('-').map(Number)
+    return new Date(year, month - 1, day)
   }
 
-  return new Date(input);
+  return new Date(input)
 }
 
 function escapeHtml(value) {
@@ -34,39 +30,41 @@ function escapeHtml(value) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/'/g, '&#39;')
 }
 
 function formatDate(input) {
-  const parsed = parseDateInput(input);
-  if (Number.isNaN(parsed.getTime())) return '';
+  const parsed = parseDateInput(input)
+  if (Number.isNaN(parsed.getTime())) return ''
 
   return parsed.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  });
+  })
 }
 
 async function getBlogPosts() {
-  let entries = [];
+  let entries = []
   try {
-    entries = await fs.readdir(BLOG_DIR, { withFileTypes: true });
+    entries = await fs.readdir(BLOG_DIR, { withFileTypes: true })
   } catch (error) {
     if (error.code === 'ENOENT') {
-      return [];
+      return []
     }
-    throw error;
+    throw error
   }
 
-  const markdownEntries = entries.filter((entry) => entry.isFile() && entry.name.endsWith('.md'));
+  const markdownEntries = entries.filter(
+    (entry) => entry.isFile() && entry.name.endsWith('.md'),
+  )
   const posts = await Promise.all(
     markdownEntries.map(async (entry) => {
-      const slug = entry.name.replace(/\.md$/, '');
-      const fullPath = path.join(BLOG_DIR, entry.name);
-      const raw = await fs.readFile(fullPath, 'utf8');
-      const parsed = matter(raw);
-      const metadata = parsed.data || {};
+      const slug = entry.name.replace(/\.md$/, '')
+      const fullPath = path.join(BLOG_DIR, entry.name)
+      const raw = await fs.readFile(fullPath, 'utf8')
+      const parsed = matter(raw)
+      const metadata = parsed.data || {}
 
       return {
         slug,
@@ -76,17 +74,17 @@ async function getBlogPosts() {
         readTime: metadata.readTime || '',
         tags: Array.isArray(metadata.tags) ? metadata.tags : [],
         content: parsed.content || '',
-      };
+      }
     }),
-  );
+  )
 
   return posts.sort((a, b) => {
-    const left = parseDateInput(a.date).getTime();
-    const right = parseDateInput(b.date).getTime();
-    const leftSafe = Number.isNaN(left) ? 0 : left;
-    const rightSafe = Number.isNaN(right) ? 0 : right;
-    return rightSafe - leftSafe;
-  });
+    const left = parseDateInput(a.date).getTime()
+    const right = parseDateInput(b.date).getTime()
+    const leftSafe = Number.isNaN(left) ? 0 : left
+    const rightSafe = Number.isNaN(right) ? 0 : right
+    return rightSafe - leftSafe
+  })
 }
 
 function renderBlogLayout({
@@ -96,10 +94,10 @@ function renderBlogLayout({
   backHref = '/',
   backLabel = 'Back to Portfolio',
 }) {
-  const safeTitle = escapeHtml(title);
-  const safeDescription = escapeHtml(description);
-  const safeBackHref = escapeHtml(backHref);
-  const safeBackLabel = escapeHtml(backLabel);
+  const safeTitle = escapeHtml(title)
+  const safeDescription = escapeHtml(description)
+  const safeBackHref = escapeHtml(backHref)
+  const safeBackLabel = escapeHtml(backLabel)
 
   return `<!doctype html>
 <html lang="en">
@@ -137,21 +135,21 @@ function renderBlogLayout({
     </div>
   </main>
 </body>
-</html>`;
+</html>`
 }
 
 function renderPostTags(tags) {
-  if (!tags || tags.length === 0) return '';
+  if (!tags || tags.length === 0) return ''
 
   const renderedTags = tags
     .map((tag) => `<span class="tag" role="listitem">${escapeHtml(tag)}</span>`)
-    .join('');
+    .join('')
 
-  return `<div class="blog-tags" role="list" aria-label="Article topics">${renderedTags}</div>`;
+  return `<div class="blog-tags" role="list" aria-label="Article topics">${renderedTags}</div>`
 }
 
 function buildPostMeta(post) {
-  return [formatDate(post.date), post.readTime].filter(Boolean).join(' | ');
+  return [formatDate(post.date), post.readTime].filter(Boolean).join(' | ')
 }
 
 function renderBlogSection({ description, ariaLabel, content }) {
@@ -159,12 +157,12 @@ function renderBlogSection({ description, ariaLabel, content }) {
 <p class="description">${escapeHtml(description)}</p>
 <section class="blog-grid" role="list" aria-label="${escapeHtml(ariaLabel)}">
   ${content}
-</section>`;
+</section>`
 }
 
 function renderBlogIndexCard(post) {
-  const meta = buildPostMeta(post);
-  const slug = encodeURIComponent(post.slug);
+  const meta = buildPostMeta(post)
+  const slug = encodeURIComponent(post.slug)
 
   return `<article class="blog-card" role="listitem">
   <header class="blog-header">
@@ -176,19 +174,19 @@ function renderBlogIndexCard(post) {
   </header>
   <p class="blog-excerpt">${escapeHtml(post.excerpt)}</p>
   ${renderPostTags(post.tags)}
-</article>`;
+</article>`
 }
 
 function renderBlogEmptyStateCard() {
   return `<article class="blog-card" role="listitem">
   <h2 class="blog-title">No posts yet</h2>
   <p class="blog-excerpt">Add markdown files under <code>content/blog</code> to publish posts.</p>
-</article>`;
+</article>`
 }
 
 function renderBlogArticleCard(post) {
-  const meta = buildPostMeta(post);
-  const renderedMarkdown = markdown.render(post.content);
+  const meta = buildPostMeta(post)
+  const renderedMarkdown = markdown.render(post.content)
 
   return `<article class="blog-card" role="listitem">
   <header class="blog-header">
@@ -200,43 +198,43 @@ function renderBlogArticleCard(post) {
   <p class="blog-excerpt">${escapeHtml(post.excerpt)}</p>
   <div class="blog-article blog-markdown">${renderedMarkdown}</div>
   ${renderPostTags(post.tags)}
-</article>`;
+</article>`
 }
 
 function renderBlogNotFoundCard() {
   return `<article class="blog-card" role="listitem">
   <h2 class="blog-title"><a class="blog-title-link" href="/blog">Go to Blog Index</a></h2>
   <p class="blog-excerpt">Browse all published articles.</p>
-</article>`;
+</article>`
 }
 
-app.disable('x-powered-by');
-app.use(compression());
+app.disable('x-powered-by')
+app.use(compression())
 
 app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN')
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
   res.setHeader(
     'Content-Security-Policy',
     "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;",
-  );
-  next();
-});
+  )
+  next()
+})
 
 app.get(/^\/node_modules\//, (_req, res) => {
-  res.status(403).send('Access Denied');
-});
+  res.status(403).send('Access Denied')
+})
 
 app.get('/blog', async (_req, res, next) => {
   try {
-    const posts = await getBlogPosts();
-    const cards = posts.map(renderBlogIndexCard).join('') || renderBlogEmptyStateCard();
+    const posts = await getBlogPosts()
+    const cards = posts.map(renderBlogIndexCard).join('') || renderBlogEmptyStateCard()
     const body = renderBlogSection({
       description: BLOG_INDEX_DESCRIPTION,
       ariaLabel: 'Blog articles',
       content: cards,
-    });
+    })
 
     res.send(
       renderBlogLayout({
@@ -247,41 +245,44 @@ app.get('/blog', async (_req, res, next) => {
         backHref: '/',
         backLabel: 'Back to Portfolio',
       }),
-    );
+    )
   } catch (error) {
-    next(error);
+    next(error)
   }
-});
+})
 
 app.get('/blog/:slug', async (req, res, next) => {
   try {
-    const posts = await getBlogPosts();
-    const post = posts.find((item) => item.slug === req.params.slug);
+    const posts = await getBlogPosts()
+    const post = posts.find((item) => item.slug === req.params.slug)
 
     if (!post) {
       const body = renderBlogSection({
-        description: 'That article does not exist. Check the blog index for available posts.',
+        description:
+          'That article does not exist. Check the blog index for available posts.',
         ariaLabel: 'Missing post',
         content: renderBlogNotFoundCard(),
-      });
+      })
 
-      res.status(404).send(
-        renderBlogLayout({
-          title: 'Blog Post Not Found | Alan Bagel',
-          description: 'The blog post you requested does not exist.',
-          body,
-          backHref: '/blog',
-          backLabel: 'Back to Blog',
-        }),
-      );
-      return;
+      res
+        .status(404)
+        .send(
+          renderBlogLayout({
+            title: 'Blog Post Not Found | Alan Bagel',
+            description: 'The blog post you requested does not exist.',
+            body,
+            backHref: '/blog',
+            backLabel: 'Back to Blog',
+          }),
+        )
+      return
     }
 
     const body = renderBlogSection({
       description: BLOG_ARTICLE_DESCRIPTION,
       ariaLabel: 'Blog article',
       content: renderBlogArticleCard(post),
-    });
+    })
 
     res.send(
       renderBlogLayout({
@@ -291,22 +292,22 @@ app.get('/blog/:slug', async (req, res, next) => {
         backHref: '/blog',
         backLabel: 'Back to Blog',
       }),
-    );
+    )
   } catch (error) {
-    next(error);
+    next(error)
   }
-});
+})
 
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '.')))
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+  res.sendFile(path.join(__dirname, 'index.html'))
+})
 
 if (!IS_VERCEL && require.main === module) {
   app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-  });
+    console.log(`Server running at http://localhost:${PORT}`)
+  })
 }
 
-module.exports = app;
+module.exports = app

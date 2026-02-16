@@ -1,41 +1,41 @@
-const SECTION_IDS = ['home', 'projects', 'work', 'technologies'];
-const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
-const app = document.getElementById('app');
-let lenis;
+const SECTION_IDS = ['home', 'projects', 'work', 'technologies']
+const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+const app = document.getElementById('app')
+let lenis
 
 function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 async function init() {
-  if (!app) return;
+  if (!app) return
 
   try {
-    await loadComponents();
-    initializeNavigationIcons();
-    initializeNavigationHandlers();
+    await loadComponents()
+    initializeNavigationIcons()
+    initializeNavigationHandlers()
 
     if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+      lucide.createIcons()
     }
 
-    initializeSmoothScroll();
-    initializeRevealAnimations();
-    initializeScrollObserver();
-    setCurrentButton('home');
+    initializeSmoothScroll()
+    initializeRevealAnimations()
+    initializeScrollObserver()
+    setCurrentButton('home')
   } finally {
-    revealPortfolioShell();
+    revealPortfolioShell()
   }
 }
 
 function revealPortfolioShell() {
-  const targets = [app, document.querySelector('nav')].filter(Boolean);
+  const targets = [app, document.querySelector('nav')].filter(Boolean)
 
   if (typeof window.gsap !== 'undefined' && targets.length > 0) {
-    window.gsap.set(targets, { autoAlpha: 0 });
+    window.gsap.set(targets, { autoAlpha: 0 })
   }
 
-  document.documentElement.classList.remove('js-loading');
+  document.documentElement.classList.remove('js-loading')
 
   if (typeof window.gsap !== 'undefined' && targets.length > 0) {
     window.gsap.to(targets, {
@@ -43,14 +43,14 @@ function revealPortfolioShell() {
       duration: 0.24,
       ease: 'power1.out',
       clearProps: 'opacity,visibility',
-    });
+    })
   }
 }
 
 function initializeSmoothScroll() {
-  if (typeof Lenis === 'undefined') return;
+  if (typeof Lenis === 'undefined') return
 
-  if (prefersReducedMotion()) return;
+  if (prefersReducedMotion()) return
 
   lenis = new Lenis({
     duration: 1.5,
@@ -62,55 +62,55 @@ function initializeSmoothScroll() {
     smoothTouch: false,
     touchMultiplier: 2,
     infinite: false,
-  });
+  })
 
-  document.documentElement.classList.add('lenis');
+  document.documentElement.classList.add('lenis')
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     lenis.on('scroll', () => {
-      ScrollTrigger.update();
-    });
+      ScrollTrigger.update()
+    })
 
     gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+      lenis.raf(time * 1000)
+    })
 
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(0)
   } else {
     function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      lenis.raf(time)
+      requestAnimationFrame(raf)
     }
-    requestAnimationFrame(raf);
+    requestAnimationFrame(raf)
   }
 
   window.addEventListener('resize', () => {
     if (lenis) {
-      lenis.resize();
+      lenis.resize()
     }
-  });
+  })
 }
 
 async function loadComponents() {
   const htmlParts = await Promise.all(
     SECTION_IDS.map(async (id) => {
-      const response = await fetch(`components/${id}.html`);
-      return response.text();
+      const response = await fetch(`components/${id}.html`)
+      return response.text()
     }),
-  );
+  )
 
-  app.innerHTML = htmlParts.join('');
+  app.innerHTML = htmlParts.join('')
 }
 
 function initializeNavigationHandlers() {
   document.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-section]');
-    if (!button) return;
+    const button = event.target.closest('[data-section]')
+    if (!button) return
 
-    event.preventDefault();
-    const section = button.dataset.section;
-    switchWindow(section);
-  });
+    event.preventDefault()
+    const section = button.dataset.section
+    switchWindow(section)
+  })
 }
 
 function initializeNavigationIcons() {
@@ -119,79 +119,64 @@ function initializeNavigationIcons() {
     'btn-projects': 'briefcase',
     'btn-work': 'building-2',
     'btn-technologies': 'cpu',
-  };
+  }
 
   for (const [buttonId, iconName] of Object.entries(iconMap)) {
-    const button = document.getElementById(buttonId);
-    const icon = document.createElement('i');
-    icon.setAttribute('data-lucide', iconName);
-    icon.className = 'icon';
-    button.appendChild(icon);
+    const button = document.getElementById(buttonId)
+    const icon = document.createElement('i')
+    icon.setAttribute('data-lucide', iconName)
+    icon.className = 'icon'
+    button.appendChild(icon)
   }
 }
 
 function switchWindow(id) {
-  const section = document.getElementById(id);
-  if (!section) return;
+  const section = document.getElementById(id)
+  if (!section) return
 
-  setCurrentButton(id);
+  setCurrentButton(id)
 
   if (lenis) {
-    lenis.scrollTo(section, {
-      offset: 0,
-      duration: 1.2,
-      easing: EASE_OUT_EXPO,
-    });
+    lenis.scrollTo(section, { offset: 0, duration: 1.2, easing: EASE_OUT_EXPO })
   } else {
-    section.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
 
 function initializeScrollObserver() {
-  const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+  const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
 
   const observer = new IntersectionObserver(
     (entries) => {
       const visible = entries
         .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
 
       if (visible) {
-        setCurrentButton(visible.target.id);
+        setCurrentButton(visible.target.id)
       }
     },
-    {
-      root: null,
-      rootMargin: '-42% 0px -42% 0px',
-      threshold: [0.18, 0.35, 0.6],
-    },
-  );
+    { root: null, rootMargin: '-42% 0px -42% 0px', threshold: [0.18, 0.35, 0.6] },
+  )
 
   for (const section of sections) {
-    observer.observe(section);
+    observer.observe(section)
   }
 }
 
 function initializeRevealAnimations() {
-  const sections = [...document.querySelectorAll('.window')];
-  if (sections.length === 0) return;
+  const sections = [...document.querySelectorAll('.window')]
+  if (sections.length === 0) return
 
-  const hasGSAP = typeof window.gsap !== 'undefined';
-  const hasScrollTrigger = typeof window.ScrollTrigger !== 'undefined';
+  const hasGSAP = typeof window.gsap !== 'undefined'
+  const hasScrollTrigger = typeof window.ScrollTrigger !== 'undefined'
 
   const revealPlan = [
     {
       selector: '.hero-kicker, .window-title, .window-subtitle, .description',
       at: 0,
       prepare(gsap, elements) {
-        gsap.set(elements, {
-          autoAlpha: 0,
-          y: 24,
-          filter: 'blur(4px)',
-        });
+        gsap.set(elements, { autoAlpha: 0, y: 24, filter: 'blur(4px)' })
       },
       to: {
         autoAlpha: 1,
@@ -199,10 +184,7 @@ function initializeRevealAnimations() {
         filter: 'blur(0px)',
         duration: 0.62,
         ease: 'power3.out',
-        stagger: {
-          each: 0.075,
-          from: 'start',
-        },
+        stagger: { each: 0.075, from: 'start' },
       },
     },
     {
@@ -215,7 +197,7 @@ function initializeRevealAnimations() {
           scale: 0.985,
           rotationX: 5,
           transformOrigin: '50% 100%',
-        });
+        })
       },
       to: {
         autoAlpha: 1,
@@ -224,10 +206,7 @@ function initializeRevealAnimations() {
         rotationX: 0,
         duration: 0.66,
         ease: 'power2.out',
-        stagger: {
-          each: 0.11,
-          from: 'start',
-        },
+        stagger: { each: 0.11, from: 'start' },
       },
     },
     {
@@ -240,8 +219,8 @@ function initializeRevealAnimations() {
             x: index % 2 === 0 ? -16 : 16,
             y: 10,
             scale: 0.985,
-          });
-        });
+          })
+        })
       },
       to: {
         autoAlpha: 1,
@@ -250,101 +229,84 @@ function initializeRevealAnimations() {
         scale: 1,
         duration: 0.48,
         ease: 'power2.out',
-        stagger: {
-          each: 0.05,
-          from: 'edges',
-        },
+        stagger: { each: 0.05, from: 'edges' },
       },
     },
     {
       selector: '.project-highlights li, .work-highlights li',
       at: 0.4,
       prepare(gsap, elements) {
-        gsap.set(elements, {
-          autoAlpha: 0,
-          x: 18,
-        });
+        gsap.set(elements, { autoAlpha: 0, x: 18 })
       },
       to: {
         autoAlpha: 1,
         x: 0,
         duration: 0.44,
         ease: 'power2.out',
-        stagger: {
-          each: 0.06,
-          from: 'start',
-        },
+        stagger: { each: 0.06, from: 'start' },
       },
     },
-  ];
+  ]
 
-  const registered = new Set();
-  const sectionSequences = new Map();
+  const registered = new Set()
+  const sectionSequences = new Map()
 
   for (const section of sections) {
-    const sequence = [];
-    sectionSequences.set(section, sequence);
+    const sequence = []
+    sectionSequences.set(section, sequence)
 
     for (const group of revealPlan) {
-      const targets = section.querySelectorAll(group.selector);
-      const elements = [];
+      const targets = section.querySelectorAll(group.selector)
+      const elements = []
 
       for (const element of targets) {
-        if (registered.has(element)) continue;
-        registered.add(element);
-        elements.push(element);
+        if (registered.has(element)) continue
+        registered.add(element)
+        elements.push(element)
       }
 
-      if (elements.length === 0) continue;
-      sequence.push({
-        ...group,
-        elements,
-      });
+      if (elements.length === 0) continue
+      sequence.push({ ...group, elements })
     }
   }
 
   const allTargets = [...sectionSequences.values()].flatMap((sequence) =>
     sequence.flatMap((item) => item.elements),
-  );
-  if (allTargets.length === 0) return;
+  )
+  if (allTargets.length === 0) return
 
   if (prefersReducedMotion() || !hasGSAP || !hasScrollTrigger) {
     for (const element of allTargets) {
-      element.style.opacity = '1';
-      element.style.transform = 'none';
-      element.style.filter = 'none';
+      element.style.opacity = '1'
+      element.style.transform = 'none'
+      element.style.filter = 'none'
     }
-    return;
+    return
   }
 
-  const gsap = window.gsap;
-  const ScrollTrigger = window.ScrollTrigger;
-  gsap.registerPlugin(ScrollTrigger);
+  const gsap = window.gsap
+  const ScrollTrigger = window.ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger)
 
   if (lenis) {
     ScrollTrigger.scrollerProxy(document.body, {
       scrollTop(value) {
         if (arguments.length) {
-          lenis.scrollTo(value, { immediate: true });
+          lenis.scrollTo(value, { immediate: true })
         }
-        return lenis.animatedScroll;
+        return lenis.animatedScroll
       },
       getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
+        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }
       },
-    });
+    })
   }
 
   for (const [section, sequence] of sectionSequences) {
-    if (sequence.length === 0) continue;
+    if (sequence.length === 0) continue
 
     for (const group of sequence) {
-      group.prepare(gsap, group.elements);
+      group.prepare(gsap, group.elements)
     }
 
     const timeline = gsap.timeline({
@@ -354,23 +316,23 @@ function initializeRevealAnimations() {
         once: true,
         scroller: lenis ? document.body : window,
       },
-    });
+    })
 
     for (const group of sequence) {
-      timeline.to(group.elements, group.to, group.at);
+      timeline.to(group.elements, group.to, group.at)
     }
   }
 }
 
 function setCurrentButton(id) {
   document.querySelectorAll('.nav-button').forEach((button) => {
-    button.removeAttribute('aria-current');
-  });
+    button.removeAttribute('aria-current')
+  })
 
-  const active = document.getElementById(`btn-${id}`);
+  const active = document.getElementById(`btn-${id}`)
   if (active) {
-    active.setAttribute('aria-current', 'page');
+    active.setAttribute('aria-current', 'page')
   }
 }
 
-init();
+init()
