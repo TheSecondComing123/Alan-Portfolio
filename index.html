@@ -26,7 +26,7 @@
     "name": "Alan Bagel",
     "description": "Student programmer from the east coast",
     "jobTitle": "Student Programmer",
-    "email": "jiuprogrammer@gmail.com",
+    "email": "turkeysandwich179@outlook.com",
     "url": "https://alandabagel.com",
     "sameAs": [
       "https://github.com/TheSecondComing123",
@@ -44,7 +44,7 @@
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="stylesheet" href="/node_modules/devicon/devicon.min.css" />
   <script src="node_modules/gsap/dist/gsap.min.js" defer></script>
   <script src="node_modules/gsap/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
@@ -54,12 +54,11 @@
   <main id="app" role="main" aria-label="Portfolio content"></main>
 
   <nav role="navigation" aria-label="Main navigation">
-    <button type="button" class="nav-button" onclick="switchWindow('home')" aria-label="Home" aria-current="page"
+    <button type="button" class="nav-button" data-section="home" aria-label="Home" aria-current="page"
       id="btn-home"></button>
-    <button type="button" class="nav-button" onclick="switchWindow('projects')" aria-label="Projects"
-      id="btn-projects"></button>
-    <button type="button" class="nav-button" onclick="switchWindow('work')" aria-label="Work" id="btn-work"></button>
-    <button type="button" class="nav-button" onclick="switchWindow('technologies')" aria-label="Key Technologies"
+    <button type="button" class="nav-button" data-section="projects" aria-label="Projects" id="btn-projects"></button>
+    <button type="button" class="nav-button" data-section="work" aria-label="Work" id="btn-work"></button>
+    <button type="button" class="nav-button" data-section="technologies" aria-label="Key Technologies"
       id="btn-technologies"></button>
   </nav>
 

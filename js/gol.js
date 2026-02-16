@@ -3,7 +3,7 @@
 
   const CONFIG = {
     cellSize: 10,
-    updateInterval: 150,
+    updateInterval: 100,
     colors: { alive: '#7cc77c', dead: '#1c1c1c', grid: 'rgba(255, 255, 255, 0.05)' },
   };
 

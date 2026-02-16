@@ -1,10 +1,18 @@
 const SECTION_IDS = ["home", "projects", "work", "technologies"];
+const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 const app = document.getElementById("app");
 let lenis;
 
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 async function init() {
+  if (!app) return;
+
   await loadComponents();
   initializeNavigationIcons();
+  initializeNavigationHandlers();
 
   if (typeof lucide !== "undefined") {
     lucide.createIcons();
@@ -19,12 +27,11 @@ async function init() {
 function initializeSmoothScroll() {
   if (typeof Lenis === "undefined") return;
 
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
+  if (prefersReducedMotion()) return;
 
   lenis = new Lenis({
     duration: 1.5,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    easing: EASE_OUT_EXPO,
     orientation: "vertical",
     gestureOrientation: "vertical",
     smoothWheel: true,
@@ -33,6 +40,8 @@ function initializeSmoothScroll() {
     touchMultiplier: 2,
     infinite: false,
   });
+
+  document.documentElement.classList.add("lenis");
 
   if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     lenis.on("scroll", () => {
@@ -67,6 +76,17 @@ async function loadComponents() {
   }
 }
 
+function initializeNavigationHandlers() {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-section]");
+    if (!button) return;
+
+    event.preventDefault();
+    const section = button.dataset.section;
+    switchWindow(section);
+  });
+}
+
 function initializeNavigationIcons() {
   const iconMap = {
     "btn-home": "home",
@@ -94,7 +114,7 @@ function switchWindow(id) {
     lenis.scrollTo(section, {
       offset: 0,
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: EASE_OUT_EXPO,
     });
   } else {
     section.scrollIntoView({
@@ -132,7 +152,6 @@ function initializeRevealAnimations() {
   const sections = [...document.querySelectorAll(".window")];
   if (sections.length === 0) return;
 
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hasGSAP = typeof window.gsap !== "undefined";
   const hasScrollTrigger = typeof window.ScrollTrigger !== "undefined";
 
@@ -260,7 +279,7 @@ function initializeRevealAnimations() {
   const allTargets = [...sectionSequences.values()].flatMap(sequence => sequence.flatMap(item => item.elements));
   if (allTargets.length === 0) return;
 
-  if (prefersReducedMotion || !hasGSAP || !hasScrollTrigger) {
+  if (prefersReducedMotion() || !hasGSAP || !hasScrollTrigger) {
     for (const element of allTargets) {
       element.style.opacity = "1";
       element.style.transform = "none";
@@ -273,7 +292,6 @@ function initializeRevealAnimations() {
   const ScrollTrigger = window.ScrollTrigger;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Configure ScrollTrigger to work with Lenis
   if (lenis) {
     ScrollTrigger.scrollerProxy(document.body, {
       scrollTop(value) {
