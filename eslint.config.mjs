@@ -5,9 +5,7 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 const modernEcmaGlobals = { ...(globals.es2024 || globals.es2023 || globals.es2022 || {}) }
 
 export default [
-  {
-    ignores: ['node_modules/**', 'simulations/**', '.claude/**', 'coverage/**', 'dist/**'],
-  },
+  { ignores: ['node_modules/**', 'simulations/**', '.claude/**', 'coverage/**', 'dist/**'] },
   js.configs.recommended,
   {
     files: ['server.js', 'api/**/*.js'],

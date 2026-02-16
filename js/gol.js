@@ -4,11 +4,7 @@
   const CONFIG = {
     cellSize: 12,
     updateInterval: 150,
-    colors: {
-      alive: '#7cc77c',
-      dead: 'rgb(28, 28, 28)',
-      grid: 'rgba(255, 255, 255, 0.05)',
-    },
+    colors: { alive: '#7cc77c', dead: 'rgb(28, 28, 28)', grid: 'rgba(255, 255, 255, 0.05)' },
     trailDecay: 0.86,
     trailMin: 0.04,
     trailStrength: 0.56,

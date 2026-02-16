@@ -37,11 +37,7 @@ function formatDate(input) {
   const parsed = parseDateInput(input)
   if (Number.isNaN(parsed.getTime())) return ''
 
-  return parsed.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  return parsed.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
 async function getBlogPosts() {
@@ -55,9 +51,7 @@ async function getBlogPosts() {
     throw error
   }
 
-  const markdownEntries = entries.filter(
-    (entry) => entry.isFile() && entry.name.endsWith('.md'),
-  )
+  const markdownEntries = entries.filter((entry) => entry.isFile() && entry.name.endsWith('.md'))
   const posts = await Promise.all(
     markdownEntries.map(async (entry) => {
       const slug = entry.name.replace(/\.md$/, '')
@@ -258,8 +252,7 @@ app.get('/blog/:slug', async (req, res, next) => {
 
     if (!post) {
       const body = renderBlogSection({
-        description:
-          'That article does not exist. Check the blog index for available posts.',
+        description: 'That article does not exist. Check the blog index for available posts.',
         ariaLabel: 'Missing post',
         content: renderBlogNotFoundCard(),
       })

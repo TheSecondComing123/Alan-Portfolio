@@ -214,12 +214,7 @@ function initializeRevealAnimations() {
       at: 0.28,
       prepare(gsap, elements) {
         elements.forEach((element, index) => {
-          gsap.set(element, {
-            autoAlpha: 0,
-            x: index % 2 === 0 ? -16 : 16,
-            y: 10,
-            scale: 0.985,
-          })
+          gsap.set(element, { autoAlpha: 0, x: index % 2 === 0 ? -16 : 16, y: 10, scale: 0.985 })
         })
       },
       to: {
