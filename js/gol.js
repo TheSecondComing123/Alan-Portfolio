@@ -6,8 +6,12 @@
     updateInterval: 100,
     colors: { alive: '#7cc77c', dead: '#1c1c1c', grid: 'rgba(255, 255, 255, 0.05)' },
   };
+  const START_RETRY_MS = 150;
+  const MAX_START_ATTEMPTS = 40;
 
   let canvas, ctx, grid, nextGrid, cols, rows, animationId, lastUpdate = 0;
+  let hasStarted = false;
+  let isAnimating = false;
 
   class Cell {
     constructor() {
@@ -106,6 +110,7 @@
   }
 
   function animate(timestamp) {
+    isAnimating = true;
     animationId = requestAnimationFrame(animate);
     if (timestamp - lastUpdate >= CONFIG.updateInterval) {
       updateGame();
@@ -116,29 +121,64 @@
 
   function resize() {
     const hero = document.getElementById('home');
+    if (!hero || !canvas) return;
     canvas.width = hero.offsetWidth;
     canvas.height = hero.offsetHeight;
     initGrid();
     draw();
   }
 
-  function start() {
-    canvas = document.getElementById('game-of-life-canvas');
-    if (!canvas) return;
+  function stopAnimation() {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    isAnimating = false;
+  }
 
+  function startWithCanvas(canvasEl) {
+    if (hasStarted) return;
+    canvas = canvasEl;
     ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    hasStarted = true;
     resize();
     canvas.classList.add('active');
     lastUpdate = performance.now();
     animate(lastUpdate);
 
     window.addEventListener('resize', resize);
-    window.addEventListener('beforeunload', () => cancelAnimationFrame(animationId));
+    window.addEventListener('pagehide', stopAnimation);
+    window.addEventListener('pageshow', () => {
+      if (!hasStarted) {
+        queueStart();
+        return;
+      }
+
+      if (!isAnimating) {
+        lastUpdate = performance.now();
+        animate(lastUpdate);
+      }
+    });
+  }
+
+  function queueStart(attempt = 0) {
+    if (hasStarted) return;
+
+    const canvasEl = document.getElementById('game-of-life-canvas');
+    if (canvasEl) {
+      startWithCanvas(canvasEl);
+      return;
+    }
+
+    if (attempt >= MAX_START_ATTEMPTS) return;
+    setTimeout(() => queueStart(attempt + 1), START_RETRY_MS);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(start, 500));
+    document.addEventListener('DOMContentLoaded', () => queueStart());
   } else {
-    setTimeout(start, 500);
+    queueStart();
   }
 })();

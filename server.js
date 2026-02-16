@@ -104,6 +104,7 @@ function renderBlogLayout({ title, description, body, backHref = "/", backLabel 
   <meta property="og:title" content="${safeTitle}" />
   <meta property="og:description" content="${safeDescription}" />
   <meta property="og:locale" content="en_US" />
+  <script>document.documentElement.classList.add('js-loading');</script>
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />

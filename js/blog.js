@@ -122,8 +122,31 @@ function initBlogRevealAnimations() {
   }
 }
 
+function revealBlogShell() {
+  const main = document.querySelector(".blog-page-main");
+
+  if (typeof window.gsap !== "undefined" && main) {
+    window.gsap.set(main, { autoAlpha: 0 });
+  }
+
+  document.documentElement.classList.remove("js-loading");
+
+  if (typeof window.gsap !== "undefined" && main) {
+    window.gsap.to(main, {
+      autoAlpha: 1,
+      duration: 0.24,
+      ease: "power1.out",
+      clearProps: "opacity,visibility",
+    });
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
-  initBlogSmoothScroll();
-  initAnchorScroll();
-  initBlogRevealAnimations();
+  try {
+    initBlogSmoothScroll();
+    initAnchorScroll();
+    initBlogRevealAnimations();
+  } finally {
+    revealBlogShell();
+  }
 });

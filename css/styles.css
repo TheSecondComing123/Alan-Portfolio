@@ -148,6 +148,14 @@ body {
   overflow-x: hidden;
 }
 
+html.js-loading #app,
+html.js-loading nav,
+html.js-loading .blog-page-main {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 main {
   width: 100%;
   min-height: 100%;

@@ -10,18 +10,41 @@ function prefersReducedMotion() {
 async function init() {
   if (!app) return;
 
-  await loadComponents();
-  initializeNavigationIcons();
-  initializeNavigationHandlers();
+  try {
+    await loadComponents();
+    initializeNavigationIcons();
+    initializeNavigationHandlers();
 
-  if (typeof lucide !== "undefined") {
-    lucide.createIcons();
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+
+    initializeSmoothScroll();
+    initializeRevealAnimations();
+    initializeScrollObserver();
+    setCurrentButton("home");
+  } finally {
+    revealPortfolioShell();
+  }
+}
+
+function revealPortfolioShell() {
+  const targets = [app, document.querySelector("nav")].filter(Boolean);
+
+  if (typeof window.gsap !== "undefined" && targets.length > 0) {
+    window.gsap.set(targets, { autoAlpha: 0 });
   }
 
-  initializeSmoothScroll();
-  initializeRevealAnimations();
-  initializeScrollObserver();
-  setCurrentButton("home");
+  document.documentElement.classList.remove("js-loading");
+
+  if (typeof window.gsap !== "undefined" && targets.length > 0) {
+    window.gsap.to(targets, {
+      autoAlpha: 1,
+      duration: 0.24,
+      ease: "power1.out",
+      clearProps: "opacity,visibility",
+    });
+  }
 }
 
 function initializeSmoothScroll() {
@@ -69,11 +92,14 @@ function initializeSmoothScroll() {
 }
 
 async function loadComponents() {
-  for (const id of SECTION_IDS) {
-    const response = await fetch(`components/${id}.html`);
-    const html = await response.text();
-    app.insertAdjacentHTML("beforeend", html);
-  }
+  const htmlParts = await Promise.all(
+    SECTION_IDS.map(async (id) => {
+      const response = await fetch(`components/${id}.html`);
+      return response.text();
+    }),
+  );
+
+  app.innerHTML = htmlParts.join("");
 }
 
 function initializeNavigationHandlers() {
