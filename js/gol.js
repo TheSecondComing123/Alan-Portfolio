@@ -2,22 +2,32 @@
   'use strict';
 
   const CONFIG = {
-    cellSize: 10,
-    updateInterval: 100,
+    cellSize: 12,
+    updateInterval: 150,
     colors: {
       alive: '#7cc77c',
       dead: 'rgb(28, 28, 28)',
-      grid: 'rgba(255, 255, 255, 0.05)'
+      grid: 'rgba(255, 255, 255, 0.05)',
     },
     trailDecay: 0.86,
     trailMin: 0.04,
-    trailStrength: 0.65,
-    cellTransitionSpeed: 14
+    trailStrength: 0.56,
+    cellTransitionSpeed: 14,
   };
   const START_RETRY_MS = 150;
   const MAX_START_ATTEMPTS = 40;
 
-  let canvas, ctx, grid, nextGrid, trailGrid, renderGrid, cols, rows, animationId, lastUpdate = 0, lastFrameTime = 0;
+  let canvas;
+  let ctx;
+  let grid;
+  let nextGrid;
+  let trailGrid;
+  let renderGrid;
+  let cols;
+  let rows;
+  let animationId;
+  let lastUpdate = 0;
+  let lastFrameTime = 0;
   let hasStarted = false;
   let isAnimating = false;
 
@@ -25,6 +35,7 @@
     constructor() {
       this.alive = false;
     }
+
     randomize(density = 0.3) {
       this.alive = Math.random() < density;
     }
@@ -33,13 +44,31 @@
   function initGrid() {
     cols = Math.floor(canvas.width / CONFIG.cellSize);
     rows = Math.floor(canvas.height / CONFIG.cellSize);
-    grid = Array(cols).fill(null).map(() => Array(rows).fill(null).map(() => new Cell()));
-    nextGrid = Array(cols).fill(null).map(() => Array(rows).fill(null).map(() => new Cell()));
-    trailGrid = Array(cols).fill(null).map(() => Array(rows).fill(0));
+    grid = Array(cols)
+      .fill(null)
+      .map(() =>
+        Array(rows)
+          .fill(null)
+          .map(() => new Cell()),
+      );
+    nextGrid = Array(cols)
+      .fill(null)
+      .map(() =>
+        Array(rows)
+          .fill(null)
+          .map(() => new Cell()),
+      );
+    trailGrid = Array(cols)
+      .fill(null)
+      .map(() => Array(rows).fill(0));
     createPattern();
-    renderGrid = Array(cols).fill(null).map((_, x) =>
-      Array(rows).fill(null).map((__, y) => (grid[x][y].alive ? 1 : 0))
-    );
+    renderGrid = Array(cols)
+      .fill(null)
+      .map((_, x) =>
+        Array(rows)
+          .fill(null)
+          .map((__, y) => (grid[x][y].alive ? 1 : 0)),
+      );
   }
 
   function createPattern() {
@@ -56,7 +85,11 @@
   }
 
   function addGlider(x, y) {
-    const pattern = [[0, 1, 0], [0, 0, 1], [1, 1, 1]];
+    const pattern = [
+      [0, 1, 0],
+      [0, 0, 1],
+      [1, 1, 1],
+    ];
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (x + i < cols && y + j < rows && pattern[j][i]) {
@@ -113,14 +146,24 @@
           if (nextTrail > CONFIG.trailMin) {
             const alpha = Math.min(1, nextTrail * CONFIG.trailStrength);
             ctx.fillStyle = `rgba(124, 199, 124, ${alpha.toFixed(3)})`;
-            ctx.fillRect(x * CONFIG.cellSize, y * CONFIG.cellSize, CONFIG.cellSize - 1, CONFIG.cellSize - 1);
+            ctx.fillRect(
+              x * CONFIG.cellSize,
+              y * CONFIG.cellSize,
+              CONFIG.cellSize - 1,
+              CONFIG.cellSize - 1,
+            );
           }
         }
 
         if (next > 0.01) {
           ctx.globalAlpha = Math.min(1, 0.2 + next * 0.8);
           ctx.fillStyle = CONFIG.colors.alive;
-          ctx.fillRect(x * CONFIG.cellSize, y * CONFIG.cellSize, CONFIG.cellSize - 1, CONFIG.cellSize - 1);
+          ctx.fillRect(
+            x * CONFIG.cellSize,
+            y * CONFIG.cellSize,
+            CONFIG.cellSize - 1,
+            CONFIG.cellSize - 1,
+          );
           ctx.globalAlpha = 1;
         }
       }

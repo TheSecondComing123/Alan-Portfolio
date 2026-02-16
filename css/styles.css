@@ -14,10 +14,9 @@
   --muted: hsl(0 0% 76%);
   --state-hover: hsl(127 58% 72% / 0.1);
   --state-focus: hsl(127 58% 72% / 0.16);
-  --font-body: "Manrope", "Inter", system-ui, sans-serif;
-  --font-display: "Sora", "Manrope", "Inter", system-ui, sans-serif;
-  --mono:
-    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-body: 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-display: 'Sora', 'Manrope', 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
 
 * {
@@ -35,15 +34,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-@keyframes fadeInGOL {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 0.15;
-  }
 }
 
 @keyframes blogCardReveal {
@@ -77,10 +67,11 @@
   z-index: 0;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.72s ease-out 0.22s;
 }
 
 .hero-background.active {
-  animation: fadeInGOL 2s ease-out 0.5s forwards;
+  opacity: 0.18;
 }
 
 #home {
@@ -560,7 +551,7 @@ body.blog-page .blog-article > *:nth-child(4) {
 }
 
 .blog-article ul li::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0.58em;
   left: 0;
@@ -638,7 +629,7 @@ body.blog-page .blog-article > *:nth-child(4) {
 
 .project-highlights li::before,
 .work-highlights li::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0.58em;
   left: 0;
@@ -697,7 +688,7 @@ body.blog-page .blog-article > *:nth-child(4) {
 }
 
 .project-media::after {
-  content: "Image";
+  content: 'Image';
   position: absolute;
   inset: 0;
   display: grid;
@@ -851,7 +842,7 @@ button {
 }
 
 button::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -861,7 +852,7 @@ button::before {
 }
 
 button::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 7px 6px;
   border-radius: 999px;
@@ -890,11 +881,11 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-.nav-button[aria-current="page"] {
+.nav-button[aria-current='page'] {
   color: var(--on-primary-container);
 }
 
-.nav-button[aria-current="page"]::after {
+.nav-button[aria-current='page']::after {
   opacity: 1;
 }
 
@@ -946,10 +937,10 @@ button:focus-visible {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
     grid-template-areas:
-      "header header"
-      "tags tags"
-      "media media"
-      "description highlights";
+      'header header'
+      'tags tags'
+      'media media'
+      'description highlights';
     column-gap: 22px;
     row-gap: 14px;
   }
@@ -987,10 +978,10 @@ button:focus-visible {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "header"
-      "description"
-      "tags"
-      "highlights";
+      'header'
+      'description'
+      'tags'
+      'highlights';
     row-gap: 12px;
   }
 

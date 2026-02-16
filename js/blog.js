@@ -3,7 +3,7 @@ const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 const BLOG_SCROLL_OFFSET = -12;
 
 function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function scrollToElement(target, options = {}) {
@@ -17,17 +17,17 @@ function scrollToElement(target, options = {}) {
     return;
   }
 
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function initBlogSmoothScroll() {
-  if (typeof window.Lenis === "undefined" || prefersReducedMotion()) return;
+  if (typeof window.Lenis === 'undefined' || prefersReducedMotion()) return;
 
   blogLenis = new window.Lenis({
     duration: 1.2,
     easing: EASE_OUT_EXPO,
-    orientation: "vertical",
-    gestureOrientation: "vertical",
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 1,
     smoothTouch: false,
@@ -35,8 +35,8 @@ function initBlogSmoothScroll() {
     infinite: false,
   });
 
-  if (typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined") {
-    blogLenis.on("scroll", () => {
+  if (typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined') {
+    blogLenis.on('scroll', () => {
       window.ScrollTrigger.update();
     });
 
@@ -52,7 +52,7 @@ function initBlogSmoothScroll() {
     window.requestAnimationFrame(loop);
   }
 
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     if (blogLenis) {
       blogLenis.resize();
     }
@@ -61,16 +61,16 @@ function initBlogSmoothScroll() {
 
 function initAnchorScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", (event) => {
-      const href = anchor.getAttribute("href");
-      if (!href || href === "#") return;
+    anchor.addEventListener('click', (event) => {
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
       const section = document.querySelector(href);
       if (!section) return;
       event.preventDefault();
 
       scrollToElement(section, { duration: 1 });
 
-      history.replaceState(null, "", href);
+      history.replaceState(null, '', href);
     });
   });
 
@@ -82,19 +82,19 @@ function initAnchorScroll() {
 
 function initBlogRevealAnimations() {
   if (prefersReducedMotion()) return;
-  if (typeof window.gsap === "undefined") return;
+  if (typeof window.gsap === 'undefined') return;
 
   const gsap = window.gsap;
-  const headerTargets = gsap.utils.toArray(".window-title, .description");
-  const cardTargets = gsap.utils.toArray(".blog-card");
-  const articleTargets = gsap.utils.toArray(".blog-article > *");
+  const headerTargets = gsap.utils.toArray('.window-title, .description');
+  const cardTargets = gsap.utils.toArray('.blog-card');
+  const articleTargets = gsap.utils.toArray('.blog-article > *');
 
   if (headerTargets.length > 0) {
     gsap.from(headerTargets, {
       autoAlpha: 0,
       y: 14,
       duration: 0.45,
-      ease: "power2.out",
+      ease: 'power2.out',
       stagger: 0.06,
     });
   }
@@ -104,7 +104,7 @@ function initBlogRevealAnimations() {
       autoAlpha: 0,
       y: 18,
       duration: 0.52,
-      ease: "power2.out",
+      ease: 'power2.out',
       stagger: 0.1,
       delay: 0.08,
     });
@@ -115,7 +115,7 @@ function initBlogRevealAnimations() {
       autoAlpha: 0,
       y: 10,
       duration: 0.4,
-      ease: "power2.out",
+      ease: 'power2.out',
       stagger: 0.05,
       delay: 0.12,
     });
@@ -123,25 +123,25 @@ function initBlogRevealAnimations() {
 }
 
 function revealBlogShell() {
-  const main = document.querySelector(".blog-page-main");
+  const main = document.querySelector('.blog-page-main');
 
-  if (typeof window.gsap !== "undefined" && main) {
+  if (typeof window.gsap !== 'undefined' && main) {
     window.gsap.set(main, { autoAlpha: 0 });
   }
 
-  document.documentElement.classList.remove("js-loading");
+  document.documentElement.classList.remove('js-loading');
 
-  if (typeof window.gsap !== "undefined" && main) {
+  if (typeof window.gsap !== 'undefined' && main) {
     window.gsap.to(main, {
       autoAlpha: 1,
       duration: 0.24,
-      ease: "power1.out",
-      clearProps: "opacity,visibility",
+      ease: 'power1.out',
+      clearProps: 'opacity,visibility',
     });
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
   try {
     initBlogSmoothScroll();
     initAnchorScroll();

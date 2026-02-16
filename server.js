@@ -1,17 +1,18 @@
-const express = require("express");
-const compression = require("compression");
-const fs = require("fs/promises");
-const path = require("path");
-const matter = require("gray-matter");
-const MarkdownIt = require("markdown-it");
+const express = require('express');
+const compression = require('compression');
+const fs = require('fs/promises');
+const path = require('path');
+const matter = require('gray-matter');
+const MarkdownIt = require('markdown-it');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const IS_VERCEL = Boolean(process.env.VERCEL);
-const BLOG_DIR = path.join(__dirname, "content", "blog");
-const BLOG_PAGE_TITLE = "Blog";
-const BLOG_INDEX_DESCRIPTION = "Long-form notes on building products, optimizing systems, and improving as an engineer.";
-const BLOG_ARTICLE_DESCRIPTION = "Article details and implementation notes.";
+const BLOG_DIR = path.join(__dirname, 'content', 'blog');
+const BLOG_PAGE_TITLE = 'Blog';
+const BLOG_INDEX_DESCRIPTION =
+  'Long-form notes on building products, optimizing systems, and improving as an engineer.';
+const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.';
 const markdown = new MarkdownIt({
   html: false,
   linkify: true,
@@ -19,8 +20,8 @@ const markdown = new MarkdownIt({
 });
 
 function parseDateInput(input) {
-  if (typeof input === "string" && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
-    const [year, month, day] = input.split("-").map(Number);
+  if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    const [year, month, day] = input.split('-').map(Number);
     return new Date(year, month - 1, day);
   }
 
@@ -29,21 +30,21 @@ function parseDateInput(input) {
 
 function escapeHtml(value) {
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function formatDate(input) {
   const parsed = parseDateInput(input);
-  if (Number.isNaN(parsed.getTime())) return "";
+  if (Number.isNaN(parsed.getTime())) return '';
 
-  return parsed.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  return parsed.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 }
 
@@ -52,30 +53,32 @@ async function getBlogPosts() {
   try {
     entries = await fs.readdir(BLOG_DIR, { withFileTypes: true });
   } catch (error) {
-    if (error.code === "ENOENT") {
+    if (error.code === 'ENOENT') {
       return [];
     }
     throw error;
   }
 
-  const markdownEntries = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md"));
-  const posts = await Promise.all(markdownEntries.map(async (entry) => {
-    const slug = entry.name.replace(/\.md$/, "");
-    const fullPath = path.join(BLOG_DIR, entry.name);
-    const raw = await fs.readFile(fullPath, "utf8");
-    const parsed = matter(raw);
-    const metadata = parsed.data || {};
+  const markdownEntries = entries.filter((entry) => entry.isFile() && entry.name.endsWith('.md'));
+  const posts = await Promise.all(
+    markdownEntries.map(async (entry) => {
+      const slug = entry.name.replace(/\.md$/, '');
+      const fullPath = path.join(BLOG_DIR, entry.name);
+      const raw = await fs.readFile(fullPath, 'utf8');
+      const parsed = matter(raw);
+      const metadata = parsed.data || {};
 
-    return {
-      slug,
-      title: metadata.title || slug,
-      excerpt: metadata.excerpt || "",
-      date: metadata.date || "",
-      readTime: metadata.readTime || "",
-      tags: Array.isArray(metadata.tags) ? metadata.tags : [],
-      content: parsed.content || "",
-    };
-  }));
+      return {
+        slug,
+        title: metadata.title || slug,
+        excerpt: metadata.excerpt || '',
+        date: metadata.date || '',
+        readTime: metadata.readTime || '',
+        tags: Array.isArray(metadata.tags) ? metadata.tags : [],
+        content: parsed.content || '',
+      };
+    }),
+  );
 
   return posts.sort((a, b) => {
     const left = parseDateInput(a.date).getTime();
@@ -86,7 +89,13 @@ async function getBlogPosts() {
   });
 }
 
-function renderBlogLayout({ title, description, body, backHref = "/", backLabel = "Back to Portfolio" }) {
+function renderBlogLayout({
+  title,
+  description,
+  body,
+  backHref = '/',
+  backLabel = 'Back to Portfolio',
+}) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
   const safeBackHref = escapeHtml(backHref);
@@ -132,17 +141,17 @@ function renderBlogLayout({ title, description, body, backHref = "/", backLabel 
 }
 
 function renderPostTags(tags) {
-  if (!tags || tags.length === 0) return "";
+  if (!tags || tags.length === 0) return '';
 
   const renderedTags = tags
     .map((tag) => `<span class="tag" role="listitem">${escapeHtml(tag)}</span>`)
-    .join("");
+    .join('');
 
   return `<div class="blog-tags" role="list" aria-label="Article topics">${renderedTags}</div>`;
 }
 
 function buildPostMeta(post) {
-  return [formatDate(post.date), post.readTime].filter(Boolean).join(" | ");
+  return [formatDate(post.date), post.readTime].filter(Boolean).join(' | ');
 }
 
 function renderBlogSection({ description, ariaLabel, content }) {
@@ -201,90 +210,97 @@ function renderBlogNotFoundCard() {
 </article>`;
 }
 
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 app.use(compression());
 
 app.use((req, res, next) => {
-  res.setHeader("X-Content-Type-Options", "nosniff");
-  res.setHeader("X-Frame-Options", "SAMEORIGIN");
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;"
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;",
   );
   next();
 });
 
 app.get(/^\/node_modules\//, (_req, res) => {
-  res.status(403).send("Access Denied");
+  res.status(403).send('Access Denied');
 });
 
-app.get("/blog", async (_req, res, next) => {
+app.get('/blog', async (_req, res, next) => {
   try {
     const posts = await getBlogPosts();
-    const cards = posts.map(renderBlogIndexCard).join("") || renderBlogEmptyStateCard();
+    const cards = posts.map(renderBlogIndexCard).join('') || renderBlogEmptyStateCard();
     const body = renderBlogSection({
       description: BLOG_INDEX_DESCRIPTION,
-      ariaLabel: "Blog articles",
+      ariaLabel: 'Blog articles',
       content: cards,
     });
 
-    res.send(renderBlogLayout({
-      title: "Alan Bagel | Blog",
-      description: "Engineering notes from Alan Bagel on building products, optimization work, and coding process.",
-      body,
-      backHref: "/",
-      backLabel: "Back to Portfolio",
-    }));
+    res.send(
+      renderBlogLayout({
+        title: 'Alan Bagel | Blog',
+        description:
+          'Engineering notes from Alan Bagel on building products, optimization work, and coding process.',
+        body,
+        backHref: '/',
+        backLabel: 'Back to Portfolio',
+      }),
+    );
   } catch (error) {
     next(error);
   }
 });
 
-app.get("/blog/:slug", async (req, res, next) => {
+app.get('/blog/:slug', async (req, res, next) => {
   try {
     const posts = await getBlogPosts();
     const post = posts.find((item) => item.slug === req.params.slug);
 
     if (!post) {
       const body = renderBlogSection({
-        description: "That article does not exist. Check the blog index for available posts.",
-        ariaLabel: "Missing post",
+        description: 'That article does not exist. Check the blog index for available posts.',
+        ariaLabel: 'Missing post',
         content: renderBlogNotFoundCard(),
       });
 
-      res.status(404).send(renderBlogLayout({
-        title: "Blog Post Not Found | Alan Bagel",
-        description: "The blog post you requested does not exist.",
-        body,
-        backHref: "/blog",
-        backLabel: "Back to Blog",
-      }));
+      res.status(404).send(
+        renderBlogLayout({
+          title: 'Blog Post Not Found | Alan Bagel',
+          description: 'The blog post you requested does not exist.',
+          body,
+          backHref: '/blog',
+          backLabel: 'Back to Blog',
+        }),
+      );
       return;
     }
 
     const body = renderBlogSection({
       description: BLOG_ARTICLE_DESCRIPTION,
-      ariaLabel: "Blog article",
+      ariaLabel: 'Blog article',
       content: renderBlogArticleCard(post),
     });
 
-    res.send(renderBlogLayout({
-      title: `${post.title} | Alan Bagel`,
-      description: post.excerpt || "Engineering notes from Alan Bagel.",
-      body,
-      backHref: "/blog",
-      backLabel: "Back to Blog",
-    }));
+    res.send(
+      renderBlogLayout({
+        title: `${post.title} | Alan Bagel`,
+        description: post.excerpt || 'Engineering notes from Alan Bagel.',
+        body,
+        backHref: '/blog',
+        backLabel: 'Back to Blog',
+      }),
+    );
   } catch (error) {
     next(error);
   }
 });
 
-app.use(express.static(path.join(__dirname, ".")));
+app.use(express.static(path.join(__dirname, '.')));
 
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 if (!IS_VERCEL && require.main === module) {

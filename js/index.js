@@ -1,10 +1,10 @@
-const SECTION_IDS = ["home", "projects", "work", "technologies"];
+const SECTION_IDS = ['home', 'projects', 'work', 'technologies'];
 const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
-const app = document.getElementById("app");
+const app = document.getElementById('app');
 let lenis;
 
 function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 async function init() {
@@ -15,48 +15,48 @@ async function init() {
     initializeNavigationIcons();
     initializeNavigationHandlers();
 
-    if (typeof lucide !== "undefined") {
+    if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
 
     initializeSmoothScroll();
     initializeRevealAnimations();
     initializeScrollObserver();
-    setCurrentButton("home");
+    setCurrentButton('home');
   } finally {
     revealPortfolioShell();
   }
 }
 
 function revealPortfolioShell() {
-  const targets = [app, document.querySelector("nav")].filter(Boolean);
+  const targets = [app, document.querySelector('nav')].filter(Boolean);
 
-  if (typeof window.gsap !== "undefined" && targets.length > 0) {
+  if (typeof window.gsap !== 'undefined' && targets.length > 0) {
     window.gsap.set(targets, { autoAlpha: 0 });
   }
 
-  document.documentElement.classList.remove("js-loading");
+  document.documentElement.classList.remove('js-loading');
 
-  if (typeof window.gsap !== "undefined" && targets.length > 0) {
+  if (typeof window.gsap !== 'undefined' && targets.length > 0) {
     window.gsap.to(targets, {
       autoAlpha: 1,
       duration: 0.24,
-      ease: "power1.out",
-      clearProps: "opacity,visibility",
+      ease: 'power1.out',
+      clearProps: 'opacity,visibility',
     });
   }
 }
 
 function initializeSmoothScroll() {
-  if (typeof Lenis === "undefined") return;
+  if (typeof Lenis === 'undefined') return;
 
   if (prefersReducedMotion()) return;
 
   lenis = new Lenis({
     duration: 1.5,
     easing: EASE_OUT_EXPO,
-    orientation: "vertical",
-    gestureOrientation: "vertical",
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 1.0,
     smoothTouch: false,
@@ -64,10 +64,10 @@ function initializeSmoothScroll() {
     infinite: false,
   });
 
-  document.documentElement.classList.add("lenis");
+  document.documentElement.classList.add('lenis');
 
-  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
-    lenis.on("scroll", () => {
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    lenis.on('scroll', () => {
       ScrollTrigger.update();
     });
 
@@ -84,7 +84,7 @@ function initializeSmoothScroll() {
     requestAnimationFrame(raf);
   }
 
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     if (lenis) {
       lenis.resize();
     }
@@ -99,12 +99,12 @@ async function loadComponents() {
     }),
   );
 
-  app.innerHTML = htmlParts.join("");
+  app.innerHTML = htmlParts.join('');
 }
 
 function initializeNavigationHandlers() {
-  document.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-section]");
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-section]');
     if (!button) return;
 
     event.preventDefault();
@@ -115,17 +115,17 @@ function initializeNavigationHandlers() {
 
 function initializeNavigationIcons() {
   const iconMap = {
-    "btn-home": "home",
-    "btn-projects": "briefcase",
-    "btn-work": "building-2",
-    "btn-technologies": "cpu",
+    'btn-home': 'home',
+    'btn-projects': 'briefcase',
+    'btn-work': 'building-2',
+    'btn-technologies': 'cpu',
   };
 
   for (const [buttonId, iconName] of Object.entries(iconMap)) {
     const button = document.getElementById(buttonId);
-    const icon = document.createElement("i");
-    icon.setAttribute("data-lucide", iconName);
-    icon.className = "icon";
+    const icon = document.createElement('i');
+    icon.setAttribute('data-lucide', iconName);
+    icon.className = 'icon';
     button.appendChild(icon);
   }
 }
@@ -144,30 +144,31 @@ function switchWindow(id) {
     });
   } else {
     section.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
+      behavior: 'smooth',
+      block: 'start',
     });
   }
 }
 
 function initializeScrollObserver() {
-  const sections = SECTION_IDS
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
+  const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean);
 
-  const observer = new IntersectionObserver(entries => {
-    const visible = entries
-      .filter(entry => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-    if (visible) {
-      setCurrentButton(visible.target.id);
-    }
-  }, {
-    root: null,
-    rootMargin: "-42% 0px -42% 0px",
-    threshold: [0.18, 0.35, 0.6],
-  });
+      if (visible) {
+        setCurrentButton(visible.target.id);
+      }
+    },
+    {
+      root: null,
+      rootMargin: '-42% 0px -42% 0px',
+      threshold: [0.18, 0.35, 0.6],
+    },
+  );
 
   for (const section of sections) {
     observer.observe(section);
@@ -175,37 +176,37 @@ function initializeScrollObserver() {
 }
 
 function initializeRevealAnimations() {
-  const sections = [...document.querySelectorAll(".window")];
+  const sections = [...document.querySelectorAll('.window')];
   if (sections.length === 0) return;
 
-  const hasGSAP = typeof window.gsap !== "undefined";
-  const hasScrollTrigger = typeof window.ScrollTrigger !== "undefined";
+  const hasGSAP = typeof window.gsap !== 'undefined';
+  const hasScrollTrigger = typeof window.ScrollTrigger !== 'undefined';
 
   const revealPlan = [
     {
-      selector: ".hero-kicker, .window-title, .window-subtitle, .description",
+      selector: '.hero-kicker, .window-title, .window-subtitle, .description',
       at: 0,
       prepare(gsap, elements) {
         gsap.set(elements, {
           autoAlpha: 0,
           y: 24,
-          filter: "blur(4px)",
+          filter: 'blur(4px)',
         });
       },
       to: {
         autoAlpha: 1,
         y: 0,
-        filter: "blur(0px)",
+        filter: 'blur(0px)',
         duration: 0.62,
-        ease: "power3.out",
+        ease: 'power3.out',
         stagger: {
           each: 0.075,
-          from: "start",
+          from: 'start',
         },
       },
     },
     {
-      selector: ".contact-panel, .project-card, .work-card",
+      selector: '.contact-panel, .project-card, .work-card',
       at: 0.12,
       prepare(gsap, elements) {
         gsap.set(elements, {
@@ -213,7 +214,7 @@ function initializeRevealAnimations() {
           y: 28,
           scale: 0.985,
           rotationX: 5,
-          transformOrigin: "50% 100%",
+          transformOrigin: '50% 100%',
         });
       },
       to: {
@@ -222,15 +223,15 @@ function initializeRevealAnimations() {
         scale: 1,
         rotationX: 0,
         duration: 0.66,
-        ease: "power2.out",
+        ease: 'power2.out',
         stagger: {
           each: 0.11,
-          from: "start",
+          from: 'start',
         },
       },
     },
     {
-      selector: ".contact-item, .technology-card",
+      selector: '.contact-item, .technology-card',
       at: 0.28,
       prepare(gsap, elements) {
         elements.forEach((element, index) => {
@@ -248,15 +249,15 @@ function initializeRevealAnimations() {
         y: 0,
         scale: 1,
         duration: 0.48,
-        ease: "power2.out",
+        ease: 'power2.out',
         stagger: {
           each: 0.05,
-          from: "edges",
+          from: 'edges',
         },
       },
     },
     {
-      selector: ".project-highlights li, .work-highlights li",
+      selector: '.project-highlights li, .work-highlights li',
       at: 0.4,
       prepare(gsap, elements) {
         gsap.set(elements, {
@@ -268,10 +269,10 @@ function initializeRevealAnimations() {
         autoAlpha: 1,
         x: 0,
         duration: 0.44,
-        ease: "power2.out",
+        ease: 'power2.out',
         stagger: {
           each: 0.06,
-          from: "start",
+          from: 'start',
         },
       },
     },
@@ -302,14 +303,16 @@ function initializeRevealAnimations() {
     }
   }
 
-  const allTargets = [...sectionSequences.values()].flatMap(sequence => sequence.flatMap(item => item.elements));
+  const allTargets = [...sectionSequences.values()].flatMap((sequence) =>
+    sequence.flatMap((item) => item.elements),
+  );
   if (allTargets.length === 0) return;
 
   if (prefersReducedMotion() || !hasGSAP || !hasScrollTrigger) {
     for (const element of allTargets) {
-      element.style.opacity = "1";
-      element.style.transform = "none";
-      element.style.filter = "none";
+      element.style.opacity = '1';
+      element.style.transform = 'none';
+      element.style.filter = 'none';
     }
     return;
   }
@@ -347,7 +350,7 @@ function initializeRevealAnimations() {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top 80%",
+        start: 'top 80%',
         once: true,
         scroller: lenis ? document.body : window,
       },
@@ -360,13 +363,13 @@ function initializeRevealAnimations() {
 }
 
 function setCurrentButton(id) {
-  document.querySelectorAll(".nav-button").forEach(button => {
-    button.removeAttribute("aria-current");
+  document.querySelectorAll('.nav-button').forEach((button) => {
+    button.removeAttribute('aria-current');
   });
 
   const active = document.getElementById(`btn-${id}`);
   if (active) {
-    active.setAttribute("aria-current", "page");
+    active.setAttribute('aria-current', 'page');
   }
 }
 
