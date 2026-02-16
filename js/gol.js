@@ -4,12 +4,20 @@
   const CONFIG = {
     cellSize: 10,
     updateInterval: 100,
-    colors: { alive: '#7cc77c', dead: '#1c1c1c', grid: 'rgba(255, 255, 255, 0.05)' },
+    colors: {
+      alive: '#7cc77c',
+      dead: 'rgb(28, 28, 28)',
+      grid: 'rgba(255, 255, 255, 0.05)'
+    },
+    trailDecay: 0.86,
+    trailMin: 0.04,
+    trailStrength: 0.65,
+    cellTransitionSpeed: 14
   };
   const START_RETRY_MS = 150;
   const MAX_START_ATTEMPTS = 40;
 
-  let canvas, ctx, grid, nextGrid, cols, rows, animationId, lastUpdate = 0;
+  let canvas, ctx, grid, nextGrid, trailGrid, renderGrid, cols, rows, animationId, lastUpdate = 0, lastFrameTime = 0;
   let hasStarted = false;
   let isAnimating = false;
 
@@ -27,7 +35,11 @@
     rows = Math.floor(canvas.height / CONFIG.cellSize);
     grid = Array(cols).fill(null).map(() => Array(rows).fill(null).map(() => new Cell()));
     nextGrid = Array(cols).fill(null).map(() => Array(rows).fill(null).map(() => new Cell()));
+    trailGrid = Array(cols).fill(null).map(() => Array(rows).fill(0));
     createPattern();
+    renderGrid = Array(cols).fill(null).map((_, x) =>
+      Array(rows).fill(null).map((__, y) => (grid[x][y].alive ? 1 : 0))
+    );
   }
 
   function createPattern() {
@@ -80,15 +92,36 @@
     if (aliveCount < 5 || aliveCount > cols * rows * 0.7) createPattern();
   }
 
-  function draw() {
+  function draw(deltaSeconds = 0) {
     ctx.fillStyle = CONFIG.colors.dead;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    const blend = Math.min(1, Math.max(0, deltaSeconds) * CONFIG.cellTransitionSpeed);
+
     for (let x = 0; x < cols; x++) {
       for (let y = 0; y < rows; y++) {
-        if (grid[x][y].alive) {
+        const target = grid[x][y].alive ? 1 : 0;
+        const current = renderGrid[x][y];
+        const next = current + (target - current) * blend;
+        renderGrid[x][y] = next;
+
+        if (target > 0) {
+          trailGrid[x][y] = Math.max(trailGrid[x][y], next);
+        } else {
+          const nextTrail = trailGrid[x][y] * CONFIG.trailDecay;
+          trailGrid[x][y] = nextTrail;
+          if (nextTrail > CONFIG.trailMin) {
+            const alpha = Math.min(1, nextTrail * CONFIG.trailStrength);
+            ctx.fillStyle = `rgba(124, 199, 124, ${alpha.toFixed(3)})`;
+            ctx.fillRect(x * CONFIG.cellSize, y * CONFIG.cellSize, CONFIG.cellSize - 1, CONFIG.cellSize - 1);
+          }
+        }
+
+        if (next > 0.01) {
+          ctx.globalAlpha = Math.min(1, 0.2 + next * 0.8);
           ctx.fillStyle = CONFIG.colors.alive;
           ctx.fillRect(x * CONFIG.cellSize, y * CONFIG.cellSize, CONFIG.cellSize - 1, CONFIG.cellSize - 1);
+          ctx.globalAlpha = 1;
         }
       }
     }
@@ -112,11 +145,13 @@
   function animate(timestamp) {
     isAnimating = true;
     animationId = requestAnimationFrame(animate);
+    const deltaSeconds = lastFrameTime ? (timestamp - lastFrameTime) / 1000 : 0;
+    lastFrameTime = timestamp;
     if (timestamp - lastUpdate >= CONFIG.updateInterval) {
       updateGame();
       lastUpdate = timestamp;
     }
-    draw();
+    draw(deltaSeconds);
   }
 
   function resize() {
@@ -125,6 +160,8 @@
     canvas.width = hero.offsetWidth;
     canvas.height = hero.offsetHeight;
     initGrid();
+    ctx.fillStyle = CONFIG.colors.dead;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     draw();
   }
 
@@ -146,6 +183,7 @@
     resize();
     canvas.classList.add('active');
     lastUpdate = performance.now();
+    lastFrameTime = lastUpdate;
     animate(lastUpdate);
 
     window.addEventListener('resize', resize);
@@ -158,6 +196,7 @@
 
       if (!isAnimating) {
         lastUpdate = performance.now();
+        lastFrameTime = lastUpdate;
         animate(lastUpdate);
       }
     });

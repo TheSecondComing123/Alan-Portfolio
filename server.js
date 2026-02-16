@@ -7,6 +7,7 @@ const MarkdownIt = require("markdown-it");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const IS_VERCEL = Boolean(process.env.VERCEL);
 const BLOG_DIR = path.join(__dirname, "content", "blog");
 const BLOG_PAGE_TITLE = "Blog";
 const BLOG_INDEX_DESCRIPTION = "Long-form notes on building products, optimizing systems, and improving as an engineer.";
@@ -110,8 +111,8 @@ function renderBlogLayout({ title, description, body, backHref = "/", backLabel 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <script src="/node_modules/gsap/dist/gsap.min.js" defer></script>
-  <script src="/node_modules/gsap/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="/js/blog.js" defer></script>
 </head>
@@ -209,9 +210,13 @@ app.use((req, res, next) => {
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;"
+    "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;"
   );
   next();
+});
+
+app.get(/^\/node_modules\//, (_req, res) => {
+  res.status(403).send("Access Denied");
 });
 
 app.get("/blog", async (_req, res, next) => {
@@ -278,14 +283,14 @@ app.get("/blog/:slug", async (req, res, next) => {
 
 app.use(express.static(path.join(__dirname, ".")));
 
-app.get(/^\/node_modules\//, (req, res) => {
-  res.status(403).send("Access Denied");
-});
-
 app.get("*", (_req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if (!IS_VERCEL && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

@@ -771,11 +771,37 @@ a.project-link:hover {
   font-family: var(--mono);
 }
 
-.technologies-grid {
+.technology-groups {
   width: 100%;
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 14px;
+}
+
+.tech-group {
+  display: grid;
+  gap: 10px;
+}
+
+.tech-group-label {
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--outline-variant);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tech-group:first-child .tech-group-label {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.technologies-grid {
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -784,6 +810,8 @@ a.project-link:hover {
   place-items: center;
   gap: 8px;
   text-align: center;
+  flex: 0 1 128px;
+  min-height: 96px;
   border: 1px solid var(--outline-variant);
   border-radius: 14px;
   background: var(--surface-2);
@@ -1026,8 +1054,8 @@ button:focus-visible {
     padding: 44px 20px;
   }
 
-  .technologies-grid {
-    grid-template-columns: repeat(4, minmax(72px, 1fr));
+  .technology-card {
+    flex-basis: 116px;
   }
 }
 
@@ -1080,8 +1108,8 @@ button:focus-visible {
     gap: 6px 10px;
   }
 
-  .technologies-grid {
-    grid-template-columns: repeat(3, minmax(72px, 1fr));
+  .technology-card {
+    flex-basis: 104px;
   }
 
   .contact-link {
