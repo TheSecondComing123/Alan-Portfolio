@@ -4,10 +4,10 @@ date: 2026-02-15
 readTime: 8 min read
 excerpt: I expected content to be the hard part. The real challenge was building a practice system that always tells students what to do next.
 tags:
-  - Next.js
-  - Supabase
-  - Education
-  - Product Design
+    - Next.js
+    - Supabase
+    - Education
+    - Product Design
 ---
 
 ## Problem

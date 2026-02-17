@@ -4,10 +4,10 @@ date: 2026-02-15
 readTime: 6 min read
 excerpt: Competitive programming made me faster, but the bigger benefit was how it changed the way I plan and validate real product code.
 tags:
-  - Competitive Programming
-  - Engineering Process
-  - Algorithms
-  - Career Growth
+    - Competitive Programming
+    - Engineering Process
+    - Algorithms
+    - Career Growth
 ---
 
 ## Problem

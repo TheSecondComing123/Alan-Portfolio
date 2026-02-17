@@ -1,0 +1,126 @@
+/* Shared typography */
+.window h1,
+.window h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+.window h1 {
+    font-size: clamp(2.6rem, 5.1vw, 4rem);
+    color: var(--primary);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+}
+
+.window h3 {
+    font-size: 0.98rem;
+    color: var(--muted);
+    letter-spacing: 0;
+    font-weight: 500;
+}
+
+.hero-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+}
+
+.description {
+    max-width: 70ch;
+    color: var(--muted);
+    line-height: 1.74;
+    font-size: 1rem;
+}
+
+/* Home section typography */
+#home .hero-kicker {
+    margin-bottom: -2px;
+}
+
+#home .window-title {
+    font-size: clamp(2.9rem, 5.8vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.015em;
+}
+
+#home .window-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: hsl(0 0% 82%);
+}
+
+#home .description {
+    max-width: 62ch;
+    margin-top: 2px;
+}
+
+#home .window-title,
+#home .window-subtitle,
+#home .hero-kicker,
+#home .description {
+    text-align: left;
+}
+
+:is(#projects, #blog, #work, #technologies) .description {
+    max-width: 84ch;
+}
+
+/* Card typography */
+.project-title,
+.blog-title,
+.work-title {
+    font-size: clamp(1.16rem, 1.5vw, 1.36rem);
+    margin-bottom: 0;
+    font-family: var(--font-display);
+    font-weight: 650;
+    line-height: 1.22;
+    letter-spacing: 0;
+    color: var(--text);
+}
+
+.project-description,
+.work-description {
+    font-size: 0.96rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 66ch;
+}
+
+.blog-meta,
+.work-meta {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+}
+
+.blog-excerpt {
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: var(--muted);
+    max-width: 78ch;
+}
+
+/* Tech name */
+.tech-name {
+    font-size: 0.74rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+}
+
+.tech-group-label {
+    margin: 0;
+    padding-top: 8px;
+    border-top: 1px solid var(--outline-variant);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}

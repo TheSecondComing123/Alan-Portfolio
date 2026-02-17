@@ -1,0 +1,175 @@
+/* Card base styles */
+.project-card,
+.blog-card,
+.work-card {
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    background: var(--surface-2);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease;
+}
+
+.project-header,
+.blog-header,
+.work-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 2px;
+}
+
+.work-heading {
+    display: grid;
+    gap: 2px;
+}
+
+/* Tags */
+.project-tags,
+.blog-tags,
+.work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 0;
+    margin-bottom: 2px;
+    align-items: center;
+    order: 2;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid hsl(127 36% 30%);
+    background: hsl(127 26% 18%);
+    color: hsl(127 38% 76%);
+    font-size: 0.66rem;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    font-family: var(--mono);
+    min-height: 24px;
+}
+
+/* Project specific */
+.project-media {
+    width: 100%;
+    aspect-ratio: 16 / 6.5;
+    min-height: 120px;
+    max-height: 220px;
+    border-radius: 12px;
+    border: 1px dashed var(--outline);
+    background: var(--surface-3);
+    position: relative;
+    order: 3;
+}
+
+.project-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+}
+
+.project-media::after {
+    content: 'Image';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    padding: 8px 12px;
+    font: 600 0.72rem/1 var(--font-body);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    background: var(--surface-3);
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+a.project-link:hover {
+    color: var(--on-primary-container);
+    background: var(--primary-container);
+    border-color: transparent;
+}
+
+a.project-link:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+}
+
+.project-link-inline {
+    margin-top: 0;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.project-link-muted {
+    color: var(--muted);
+}
+
+/* Highlights (shared between projects & work) */
+.project-highlights,
+.work-highlights {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--outline);
+}
+
+.project-highlights li,
+.work-highlights li {
+    position: relative;
+    padding-left: 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.56;
+}
+
+.project-highlights li::before,
+.work-highlights li::before {
+    content: '';
+    position: absolute;
+    top: 0.58em;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+/* Interactive card states */
+.project-card:focus-within,
+.blog-card:focus-within,
+.work-card:focus-within {
+    border-color: var(--outline);
+    background: var(--surface-3);
+}
+
+.work-meta {
+    margin-bottom: 0;
+}

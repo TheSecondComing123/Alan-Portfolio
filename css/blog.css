@@ -1,0 +1,243 @@
+/* Blog page animations */
+body.blog-page .blog-grid .blog-card {
+    animation: blogCardReveal 0.58s ease both;
+}
+
+body.blog-page .blog-grid .blog-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+body.blog-page .blog-grid .blog-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+body.blog-page .blog-grid .blog-card:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+body.blog-page .blog-article > * {
+    animation: blogBodyReveal 0.44s ease both;
+}
+
+body.blog-page .blog-article > *:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+body.blog-page .blog-article > *:nth-child(3) {
+    animation-delay: 0.08s;
+}
+
+body.blog-page .blog-article > *:nth-child(4) {
+    animation-delay: 0.12s;
+}
+
+/* Blog page layout */
+.blog-page-main {
+    padding-bottom: 80px;
+}
+
+.blog-page-window {
+    min-height: auto;
+}
+
+.blog-page-actions {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.blog-back-link {
+    margin-top: 0;
+}
+
+/* Blog cards in grid/list */
+.blog-card {
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    background: var(--surface-2);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease;
+}
+
+.blog-card:focus-within {
+    border-color: var(--outline);
+    background: var(--surface-3);
+}
+
+.blog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 2px;
+}
+
+.blog-title {
+    font-size: clamp(1.16rem, 1.5vw, 1.36rem);
+    margin-bottom: 0;
+    font-family: var(--font-display);
+    font-weight: 650;
+    line-height: 1.22;
+    letter-spacing: 0;
+    color: var(--text);
+}
+
+.blog-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.blog-title-link:hover,
+.blog-title-link:focus {
+    color: var(--primary-light);
+}
+
+.blog-title-link:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.blog-heading {
+    display: grid;
+    gap: 4px;
+}
+
+.blog-meta {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+}
+
+.blog-excerpt {
+    font-size: 0.98rem;
+    line-height: 1.72;
+    color: var(--muted);
+    max-width: 78ch;
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 0;
+    margin-bottom: 2px;
+    align-items: center;
+}
+
+/* Blog article content */
+.blog-article {
+    margin-top: 2px;
+    display: grid;
+    gap: 12px;
+}
+
+.blog-article h2,
+.blog-article h3,
+.blog-article h4 {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    color: var(--text);
+}
+
+.blog-article p {
+    font-size: 0.92rem;
+    line-height: 1.68;
+    color: var(--muted);
+    max-width: 78ch;
+}
+
+.blog-article h2 {
+    font-size: 1.08rem;
+}
+
+.blog-article ul {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.blog-article ol {
+    display: grid;
+    gap: 8px;
+    margin-top: 0;
+    padding-left: 18px;
+}
+
+.blog-article ul li,
+.blog-article ol li {
+    position: relative;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.56;
+}
+
+.blog-article ul li {
+    padding-left: 16px;
+}
+
+.blog-article ul li::before {
+    content: '';
+    position: absolute;
+    top: 0.58em;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+/* Blog markdown rendering */
+.blog-markdown pre {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--outline);
+    background: var(--surface-3);
+}
+
+.blog-markdown code {
+    font-family: var(--mono);
+    font-size: 0.84rem;
+    color: var(--text);
+    background: hsl(127 18% 19%);
+    border: 1px solid hsl(127 18% 26%);
+    border-radius: 6px;
+    padding: 1px 6px;
+}
+
+.blog-markdown pre code {
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.blog-markdown a {
+    color: var(--primary-light);
+}
+
+.blog-markdown a:hover,
+.blog-markdown a:focus {
+    color: var(--on-primary-container);
+}
+
+.blog-markdown blockquote {
+    margin: 0;
+    padding: 10px 12px;
+    border-left: 3px solid var(--primary);
+    background: hsl(127 18% 16%);
+    border-radius: 8px;
+}
+
+.blog-markdown hr {
+    border: 0;
+    border-top: 1px solid var(--outline);
+}

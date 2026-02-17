@@ -4,10 +4,10 @@ date: 2026-02-15
 readTime: 7 min read
 excerpt: Microcosm felt great in early encounters but degraded in dense late-run fights. This is the optimization work that fixed that.
 tags:
-  - Python
-  - Pygame
-  - Performance
-  - Game Dev
+    - Python
+    - Pygame
+    - Performance
+    - Game Dev
 ---
 
 ## Problem

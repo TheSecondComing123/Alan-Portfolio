@@ -1,0 +1,226 @@
+/* Contact panel */
+.contact-panel {
+    width: 100%;
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    background: var(--surface-2);
+    padding: 18px 16px;
+    transition: border-color 0.2s ease;
+}
+
+.contact-panel:focus-within {
+    border-color: var(--outline);
+    background: var(--surface-3);
+}
+
+.contact-title {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.contact-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.contact-item {
+    display: grid;
+    grid-template-columns: 102px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px 12px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--outline-variant);
+    background: var(--surface-3);
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.contact-item:focus-within {
+    border-color: var(--outline);
+    background: hsl(150 8% 20%);
+}
+
+.contact-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: hsl(0 0% 80%);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+}
+
+.contact-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.contact-link {
+    display: block;
+    color: var(--text);
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: normal;
+    line-height: 1.34;
+    overflow-wrap: anywhere;
+    min-width: 0;
+    transition: color 0.15s ease;
+}
+
+.contact-link:hover,
+.contact-link:focus {
+    color: var(--primary-light);
+}
+
+.contact-link:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%) translateZ(0);
+    z-index: 30;
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid var(--outline-variant);
+    background: var(--surface-2);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.nav-button {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.nav-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--state-hover);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-button::after {
+    content: '';
+    position: absolute;
+    inset: 7px 6px;
+    border-radius: 999px;
+    background: var(--primary-container);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-button:hover,
+.nav-button:focus {
+    color: var(--text);
+}
+
+.nav-button:hover::before,
+.nav-button:focus::before {
+    opacity: 1;
+}
+
+.nav-button:focus-visible::before {
+    opacity: 1;
+    background: var(--state-focus);
+}
+
+.nav-button:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+.nav-button[aria-current='page'] {
+    color: var(--on-primary-container);
+}
+
+.nav-button[aria-current='page']::after {
+    opacity: 1;
+}
+
+.icon {
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    position: relative;
+    z-index: 1;
+}
+
+/* Technologies */
+.technology-groups {
+    width: 100%;
+    margin-top: 10px;
+    display: grid;
+    gap: 14px;
+}
+
+.tech-group {
+    display: grid;
+    gap: 10px;
+}
+
+.tech-group:first-child .tech-group-label {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.technologies-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.technology-card {
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    text-align: center;
+    flex: 0 1 128px;
+    min-height: 96px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 14px;
+    background: var(--surface-2);
+    padding: 14px 10px;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.technology-card i {
+    font-size: 33px;
+}

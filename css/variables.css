@@ -1,0 +1,20 @@
+/* Design tokens */
+:root {
+    --primary: hsl(127 55% 56%);
+    --primary-light: hsl(127 58% 72%);
+    --primary-container: hsl(127 36% 22%);
+    --on-primary-container: hsl(127 70% 88%);
+    --bg: hsl(0 0% 8%);
+    --surface: hsl(0 0% 11%);
+    --surface-2: hsl(0 0% 13%);
+    --surface-3: hsl(0 0% 16%);
+    --outline: hsl(0 0% 30%);
+    --outline-variant: hsl(0 0% 23%);
+    --text: hsl(0 0% 95%);
+    --muted: hsl(0 0% 76%);
+    --state-hover: hsl(127 58% 72% / 0.1);
+    --state-focus: hsl(127 58% 72% / 0.16);
+    --font-body: 'Manrope', 'Inter', system-ui, sans-serif;
+    --font-display: 'Sora', 'Manrope', 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}

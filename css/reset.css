@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    font-family: var(--font-body);
+    color: var(--text);
+    background: linear-gradient(180deg, hsl(0 0% 10%), var(--bg) 30%);
+    overflow-x: hidden;
+}
+
+main {
+    width: 100%;
+    min-height: 100%;
+    padding-bottom: 168px;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
