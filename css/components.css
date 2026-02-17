@@ -1,6 +1,5 @@
 /* Contact panel */
 .contact-panel {
-    width: 100%;
     border-radius: 16px;
     background: var(--surface-2);
     padding: 18px 16px;

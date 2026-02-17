@@ -36,10 +36,6 @@ body.blog-page .blog-article > *:nth-child(4) {
     padding-bottom: 80px;
 }
 
-.blog-page-window {
-    min-height: auto;
-}
-
 .blog-page-actions {
     display: flex;
 }
