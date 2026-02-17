@@ -132,14 +132,12 @@
 
 @media (max-width: 768px) {
     nav {
-        left: 50%;
         bottom: 14px;
         transform: translateX(-50%);
         width: calc(100% - 24px);
         max-width: 420px;
         gap: 8px;
         padding: 8px 10px;
-        border-radius: 20px;
     }
 
     .nav-button {
@@ -170,7 +168,6 @@
     .project-header,
     .work-header {
         flex-wrap: wrap;
-        align-items: flex-start;
         gap: 6px 10px;
     }
 
@@ -202,9 +199,7 @@
         scroll-behavior: auto !important;
     }
 
-    body,
     main,
-    .window,
     nav {
         will-change: auto !important;
     }

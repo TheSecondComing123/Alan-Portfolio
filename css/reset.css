@@ -12,14 +12,14 @@
     display: none;
 }
 
-html {
+html,
+body,
+main {
     width: 100%;
     min-height: 100%;
 }
 
 body {
-    width: 100%;
-    min-height: 100%;
     font-family: var(--font-body);
     color: var(--text);
     background: linear-gradient(180deg, hsl(0 0% 10%), var(--bg) 30%);
@@ -27,8 +27,6 @@ body {
 }
 
 main {
-    width: 100%;
-    min-height: 100%;
     padding-bottom: 168px;
     will-change: transform;
     transform: translateZ(0);

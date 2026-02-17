@@ -74,7 +74,6 @@
 .blog-title,
 .work-title {
     font-size: clamp(1.16rem, 1.5vw, 1.36rem);
-    margin-bottom: 0;
     font-family: var(--font-display);
     font-weight: 650;
     line-height: 1.22;
@@ -115,7 +114,6 @@
 }
 
 .tech-group-label {
-    margin: 0;
     padding-top: 8px;
     border-top: 1px solid var(--outline-variant);
     color: var(--muted);

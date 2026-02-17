@@ -34,7 +34,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 0;
     margin-bottom: 2px;
     align-items: center;
     order: 2;
@@ -51,7 +50,6 @@
     font-size: 0.66rem;
     line-height: 1;
     letter-spacing: 0.03em;
-    text-transform: none;
     font-family: var(--mono);
     min-height: 24px;
 }
