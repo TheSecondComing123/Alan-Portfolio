@@ -56,17 +56,6 @@ html.js-loading .blog-page-main {
     justify-content: center;
 }
 
-#home::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: clamp(120px, 18vh, 220px);
-    background: linear-gradient(180deg, transparent 0%, hsl(0 0% 8% / 0.92) 72%, var(--bg) 100%);
-    pointer-events: none;
-    z-index: 1;
-}
 
 #home .home-grid {
     position: relative;
