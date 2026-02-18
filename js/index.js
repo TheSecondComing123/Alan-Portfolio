@@ -14,19 +14,40 @@ async function init() {
         await loadComponents()
         initializeNavigationIcons()
         initializeNavigationHandlers()
+        setCurrentButton('home')
 
         if (typeof lucide !== 'undefined') {
             lucide.createIcons()
         }
 
+        revealPortfolioShell()
+        scheduleNonCriticalInitialization()
+    } finally {
+        document.documentElement.classList.remove('js-loading')
+    }
+}
+
+function scheduleNonCriticalInitialization() {
+    const run = () => {
         initializeSmoothScroll()
         initializeRevealAnimations()
         initializeScrollObserver()
         initializeHeroBackgroundTransition()
-        setCurrentButton('home')
-    } finally {
-        revealPortfolioShell()
     }
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(
+            () => {
+                window.requestAnimationFrame(run)
+            },
+            { timeout: 700 },
+        )
+        return
+    }
+
+    window.setTimeout(() => {
+        window.requestAnimationFrame(run)
+    }, 0)
 }
 
 function revealPortfolioShell() {
@@ -93,14 +114,26 @@ function initializeSmoothScroll() {
 }
 
 async function loadComponents() {
-    const htmlParts = await Promise.all(
-        SECTION_IDS.map(async (id) => {
-            const response = await fetch(`components/${id}.html`)
-            return response.text()
-        }),
-    )
+    try {
+        const bundledResponse = await fetch('/components/all.html')
+        if (!bundledResponse.ok) {
+            throw new Error(`Failed to fetch bundled components: ${bundledResponse.status}`)
+        }
+        app.innerHTML = await bundledResponse.text()
+        return
+    } catch {
+        const htmlParts = await Promise.all(
+            SECTION_IDS.map(async (id) => {
+                const response = await fetch(`components/${id}.html`)
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch component "${id}": ${response.status}`)
+                }
+                return response.text()
+            }),
+        )
 
-    app.innerHTML = htmlParts.join('')
+        app.innerHTML = htmlParts.join('')
+    }
 }
 
 function initializeNavigationHandlers() {
@@ -314,8 +347,24 @@ function initializeRevealAnimations() {
         })
     }
 
+    const inViewOnInit = (element) => {
+        const rect = element.getBoundingClientRect()
+        return rect.top < window.innerHeight * 0.86 && rect.bottom > 0
+    }
+
     for (const [section, sequence] of sectionSequences) {
         if (sequence.length === 0) continue
+
+        if (inViewOnInit(section)) {
+            for (const group of sequence) {
+                for (const element of group.elements) {
+                    element.style.opacity = '1'
+                    element.style.transform = 'none'
+                    element.style.filter = 'none'
+                }
+            }
+            continue
+        }
 
         for (const group of sequence) {
             group.prepare(gsap, group.elements)

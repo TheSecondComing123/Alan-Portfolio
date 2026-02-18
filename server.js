@@ -9,6 +9,8 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const IS_VERCEL = Boolean(process.env.VERCEL)
 const BLOG_DIR = path.join(__dirname, 'content', 'blog')
+const COMPONENTS_DIR = path.join(__dirname, 'components')
+const PORTFOLIO_SECTION_IDS = ['home', 'projects', 'work', 'technologies']
 const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
@@ -52,7 +54,7 @@ async function getBlogPosts() {
     }
 
     const markdownEntries = entries.filter((entry) => entry.isFile() && entry.name.endsWith('.md'))
-    const posts = await Promise.all(
+    const settledPosts = await Promise.allSettled(
         markdownEntries.map(async (entry) => {
             const slug = entry.name.replace(/\.md$/, '')
             const fullPath = path.join(BLOG_DIR, entry.name)
@@ -71,6 +73,10 @@ async function getBlogPosts() {
             }
         }),
     )
+
+    const posts = settledPosts
+        .filter((result) => result.status === 'fulfilled')
+        .map((result) => result.value)
 
     return posts.sort((a, b) => {
         const left = parseDateInput(a.date).getTime()
@@ -106,15 +112,12 @@ function renderBlogLayout({
   <meta property="og:title" content="${safeTitle}" />
   <meta property="og:description" content="${safeDescription}" />
   <meta property="og:locale" content="en_US" />
-  <script>document.documentElement.classList.add('js-loading');</script>
   <link rel="stylesheet" href="/css/index.css" />
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <link rel="prefetch" href="${safeBackHref}" />
   <script src="/js/blog.js" defer></script>
 </head>
 <body class="blog-page">
@@ -220,6 +223,21 @@ app.get(/^\/node_modules\//, (_req, res) => {
     res.status(403).send('Access Denied')
 })
 
+app.get('/components/all.html', async (_req, res, next) => {
+    try {
+        const htmlParts = await Promise.all(
+            PORTFOLIO_SECTION_IDS.map((id) =>
+                fs.readFile(path.join(COMPONENTS_DIR, `${id}.html`), 'utf8'),
+            ),
+        )
+        res.type('html')
+        res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=86400')
+        res.send(htmlParts.join(''))
+    } catch (error) {
+        next(error)
+    }
+})
+
 app.get('/blog', async (_req, res, next) => {
     try {
         const posts = await getBlogPosts()
@@ -248,7 +266,9 @@ app.get('/blog', async (_req, res, next) => {
 app.get('/blog/:slug', async (req, res, next) => {
     try {
         const posts = await getBlogPosts()
-        const post = posts.find((item) => item.slug === req.params.slug)
+        const requestedSlug = decodeURIComponent(req.params.slug || '')
+        const requestedSlugLower = requestedSlug.toLowerCase()
+        const post = posts.find((item) => item.slug.toLowerCase() === requestedSlugLower)
 
         if (!post) {
             const body = renderBlogSection({

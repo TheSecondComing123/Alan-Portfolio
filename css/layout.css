@@ -25,8 +25,7 @@ html:not(.lenis) {
 }
 
 html.js-loading #app,
-html.js-loading nav,
-html.js-loading .blog-page-main {
+html.js-loading nav {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -51,7 +50,6 @@ html.js-loading .blog-page-main {
     min-height: min(920px, 92dvh);
     justify-content: center;
 }
-
 
 #home .home-grid {
     position: relative;
