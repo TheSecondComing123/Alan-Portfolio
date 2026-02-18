@@ -38,21 +38,28 @@
     <script>
         document.documentElement.classList.add('js-loading')
     </script>
-        <link rel="stylesheet" href="css/index.css" />
-        <link rel="icon" type="image/png" href="/images/favicon.png" />
-        <link rel="prefetch" href="/blog" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="css/index.css?v=__VER__" />
+    <link rel="stylesheet" href="/css/vendor/lenis.css?v=__VER__" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="prefetch" href="/blog" />
+
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" as="style" />
+
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" as="script" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
-        rel="stylesheet" />
-    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <script src="https://unpkg.com/lucide@0.563.0" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+    <script src="/js/vendor/lenis.min.js?v=__VER__" defer></script>
 </head>
 
 <body>
@@ -68,8 +75,9 @@
             id="btn-technologies"></button>
     </nav>
 
-    <script src="js/gol.js" defer></script>
-    <script src="js/index.js" defer></script>
+    <script src="js/utils.js?v=__VER__" defer></script>
+    <script src="js/gol.js?v=__VER__" defer></script>
+    <script src="js/index.js?v=__VER__" defer></script>
 </body>
 
 </html>

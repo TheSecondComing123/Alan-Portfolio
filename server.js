@@ -15,7 +15,14 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
+const ASSET_VERSION = '20260218'
+const INDEX_HTML_PATH = path.join(__dirname, 'index.html')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
+
+async function serveIndexHtml(res) {
+    const html = await fs.readFile(INDEX_HTML_PATH, 'utf8')
+    res.type('html').send(html.replaceAll('__VER__', ASSET_VERSION))
+}
 
 function parseDateInput(input) {
     if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
@@ -112,13 +119,16 @@ function renderBlogLayout({
   <meta property="og:title" content="${safeTitle}" />
   <meta property="og:description" content="${safeDescription}" />
   <meta property="og:locale" content="en_US" />
-  <link rel="stylesheet" href="/css/index.css" />
+  <link rel="stylesheet" href="/css/index.css?v=${ASSET_VERSION}" />
+  <link rel="stylesheet" href="/css/vendor/lenis.css?v=${ASSET_VERSION}" />
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="prefetch" href="${safeBackHref}" />
-  <script src="/js/blog.js" defer></script>
+  <script src="/js/utils.js?v=${ASSET_VERSION}" defer></script>
+  <script src="/js/blog.js?v=${ASSET_VERSION}" defer></script>
 </head>
 <body class="blog-page">
   <main class="blog-page-main" role="main" aria-label="Blog content">
@@ -216,6 +226,11 @@ app.use((req, res, next) => {
         'Content-Security-Policy',
         "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;",
     )
+
+    if (req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/i)) {
+        res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+    }
+
     next()
 })
 
@@ -231,7 +246,7 @@ app.get('/components/all.html', async (_req, res, next) => {
             ),
         )
         res.type('html')
-        res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=86400')
+        res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
         res.send(htmlParts.join(''))
     } catch (error) {
         next(error)
@@ -310,10 +325,29 @@ app.get('/blog/:slug', async (req, res, next) => {
     }
 })
 
-app.use(express.static(path.join(__dirname, '.')))
+app.get('/', async (_req, res, next) => {
+    try {
+        await serveIndexHtml(res)
+    } catch (error) {
+        next(error)
+    }
+})
 
-app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'))
+app.use(express.static(path.join(__dirname, '.'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+        }
+    }
+}))
+
+app.get('*', async (_req, res, next) => {
+    try {
+        res.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+        await serveIndexHtml(res)
+    } catch (error) {
+        next(error)
+    }
 })
 
 if (!IS_VERCEL && require.main === module) {

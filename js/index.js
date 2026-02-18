@@ -1,5 +1,4 @@
 const SECTION_IDS = ['home', 'projects', 'work', 'technologies']
-const EASE_OUT_EXPO = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
 const app = document.getElementById('app')
 let lenis
 
@@ -72,8 +71,6 @@ function revealPortfolioShell() {
 function initializeSmoothScroll() {
     if (typeof Lenis === 'undefined') return
 
-    if (prefersReducedMotion()) return
-
     lenis = new Lenis({
         duration: 1.5,
         easing: EASE_OUT_EXPO,
@@ -81,7 +78,7 @@ function initializeSmoothScroll() {
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1.0,
-        smoothTouch: false,
+        syncTouch: true,
         touchMultiplier: 2,
         infinite: false,
     })
