@@ -56,6 +56,7 @@
 
 /* Project specific */
 .project-media {
+    width: 100%;
     aspect-ratio: 16 / 6.5;
     min-height: 120px;
     max-height: 220px;
