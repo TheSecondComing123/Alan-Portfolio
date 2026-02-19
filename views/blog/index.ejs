@@ -1,0 +1,26 @@
+<% if (!posts || posts.length === 0) { %>
+  <article class="blog-card" role="listitem">
+    <h2 class="blog-title">No posts yet</h2>
+    <p class="blog-excerpt">Add markdown files under <code>content/blog</code> to publish posts.</p>
+  </article>
+<% } else { %>
+  <% posts.forEach((post) => { %>
+    <article class="blog-card" role="listitem">
+      <header class="blog-header">
+        <div class="blog-heading">
+          <p class="blog-meta"><%= post.meta %></p>
+          <h2 class="blog-title"><a class="blog-title-link" href="/blog/<%= post.slugEncoded %>"><%= post.title %></a></h2>
+        </div>
+        <a class="project-link project-link-inline" href="/blog/<%= post.slugEncoded %>">Read Article</a>
+      </header>
+      <p class="blog-excerpt"><%= post.excerpt %></p>
+      <% if (post.tags && post.tags.length > 0) { %>
+        <div class="blog-tags" role="list" aria-label="Article topics">
+          <% post.tags.forEach((tag) => { %>
+            <span class="tag" role="listitem"><%= tag %></span>
+          <% }) %>
+        </div>
+      <% } %>
+    </article>
+  <% }) %>
+<% } %>

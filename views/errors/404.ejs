@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 | Alan Bagel</title>
+  <meta name="description" content="The page you requested could not be found." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#1b211b" />
+  <link rel="stylesheet" href="/css/index.css?v=<%= assetVersion %>" />
+  <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
+  <link rel="stylesheet" href="/css/not-found.css?v=<%= assetVersion %>" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="/js/utils.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/gol.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/blog.js?v=<%= assetVersion %>" defer></script>
+</head>
+
+<body class="blog-page not-found-page">
+  <main class="not-found-main" role="main" aria-label="Not found page">
+    <section class="not-found-card-panel" aria-label="Page not found">
+      <canvas id="game-of-life-canvas" class="hero-background" aria-hidden="true"></canvas>
+      <p class="not-found-kicker">ERROR</p>
+      <h1 class="not-found-title">404</h1>
+      <p class="not-found-description">This route does not exist.</p>
+      <p class="not-found-copy">Use a known entry point to continue.</p>
+      <div class="not-found-actions" role="navigation" aria-label="Navigation options">
+        <a class="project-link" href="/">Back to Portfolio</a>
+        <a class="project-link not-found-secondary-action" href="/blog">Open Blog</a>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

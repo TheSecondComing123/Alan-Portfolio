@@ -193,13 +193,16 @@
     }
 
     function resize() {
+        if (!canvas) return
         const hero = document.getElementById('home')
-        if (!hero || !canvas) return
-        const heroHeight = hero.offsetHeight
-        const viewportWidth =
-            window.innerWidth || document.documentElement.clientWidth || hero.offsetWidth
-        canvas.width = viewportWidth
-        canvas.height = heroHeight
+        const container = canvas.parentElement
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+        const heroHeight = hero ? hero.offsetHeight : viewportHeight
+        const targetWidth = container ? container.clientWidth : viewportWidth
+        const targetHeight = container ? container.clientHeight : heroHeight
+        canvas.width = Math.max(1, targetWidth)
+        canvas.height = Math.max(1, targetHeight)
         initGrid()
         ctx.fillStyle = CONFIG.colors.dead
         ctx.fillRect(0, 0, canvas.width, canvas.height)

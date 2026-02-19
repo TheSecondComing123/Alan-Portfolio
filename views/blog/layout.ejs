@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= metaDescription %>" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#1b211b" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%= pageTitle %>" />
+  <meta property="og:description" content="<%= metaDescription %>" />
+  <meta property="og:locale" content="en_US" />
+  <link rel="stylesheet" href="/css/index.css?v=<%= assetVersion %>" />
+  <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="prefetch" href="<%= backHref %>" />
+  <script src="/js/utils.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/blog.js?v=<%= assetVersion %>" defer></script>
+</head>
+<body class="blog-page">
+  <main class="blog-page-main" role="main" aria-label="Blog content">
+    <div class="window-container">
+      <div class="window blog-page-window" id="blog">
+        <div class="blog-page-actions">
+          <a class="project-link blog-back-link" href="<%= backHref %>"><%= backLabel %></a>
+        </div>
+        <h1 class="window-title"><%= heading %></h1>
+        <p class="description"><%= description %></p>
+        <section class="blog-grid" role="list" aria-label="<%= ariaLabel %>">
+          <%- include(contentTemplate, contentData) %>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

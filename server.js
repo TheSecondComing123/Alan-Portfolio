@@ -10,12 +10,13 @@ const PORT = process.env.PORT || 3000
 const IS_VERCEL = Boolean(process.env.VERCEL)
 const BLOG_DIR = path.join(__dirname, 'content', 'blog')
 const COMPONENTS_DIR = path.join(__dirname, 'components')
+const VIEWS_DIR = path.join(__dirname, 'views')
 const PORTFOLIO_SECTION_IDS = ['home', 'projects', 'work', 'technologies']
 const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260218'
+const ASSET_VERSION = '20260220'
 const INDEX_HTML_PATH = path.join(__dirname, 'index.html')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 
@@ -31,15 +32,6 @@ function parseDateInput(input) {
     }
 
     return new Date(input)
-}
-
-function escapeHtml(value) {
-    return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
 }
 
 function formatDate(input) {
@@ -94,128 +86,22 @@ async function getBlogPosts() {
     })
 }
 
-function renderBlogLayout({
-    title,
-    description,
-    body,
-    backHref = '/',
-    backLabel = 'Back to Portfolio',
-}) {
-    const safeTitle = escapeHtml(title)
-    const safeDescription = escapeHtml(description)
-    const safeBackHref = escapeHtml(backHref)
-    const safeBackLabel = escapeHtml(backLabel)
-
-    return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${safeTitle}</title>
-  <meta name="description" content="${safeDescription}" />
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#1b211b" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="${safeTitle}" />
-  <meta property="og:description" content="${safeDescription}" />
-  <meta property="og:locale" content="en_US" />
-  <link rel="stylesheet" href="/css/index.css?v=${ASSET_VERSION}" />
-  <link rel="stylesheet" href="/css/vendor/lenis.css?v=${ASSET_VERSION}" />
-  <link rel="icon" type="image/png" href="/images/favicon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="prefetch" href="${safeBackHref}" />
-  <script src="/js/utils.js?v=${ASSET_VERSION}" defer></script>
-  <script src="/js/blog.js?v=${ASSET_VERSION}" defer></script>
-</head>
-<body class="blog-page">
-  <main class="blog-page-main" role="main" aria-label="Blog content">
-    <div class="window-container">
-      <div class="window blog-page-window" id="blog">
-        <div class="blog-page-actions">
-          <a class="project-link blog-back-link" href="${safeBackHref}">${safeBackLabel}</a>
-        </div>
-        ${body}
-      </div>
-    </div>
-  </main>
-</body>
-</html>`
-}
-
-function renderPostTags(tags) {
-    if (!tags || tags.length === 0) return ''
-
-    const renderedTags = tags
-        .map((tag) => `<span class="tag" role="listitem">${escapeHtml(tag)}</span>`)
-        .join('')
-
-    return `<div class="blog-tags" role="list" aria-label="Article topics">${renderedTags}</div>`
-}
-
 function buildPostMeta(post) {
     return [formatDate(post.date), post.readTime].filter(Boolean).join(' | ')
 }
 
-function renderBlogSection({ description, ariaLabel, content }) {
-    return `<h1 class="window-title">${BLOG_PAGE_TITLE}</h1>
-<p class="description">${escapeHtml(description)}</p>
-<section class="blog-grid" role="list" aria-label="${escapeHtml(ariaLabel)}">
-  ${content}
-</section>`
-}
-
-function renderBlogIndexCard(post) {
-    const meta = buildPostMeta(post)
-    const slug = encodeURIComponent(post.slug)
-
-    return `<article class="blog-card" role="listitem">
-  <header class="blog-header">
-    <div class="blog-heading">
-      <p class="blog-meta">${escapeHtml(meta)}</p>
-      <h2 class="blog-title"><a class="blog-title-link" href="/blog/${slug}">${escapeHtml(post.title)}</a></h2>
-    </div>
-    <a class="project-link project-link-inline" href="/blog/${slug}">Read Article</a>
-  </header>
-  <p class="blog-excerpt">${escapeHtml(post.excerpt)}</p>
-  ${renderPostTags(post.tags)}
-</article>`
-}
-
-function renderBlogEmptyStateCard() {
-    return `<article class="blog-card" role="listitem">
-  <h2 class="blog-title">No posts yet</h2>
-  <p class="blog-excerpt">Add markdown files under <code>content/blog</code> to publish posts.</p>
-</article>`
-}
-
-function renderBlogArticleCard(post) {
-    const meta = buildPostMeta(post)
-    const renderedMarkdown = markdown.render(post.content)
-
-    return `<article class="blog-card" role="listitem">
-  <header class="blog-header">
-    <div class="blog-heading">
-      <p class="blog-meta">${escapeHtml(meta)}</p>
-      <h2 class="blog-title">${escapeHtml(post.title)}</h2>
-    </div>
-  </header>
-  <p class="blog-excerpt">${escapeHtml(post.excerpt)}</p>
-  <div class="blog-article blog-markdown">${renderedMarkdown}</div>
-  ${renderPostTags(post.tags)}
-</article>`
-}
-
-function renderBlogNotFoundCard() {
-    return `<article class="blog-card" role="listitem">
-  <h2 class="blog-title"><a class="blog-title-link" href="/blog">Go to Blog Index</a></h2>
-  <p class="blog-excerpt">Browse all published articles.</p>
-</article>`
+function buildPostViewModel(post) {
+    return {
+        ...post,
+        meta: buildPostMeta(post),
+        slugEncoded: encodeURIComponent(post.slug),
+        renderedMarkdown: markdown.render(post.content || ''),
+    }
 }
 
 app.disable('x-powered-by')
+app.set('view engine', 'ejs')
+app.set('views', VIEWS_DIR)
 app.use(compression())
 
 app.use((req, res, next) => {
@@ -256,23 +142,21 @@ app.get('/components/all.html', async (_req, res, next) => {
 app.get('/blog', async (_req, res, next) => {
     try {
         const posts = await getBlogPosts()
-        const cards = posts.map(renderBlogIndexCard).join('') || renderBlogEmptyStateCard()
-        const body = renderBlogSection({
+        const viewPosts = posts.map(buildPostViewModel)
+
+        res.render('blog/layout', {
+            pageTitle: 'Alan Bagel | Blog',
+            metaDescription:
+                'Engineering notes from Alan Bagel on building products, optimization work, and coding process.',
+            assetVersion: ASSET_VERSION,
+            backHref: '/',
+            backLabel: 'Back to Portfolio',
+            heading: BLOG_PAGE_TITLE,
             description: BLOG_INDEX_DESCRIPTION,
             ariaLabel: 'Blog articles',
-            content: cards,
+            contentTemplate: 'index',
+            contentData: { posts: viewPosts },
         })
-
-        res.send(
-            renderBlogLayout({
-                title: 'Alan Bagel | Blog',
-                description:
-                    'Engineering notes from Alan Bagel on building products, optimization work, and coding process.',
-                body,
-                backHref: '/',
-                backLabel: 'Back to Portfolio',
-            }),
-        )
     } catch (error) {
         next(error)
     }
@@ -286,40 +170,34 @@ app.get('/blog/:slug', async (req, res, next) => {
         const post = posts.find((item) => item.slug.toLowerCase() === requestedSlugLower)
 
         if (!post) {
-            const body = renderBlogSection({
+            res.status(404).render('blog/layout', {
+                pageTitle: 'Blog Post Not Found | Alan Bagel',
+                metaDescription: 'The blog post you requested does not exist.',
+                assetVersion: ASSET_VERSION,
+                backHref: '/blog',
+                backLabel: 'Back to Blog',
+                heading: BLOG_PAGE_TITLE,
                 description:
                     'That article does not exist. Check the blog index for available posts.',
                 ariaLabel: 'Missing post',
-                content: renderBlogNotFoundCard(),
+                contentTemplate: 'not-found',
+                contentData: {},
             })
-
-            res.status(404).send(
-                renderBlogLayout({
-                    title: 'Blog Post Not Found | Alan Bagel',
-                    description: 'The blog post you requested does not exist.',
-                    body,
-                    backHref: '/blog',
-                    backLabel: 'Back to Blog',
-                }),
-            )
             return
         }
 
-        const body = renderBlogSection({
+        res.render('blog/layout', {
+            pageTitle: `${post.title} | Alan Bagel`,
+            metaDescription: post.excerpt || 'Engineering notes from Alan Bagel.',
+            assetVersion: ASSET_VERSION,
+            backHref: '/blog',
+            backLabel: 'Back to Blog',
+            heading: BLOG_PAGE_TITLE,
             description: BLOG_ARTICLE_DESCRIPTION,
             ariaLabel: 'Blog article',
-            content: renderBlogArticleCard(post),
+            contentTemplate: 'post',
+            contentData: { post: buildPostViewModel(post) },
         })
-
-        res.send(
-            renderBlogLayout({
-                title: `${post.title} | Alan Bagel`,
-                description: post.excerpt || 'Engineering notes from Alan Bagel.',
-                body,
-                backHref: '/blog',
-                backLabel: 'Back to Blog',
-            }),
-        )
     } catch (error) {
         next(error)
     }
@@ -341,13 +219,11 @@ app.use(express.static(path.join(__dirname, '.'), {
     }
 }))
 
-app.get('*', async (_req, res, next) => {
-    try {
-        res.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
-        await serveIndexHtml(res)
-    } catch (error) {
-        next(error)
-    }
+app.use((_req, res) => {
+    res
+        .status(404)
+        .set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300')
+        .render('errors/404', { assetVersion: ASSET_VERSION })
 })
 
 if (!IS_VERCEL && require.main === module) {
