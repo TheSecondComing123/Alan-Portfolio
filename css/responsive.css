@@ -110,17 +110,13 @@
 }
 
 @media (min-width: 1200px) {
-    :is(#projects, #blog, #work, #technologies) {
+    :is(#projects, #blog, #work) {
         min-height: 78dvh;
         justify-content: center;
     }
 }
 
 @media (max-width: 900px) {
-    main {
-        padding-bottom: 148px;
-    }
-
     .window {
         padding: 44px 20px;
     }

@@ -25,6 +25,7 @@ html:not(.lenis) {
 }
 
 html.js-loading #app,
+html.js-loading .site-footer,
 html.js-loading nav {
     opacity: 0;
     visibility: hidden;
@@ -54,6 +55,10 @@ html.js-loading nav {
 #home .home-grid {
     position: relative;
     z-index: 2;
+}
+
+.window#technologies {
+    padding-bottom: clamp(18px, 3vh, 34px);
 }
 
 .window:not(#home) {
@@ -124,4 +129,21 @@ html.js-loading nav {
 
 :is(#projects, #blog, #work, #technologies) {
     align-items: stretch;
+}
+
+.site-footer {
+    width: min(1380px, 100%);
+    margin: 0 auto;
+    padding: 6px clamp(20px, 4.6vw, 72px) 112px;
+    text-align: center;
+    color: var(--muted);
+    display: block;
+}
+
+.site-footer-line {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
 }
