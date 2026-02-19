@@ -9,21 +9,13 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const IS_VERCEL = Boolean(process.env.VERCEL)
 const BLOG_DIR = path.join(__dirname, 'content', 'blog')
-const COMPONENTS_DIR = path.join(__dirname, 'components')
 const VIEWS_DIR = path.join(__dirname, 'views')
-const PORTFOLIO_SECTION_IDS = ['home', 'projects', 'work', 'technologies']
 const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
 const ASSET_VERSION = '20260220'
-const INDEX_HTML_PATH = path.join(__dirname, 'index.html')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
-
-async function serveIndexHtml(res) {
-    const html = await fs.readFile(INDEX_HTML_PATH, 'utf8')
-    res.type('html').send(html.replaceAll('__VER__', ASSET_VERSION))
-}
 
 function parseDateInput(input) {
     if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
@@ -124,21 +116,6 @@ app.get(/^\/node_modules\//, (_req, res) => {
     res.status(403).send('Access Denied')
 })
 
-app.get('/components/all.html', async (_req, res, next) => {
-    try {
-        const htmlParts = await Promise.all(
-            PORTFOLIO_SECTION_IDS.map((id) =>
-                fs.readFile(path.join(COMPONENTS_DIR, `${id}.html`), 'utf8'),
-            ),
-        )
-        res.type('html')
-        res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
-        res.send(htmlParts.join(''))
-    } catch (error) {
-        next(error)
-    }
-})
-
 app.get('/blog', async (_req, res, next) => {
     try {
         const posts = await getBlogPosts()
@@ -205,10 +182,14 @@ app.get('/blog/:slug', async (req, res, next) => {
 
 app.get('/', async (_req, res, next) => {
     try {
-        await serveIndexHtml(res)
+        res.render('portfolio/index', { assetVersion: ASSET_VERSION })
     } catch (error) {
         next(error)
     }
+})
+
+app.get('/index.html', (_req, res) => {
+    res.redirect(301, '/')
 })
 
 app.use(express.static(path.join(__dirname, '.'), {

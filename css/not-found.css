@@ -51,8 +51,6 @@ body.not-found-page {
     text-transform: uppercase;
     color: var(--primary);
     font-weight: 500;
-    padding-top: 12px;
-    border-top: 2px solid var(--primary);
     position: relative;
     z-index: 3;
 }

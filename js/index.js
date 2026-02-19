@@ -111,26 +111,7 @@ function initializeSmoothScroll() {
 }
 
 async function loadComponents() {
-    try {
-        const bundledResponse = await fetch('/components/all.html')
-        if (!bundledResponse.ok) {
-            throw new Error(`Failed to fetch bundled components: ${bundledResponse.status}`)
-        }
-        app.innerHTML = await bundledResponse.text()
-        return
-    } catch {
-        const htmlParts = await Promise.all(
-            SECTION_IDS.map(async (id) => {
-                const response = await fetch(`components/${id}.html`)
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch component "${id}": ${response.status}`)
-                }
-                return response.text()
-            }),
-        )
-
-        app.innerHTML = htmlParts.join('')
-    }
+    // Portfolio sections are server-rendered via EJS partials.
 }
 
 function initializeNavigationHandlers() {
