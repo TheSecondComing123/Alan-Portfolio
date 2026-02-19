@@ -2,7 +2,7 @@
 title: Optimizing Microcosm for Smooth Combat Under Load
 date: 2026-02-15
 readTime: 7 min read
-excerpt: "How I optimized Microcosm so late-run combat stays smooth, responsive, and fair under heavy load."
+excerpt: 'How I optimized Microcosm so late-run combat stays smooth, responsive, and fair under heavy load.'
 tags:
     - Python
     - Pygame

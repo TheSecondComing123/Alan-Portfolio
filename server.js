@@ -192,17 +192,18 @@ app.get('/index.html', (_req, res) => {
     res.redirect(301, '/')
 })
 
-app.use(express.static(path.join(__dirname, '.'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
-        }
-    }
-}))
+app.use(
+    express.static(path.join(__dirname, '.'), {
+        setHeaders: (res, filePath) => {
+            if (filePath.endsWith('.html')) {
+                res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+            }
+        },
+    }),
+)
 
 app.use((_req, res) => {
-    res
-        .status(404)
+    res.status(404)
         .set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300')
         .render('errors/404', { assetVersion: ASSET_VERSION })
 })

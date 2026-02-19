@@ -2,7 +2,7 @@
 title: How I Built ACSL Academy
 date: 2026-02-15
 readTime: 8 min read
-excerpt: "I built ACSL Academy to remove guesswork from prep with a clear loop: learn, practice, compete, review."
+excerpt: 'I built ACSL Academy to remove guesswork from prep with a clear loop: learn, practice, compete, review.'
 tags:
     - Next.js
     - Supabase

@@ -2,7 +2,7 @@
 title: What Competitive Programming Changed About How I Code
 date: 2026-02-15
 readTime: 6 min read
-excerpt: "Competitive programming sharpened my engineering process: clearer constraints, stronger validation, fewer avoidable failures."
+excerpt: 'Competitive programming sharpened my engineering process: clearer constraints, stronger validation, fewer avoidable failures.'
 tags:
     - Competitive Programming
     - Engineering Process

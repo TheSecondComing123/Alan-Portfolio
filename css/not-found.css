@@ -2,7 +2,6 @@ body.not-found-page {
     background: var(--bg);
 }
 
-
 .not-found-card-panel .hero-background {
     position: absolute;
     inset: 0;

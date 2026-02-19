@@ -8,8 +8,7 @@ function isScrollableElement(element) {
     if (!element || !(element instanceof Element)) return false
     const style = window.getComputedStyle(element)
     const overflowY = style.overflowY
-    const canScrollY =
-        overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay'
+    const canScrollY = overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay'
     return canScrollY && element.scrollHeight > element.clientHeight
 }
 
