@@ -1,5 +1,6 @@
 const express = require('express')
 const compression = require('compression')
+const crypto = require('crypto')
 const fs = require('fs/promises')
 const path = require('path')
 const matter = require('gray-matter')
@@ -97,12 +98,15 @@ app.set('views', VIEWS_DIR)
 app.use(compression())
 
 app.use((req, res, next) => {
+    const cspNonce = crypto.randomBytes(16).toString('base64')
+    res.locals.cspNonce = cspNonce
+
     res.setHeader('X-Content-Type-Options', 'nosniff')
     res.setHeader('X-Frame-Options', 'SAMEORIGIN')
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
     res.setHeader(
         'Content-Security-Policy',
-        "default-src 'self'; script-src 'self' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;",
+        `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;`,
     )
 
     if (req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/i)) {
@@ -182,7 +186,10 @@ app.get('/blog/:slug', async (req, res, next) => {
 
 app.get('/', async (_req, res, next) => {
     try {
-        res.render('portfolio/index', { assetVersion: ASSET_VERSION })
+        res.render('portfolio/index', {
+            assetVersion: ASSET_VERSION,
+            cspNonce: res.locals.cspNonce,
+        })
     } catch (error) {
         next(error)
     }

@@ -24,7 +24,7 @@
   />
   <meta property="og:locale" content="en_US" />
 
-  <script type="application/ld+json">
+  <script type="application/ld+json"<% if (typeof cspNonce !== 'undefined' && cspNonce) { %> nonce="<%= cspNonce %>"<% } %>>
     {
       "@context": "https://schema.org",
       "@type": "Person",
@@ -53,16 +53,8 @@
 
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
-    rel="preload"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
+    rel="stylesheet"
   />
-  <noscript>
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </noscript>
 
   <script src="https://unpkg.com/lucide@0.563.0" defer></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css" />
