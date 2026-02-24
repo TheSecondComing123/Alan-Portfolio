@@ -10,6 +10,7 @@
                     "css/**",
                     "images/**",
                     "js/**",
+                    "node_modules/lenis/dist/**",
                     "views/**",
                     "robots.txt"
                 ]

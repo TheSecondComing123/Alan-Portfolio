@@ -1,10 +1,16 @@
 const SECTION_IDS = ['home', 'projects', 'work', 'technologies']
+const HOMEPAGE_FONT_STYLESHEET =
+    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
 const assetVersion = document.body?.dataset.assetVersion || ''
 let lenis
 
 function prefersReducedMotion() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+function isMobileViewport() {
+    return window.matchMedia('(max-width: 900px)').matches
 }
 
 async function init() {
@@ -26,9 +32,14 @@ async function init() {
 
 function scheduleNonCriticalInitialization() {
     const run = async () => {
-        await loadEnhancementScripts()
-        initializeSmoothScroll()
-        initializeRevealAnimations()
+        const shouldLoadHeavyEnhancements = !isMobileViewport() && !prefersReducedMotion()
+
+        if (shouldLoadHeavyEnhancements) {
+            await loadEnhancementScripts()
+            initializeSmoothScroll()
+            initializeRevealAnimations()
+        }
+
         initializeScrollObserver()
         initializeHeroBackgroundTransition()
     }
@@ -54,7 +65,8 @@ function scheduleNonCriticalInitialization() {
 
 function scheduleDeferredAssets() {
     const run = async () => {
-        await Promise.allSettled([loadLucideScript(), loadDeviconStylesheet()])
+        scheduleDeviconStylesheetWhenNeeded()
+        await Promise.allSettled([loadHomepageFontStylesheet(), loadLucideScript()])
 
         if (typeof window.lucide !== 'undefined') {
             window.lucide.createIcons()
@@ -67,6 +79,53 @@ function scheduleDeferredAssets() {
     }
 
     window.setTimeout(() => void run(), 250)
+}
+
+function loadHomepageFontStylesheet() {
+    if (document.getElementById('homepage-font-stylesheet')) return
+
+    const link = document.createElement('link')
+    link.id = 'homepage-font-stylesheet'
+    link.rel = 'stylesheet'
+    link.href = HOMEPAGE_FONT_STYLESHEET
+    document.head.appendChild(link)
+}
+
+function scheduleDeviconStylesheetWhenNeeded() {
+    if (!document.querySelector('.technology-card i[class*="devicon-"]')) return
+    if (document.getElementById('devicon-stylesheet')) return
+
+    const technologiesSection = document.getElementById('technologies')
+    if (!technologiesSection) {
+        loadDeviconStylesheet()
+        return
+    }
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (!entries.some((entry) => entry.isIntersecting)) return
+                observer.disconnect()
+                loadDeviconStylesheet()
+            },
+            { rootMargin: '400px 0px' },
+        )
+        observer.observe(technologiesSection)
+        return
+    }
+
+    const loadOnScroll = () => {
+        const rect = technologiesSection.getBoundingClientRect()
+        if (rect.top > window.innerHeight + 400) return
+
+        window.removeEventListener('scroll', loadOnScroll)
+        window.removeEventListener('resize', loadOnScroll)
+        loadDeviconStylesheet()
+    }
+
+    window.addEventListener('scroll', loadOnScroll, { passive: true })
+    window.addEventListener('resize', loadOnScroll)
+    loadOnScroll()
 }
 
 function loadDeviconStylesheet() {

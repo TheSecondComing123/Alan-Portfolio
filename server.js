@@ -15,8 +15,9 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260224g'
+const ASSET_VERSION = '20260224h'
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
+const LENIS_DIST_DIR = path.join(__dirname, 'node_modules', 'lenis', 'dist')
 
 function parseDateInput(input) {
     if (typeof input === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
@@ -119,6 +120,14 @@ app.use((req, res, next) => {
     }
 
     next()
+})
+
+app.get('/js/vendor/lenis.min.js', (_req, res) => {
+    res.sendFile(path.join(LENIS_DIST_DIR, 'lenis.min.js'))
+})
+
+app.get('/js/vendor/lenis.min.js.map', (_req, res) => {
+    res.sendFile(path.join(LENIS_DIST_DIR, 'lenis.min.js.map'))
 })
 
 app.get(/^\/node_modules\//, (_req, res) => {
