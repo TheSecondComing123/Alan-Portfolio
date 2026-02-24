@@ -1,3 +1,25 @@
+@keyframes blogCardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes blogBodyReveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Blog page animations */
 body.blog-page .blog-grid .blog-card {
     animation: blogCardReveal 0.58s ease both;

@@ -1,5 +1,6 @@
 const SECTION_IDS = ['home', 'projects', 'work', 'technologies']
 const app = document.getElementById('app')
+const assetVersion = document.body?.dataset.assetVersion || ''
 let lenis
 
 function prefersReducedMotion() {
@@ -11,13 +12,10 @@ async function init() {
 
     try {
         await loadComponents()
+        scheduleDeferredAssets()
         initializeNavigationIcons()
         initializeNavigationHandlers()
         setCurrentButton('home')
-
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons()
-        }
 
         revealPortfolioShell()
         scheduleNonCriticalInitialization()
@@ -27,7 +25,8 @@ async function init() {
 }
 
 function scheduleNonCriticalInitialization() {
-    const run = () => {
+    const run = async () => {
+        await loadEnhancementScripts()
         initializeSmoothScroll()
         initializeRevealAnimations()
         initializeScrollObserver()
@@ -37,7 +36,9 @@ function scheduleNonCriticalInitialization() {
     if ('requestIdleCallback' in window) {
         window.requestIdleCallback(
             () => {
-                window.requestAnimationFrame(run)
+                window.requestAnimationFrame(() => {
+                    void run()
+                })
             },
             { timeout: 700 },
         )
@@ -45,8 +46,84 @@ function scheduleNonCriticalInitialization() {
     }
 
     window.setTimeout(() => {
-        window.requestAnimationFrame(run)
+        window.requestAnimationFrame(() => {
+            void run()
+        })
     }, 0)
+}
+
+function scheduleDeferredAssets() {
+    const run = async () => {
+        await Promise.allSettled([loadLucideScript(), loadDeviconStylesheet()])
+
+        if (typeof window.lucide !== 'undefined') {
+            window.lucide.createIcons()
+        }
+    }
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => void run(), { timeout: 1200 })
+        return
+    }
+
+    window.setTimeout(() => void run(), 250)
+}
+
+function loadDeviconStylesheet() {
+    if (!document.querySelector('.technology-card i[class*="devicon-"]')) return
+    if (document.getElementById('devicon-stylesheet')) return
+
+    const link = document.createElement('link')
+    link.id = 'devicon-stylesheet'
+    link.rel = 'stylesheet'
+    link.href = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css'
+    document.head.appendChild(link)
+}
+
+function loadLucideScript() {
+    return loadScript('https://unpkg.com/lucide@0.563.0')
+}
+
+async function loadEnhancementScripts() {
+    await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js').catch(() => {})
+    await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js').catch(() => {})
+    await Promise.allSettled([
+        loadScript(versionedAssetPath('/js/vendor/lenis.min.js')),
+        loadScript(versionedAssetPath('/js/gol.js')),
+    ])
+}
+
+function versionedAssetPath(path) {
+    if (!assetVersion) return path
+    return `${path}?v=${encodeURIComponent(assetVersion)}`
+}
+
+function loadScript(src) {
+    const existing = document.querySelector(`script[src="${CSS.escape(src)}"]`)
+    if (existing) {
+        if (existing.dataset.loaded === 'true') return Promise.resolve()
+
+        return new Promise((resolve, reject) => {
+            existing.addEventListener('load', () => resolve(), { once: true })
+            existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true })
+        })
+    }
+
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = src
+        script.defer = true
+        script.addEventListener(
+            'load',
+            () => {
+                script.dataset.loaded = 'true'
+                resolve()
+            },
+            { once: true },
+        )
+        script.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true })
+        document.head.appendChild(script)
+    })
 }
 
 function revealPortfolioShell() {
@@ -120,6 +197,7 @@ function initializeNavigationIcons() {
 
     for (const [buttonId, iconName] of Object.entries(iconMap)) {
         const button = document.getElementById(buttonId)
+        if (!button) continue
         const icon = document.createElement('i')
         icon.setAttribute('data-lucide', iconName)
         icon.className = 'icon'

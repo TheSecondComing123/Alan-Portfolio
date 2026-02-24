@@ -15,7 +15,7 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260221'
+const ASSET_VERSION = '20260224f'
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 
 function parseDateInput(input) {
@@ -106,11 +106,16 @@ app.use((req, res, next) => {
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
     res.setHeader(
         'Content-Security-Policy',
-        `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;`,
+        `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; connect-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;`,
     )
 
     if (req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/i)) {
-        res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+        const hasVersionQuery = typeof req.query.v === 'string' && req.query.v.length > 0
+        if (hasVersionQuery) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+        } else {
+            res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
+        }
     }
 
     next()
