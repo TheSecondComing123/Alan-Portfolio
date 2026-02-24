@@ -15,7 +15,7 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260224f'
+const ASSET_VERSION = '20260224g'
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 
 function parseDateInput(input) {

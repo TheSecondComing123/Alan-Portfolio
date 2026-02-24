@@ -96,7 +96,9 @@ html:not(.lenis) {
 
 #home {
     position: relative;
-    min-height: min(920px, 92dvh);
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
     justify-content: center;
 }
 
@@ -724,7 +726,9 @@ nav {
     }
 
     #home {
-        min-height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
+        min-height: 100dvh;
     }
 
     #home .window-title,
