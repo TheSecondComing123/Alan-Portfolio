@@ -40,21 +40,10 @@
     }
   </script>
 
-  <script>
-    document.documentElement.classList.add('js-loading')
-  </script>
   <link rel="stylesheet" href="/css/index.css?v=<%= assetVersion %>" />
   <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
   <link rel="icon" type="image/png" href="/images/favicon.png" />
   <link rel="prefetch" href="/blog" />
-
-  <link
-    rel="preload"
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
-    as="style"
-  />
-
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" as="script" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -64,8 +53,16 @@
 
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
-    rel="stylesheet"
+    rel="preload"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
 
   <script src="https://unpkg.com/lucide@0.563.0" defer></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css" />

@@ -260,9 +260,27 @@
         setTimeout(() => queueStart(attempt + 1), START_RETRY_MS)
     }
 
+    function startWhenReady() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        const isMobileViewport = window.matchMedia('(max-width: 768px)').matches
+        if (!isMobileViewport) {
+            queueStart()
+            return
+        }
+
+        const run = () => queueStart()
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(run, { timeout: 1200 })
+            return
+        }
+
+        setTimeout(run, 300)
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => queueStart())
+        document.addEventListener('DOMContentLoaded', startWhenReady)
     } else {
-        queueStart()
+        startWhenReady()
     }
 })()

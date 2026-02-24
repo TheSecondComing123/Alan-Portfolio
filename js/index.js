@@ -50,22 +50,7 @@ function scheduleNonCriticalInitialization() {
 }
 
 function revealPortfolioShell() {
-    const targets = [app, document.querySelector('nav')].filter(Boolean)
-
-    if (typeof window.gsap !== 'undefined' && targets.length > 0) {
-        window.gsap.set(targets, { autoAlpha: 0 })
-    }
-
     document.documentElement.classList.remove('js-loading')
-
-    if (typeof window.gsap !== 'undefined' && targets.length > 0) {
-        window.gsap.to(targets, {
-            autoAlpha: 1,
-            duration: 0.24,
-            ease: 'power1.out',
-            clearProps: 'opacity,visibility',
-        })
-    }
 }
 
 function initializeSmoothScroll() {

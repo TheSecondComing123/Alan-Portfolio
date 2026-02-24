@@ -24,14 +24,6 @@ html:not(.lenis) {
     pointer-events: none;
 }
 
-html.js-loading #app,
-html.js-loading .site-footer,
-html.js-loading nav {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
 /* Shared section shell */
 .window {
     width: min(1380px, 100%);
