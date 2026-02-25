@@ -102,31 +102,6 @@ html:not(.lenis) {
     justify-content: center;
 }
 
-#home::before,
-#home::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-#home::before {
-    background:
-        radial-gradient(78% 92% at 14% 40%, hsl(0 0% 4% / 0.52), transparent 70%),
-        radial-gradient(88% 70% at 88% 86%, hsl(0 0% 3% / 0.28), transparent 74%),
-        linear-gradient(180deg, hsl(0 0% 3% / 0.18), transparent 22%, transparent 76%, hsl(0 0% 3% / 0.24));
-}
-
-#home::after {
-    inset: 10% auto 10% 0;
-    width: min(58%, 760px);
-    background:
-        radial-gradient(100% 86% at 18% 42%, hsl(0 0% 4% / 0.42), transparent 72%),
-        linear-gradient(90deg, hsl(0 0% 5% / 0.16), transparent 72%);
-    filter: blur(2px);
-}
-
 #home .home-grid {
     position: relative;
     z-index: 2;
