@@ -112,7 +112,9 @@
             for (let y = 0; y < rows; y++) {
                 const neighbors = countNeighbors(x, y)
                 nextGrid[x][y].alive =
-                    grid[x][y].alive ? neighbors === 2 || neighbors === 3 : neighbors === 3
+                    grid[x][y].alive
+                        ? neighbors === 2 || neighbors === 3
+                        : neighbors === 3 || neighbors === 6
                 if (nextGrid[x][y].alive) aliveCount++
             }
         }
