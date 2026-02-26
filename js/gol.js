@@ -4,7 +4,11 @@
     const CONFIG = {
         cellSize: 12,
         updateInterval: 150,
-        colors: { alive: '#7cc77c', dead: 'rgb(28, 28, 28)', grid: 'rgba(255, 255, 255, 0.05)' },
+        colors: {
+            alive: 'hsl(120 41% 63%)',
+            dead: 'hsl(0 0% 11%)',
+            grid: 'hsl(0 0% 100% / 0.05)',
+        },
         trailDecay: 0.86,
         trailMin: 0.04,
         trailStrength: 0.56,
@@ -142,7 +146,7 @@
                     trailGrid[x][y] = nextTrail
                     if (nextTrail > CONFIG.trailMin) {
                         const alpha = Math.min(1, nextTrail * CONFIG.trailStrength)
-                        ctx.fillStyle = `rgba(124, 199, 124, ${alpha.toFixed(3)})`
+                        ctx.fillStyle = `hsl(120 41% 63% / ${alpha.toFixed(3)})`
                         ctx.fillRect(
                             x * CONFIG.cellSize,
                             y * CONFIG.cellSize,
