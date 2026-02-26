@@ -3,6 +3,7 @@ let targetY = currentY
 let wheelFrameId = null
 let anchorFrameId = null
 let isWheelSmoothing = false
+let lenis = null
 
 function isScrollableElement(element) {
     if (!element || !(element instanceof Element)) return false
@@ -65,6 +66,14 @@ function onScroll() {
 }
 
 function smoothScrollTo(y, duration = 900) {
+    if (lenis) {
+        lenis.scrollTo(clampToPage(y), {
+            duration: Math.max(0.35, duration / 1000),
+            easing: EASE_OUT_EXPO,
+        })
+        return
+    }
+
     if (anchorFrameId) {
         window.cancelAnimationFrame(anchorFrameId)
     }
@@ -121,6 +130,39 @@ function initAnchorScroll() {
 }
 
 function initializeSmoothScroll() {
+    const prefersReducedMotion =
+        typeof window.matchMedia === 'function' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (!prefersReducedMotion && typeof window.Lenis !== 'undefined') {
+        lenis = new window.Lenis({
+            duration: 1.25,
+            easing: EASE_OUT_EXPO,
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            syncTouch: true,
+            touchMultiplier: 1.7,
+            wheelMultiplier: 1.0,
+            infinite: false,
+        })
+
+        document.documentElement.classList.add('lenis')
+
+        const raf = (time) => {
+            if (!lenis) return
+            lenis.raf(time)
+            window.requestAnimationFrame(raf)
+        }
+        window.requestAnimationFrame(raf)
+
+        window.addEventListener('resize', () => {
+            if (lenis) lenis.resize()
+        })
+
+        return
+    }
+
     document.documentElement.classList.add('lenis')
     window.addEventListener('wheel', onWheel, { passive: false })
     window.addEventListener('scroll', onScroll, { passive: true })

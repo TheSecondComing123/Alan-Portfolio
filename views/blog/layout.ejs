@@ -21,6 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="prefetch" href="<%= backHref %>" />
   <script src="/js/utils.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/vendor/lenis.min.js?v=<%= assetVersion %>" defer></script>
   <script src="/js/blog.js?v=<%= assetVersion %>" defer></script>
 </head>
 <body class="blog-page">
@@ -30,8 +31,10 @@
         <div class="blog-page-actions">
           <a class="project-link blog-back-link" href="<%= backHref %>"><%= backLabel %></a>
         </div>
-        <h1 class="window-title"><%= heading %></h1>
-        <p class="description"><%= description %></p>
+        <% if (contentTemplate !== 'post') { %>
+          <h1 class="window-title"><%= heading %></h1>
+          <p class="description"><%= description %></p>
+        <% } %>
         <section class="blog-grid" role="list" aria-label="<%= ariaLabel %>">
           <%- include(contentTemplate, contentData) %>
         </section>
