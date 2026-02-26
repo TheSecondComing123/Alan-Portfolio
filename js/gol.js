@@ -197,12 +197,12 @@
     function resize() {
         if (!canvas) return
         const hero = document.getElementById('home')
-        const container = canvas.parentElement
         const viewportWidth = window.innerWidth || document.documentElement.clientWidth
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight
         const heroHeight = hero ? hero.offsetHeight : viewportHeight
-        const targetWidth = container ? container.clientWidth : viewportWidth
-        const targetHeight = container ? container.clientHeight : heroHeight
+        const rect = canvas.getBoundingClientRect()
+        const targetWidth = Math.round(rect.width || viewportWidth)
+        const targetHeight = Math.round(rect.height || heroHeight)
         canvas.width = Math.max(1, targetWidth)
         canvas.height = Math.max(1, targetHeight)
         initGrid()
