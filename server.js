@@ -16,6 +16,8 @@ const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
 const ASSET_VERSION = '20260224r'
+const DEFAULT_SITE_URL = 'https://alanthebagel.com'
+const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 const LENIS_DIST_DIR = path.join(__dirname, 'node_modules', 'lenis', 'dist')
 
@@ -33,6 +35,12 @@ function formatDate(input) {
     if (Number.isNaN(parsed.getTime())) return ''
 
     return parsed.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
+function formatIsoDate(input) {
+    const parsed = parseDateInput(input)
+    if (Number.isNaN(parsed.getTime())) return ''
+    return parsed.toISOString()
 }
 
 async function getBlogPosts() {
@@ -143,6 +151,9 @@ app.get('/blog', async (_req, res, next) => {
             pageTitle: 'Alan Bagel | Blog',
             metaDescription:
                 'Engineering notes from Alan Bagel on building products, optimization work, and coding process.',
+            canonicalUrl: `${SITE_URL}/blog`,
+            ogUrl: `${SITE_URL}/blog`,
+            ogType: 'website',
             assetVersion: ASSET_VERSION,
             backHref: '/',
             backLabel: 'Back to Portfolio',
@@ -151,6 +162,26 @@ app.get('/blog', async (_req, res, next) => {
             ariaLabel: 'Blog articles',
             contentTemplate: 'index',
             contentData: { posts: viewPosts },
+            structuredData: [
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'BreadcrumbList',
+                    itemListElement: [
+                        {
+                            '@type': 'ListItem',
+                            position: 1,
+                            name: 'Home',
+                            item: `${SITE_URL}/`,
+                        },
+                        {
+                            '@type': 'ListItem',
+                            position: 2,
+                            name: 'Blog',
+                            item: `${SITE_URL}/blog`,
+                        },
+                    ],
+                },
+            ],
         })
     } catch (error) {
         next(error)
@@ -184,6 +215,9 @@ app.get('/blog/:slug', async (req, res, next) => {
         res.render('blog/layout', {
             pageTitle: `${post.title} | Alan Bagel`,
             metaDescription: post.excerpt || 'Engineering notes from Alan Bagel.',
+            canonicalUrl: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+            ogUrl: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+            ogType: 'article',
             assetVersion: ASSET_VERSION,
             backHref: '/blog',
             backLabel: 'Back to Blog',
@@ -192,6 +226,53 @@ app.get('/blog/:slug', async (req, res, next) => {
             ariaLabel: 'Blog article',
             contentTemplate: 'post',
             contentData: { post: buildPostViewModel(post) },
+            structuredData: [
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'BreadcrumbList',
+                    itemListElement: [
+                        {
+                            '@type': 'ListItem',
+                            position: 1,
+                            name: 'Home',
+                            item: `${SITE_URL}/`,
+                        },
+                        {
+                            '@type': 'ListItem',
+                            position: 2,
+                            name: 'Blog',
+                            item: `${SITE_URL}/blog`,
+                        },
+                        {
+                            '@type': 'ListItem',
+                            position: 3,
+                            name: post.title,
+                            item: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                        },
+                    ],
+                },
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'BlogPosting',
+                    headline: post.title,
+                    description: post.excerpt || 'Engineering notes from Alan Bagel.',
+                    author: {
+                        '@type': 'Person',
+                        name: 'Alan Bagel',
+                        url: `${SITE_URL}/`,
+                    },
+                    publisher: {
+                        '@type': 'Person',
+                        name: 'Alan Bagel',
+                        url: `${SITE_URL}/`,
+                    },
+                    datePublished: formatIsoDate(post.date),
+                    dateModified: formatIsoDate(post.date),
+                    mainEntityOfPage: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                    url: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                    keywords: Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
+                },
+            ],
         })
     } catch (error) {
         next(error)

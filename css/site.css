@@ -284,12 +284,44 @@ html:not(.lenis) {
     color: var(--text);
 }
 
+.project-heading {
+    display: grid;
+    gap: 4px;
+}
+
+.project-card-badge {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: hsl(127 42% 80%);
+}
+
+.project-card-badge-muted {
+    color: var(--muted);
+}
+
 .project-description,
 .work-description {
     font-size: 0.96rem;
     line-height: 1.7;
     color: var(--muted);
     max-width: 66ch;
+}
+
+.project-role-line,
+.work-role-line {
+    margin: -2px 0 0;
+    color: hsl(0 0% 82%);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.project-role-line strong,
+.work-role-line strong {
+    color: var(--text);
+    font-weight: 600;
 }
 
 .blog-meta,

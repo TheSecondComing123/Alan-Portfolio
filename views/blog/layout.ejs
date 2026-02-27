@@ -7,10 +7,24 @@
   <meta name="description" content="<%= metaDescription %>" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1b211b" />
-  <meta property="og:type" content="website" />
+  <% if (typeof canonicalUrl === 'string' && canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <meta property="og:type" content="<%= (typeof ogType === 'string' && ogType) ? ogType : 'website' %>" />
   <meta property="og:title" content="<%= pageTitle %>" />
   <meta property="og:description" content="<%= metaDescription %>" />
   <meta property="og:locale" content="en_US" />
+  <% if (typeof ogUrl === 'string' && ogUrl) { %>
+    <meta property="og:url" content="<%= ogUrl %>" />
+  <% } %>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= pageTitle %>" />
+  <meta name="twitter:description" content="<%= metaDescription %>" />
+  <% if (typeof structuredData !== 'undefined' && Array.isArray(structuredData)) { %>
+    <% structuredData.forEach((item) => { %>
+      <script type="application/ld+json"<% if (typeof cspNonce !== 'undefined' && cspNonce) { %> nonce="<%= cspNonce %>"<% } %>><%- JSON.stringify(item) %></script>
+    <% }) %>
+  <% } %>
   <link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>" />
   <link rel="stylesheet" href="/css/blog-page.css?v=<%= assetVersion %>" />
   <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
