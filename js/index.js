@@ -19,6 +19,7 @@ async function init() {
     try {
         await loadComponents()
         scheduleDeferredAssets()
+        scheduleHomepageFonts()
         initializeNavigationIcons()
         initializeNavigationHandlers()
         setCurrentButton('home')
@@ -66,7 +67,7 @@ function scheduleNonCriticalInitialization() {
 function scheduleDeferredAssets() {
     const run = async () => {
         scheduleDeviconStylesheetWhenNeeded()
-        await Promise.allSettled([loadHomepageFontStylesheet(), loadLucideScript()])
+        await Promise.allSettled([loadLucideScript()])
 
         if (typeof window.lucide !== 'undefined') {
             window.lucide.createIcons()
@@ -79,6 +80,28 @@ function scheduleDeferredAssets() {
     }
 
     window.setTimeout(() => void run(), 250)
+}
+
+function scheduleHomepageFonts() {
+    const run = () => {
+        loadHomepageFontStylesheet()
+    }
+
+    const schedule = () => {
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(run, { timeout: 2000 })
+            return
+        }
+
+        window.setTimeout(run, 1200)
+    }
+
+    if (document.readyState === 'complete') {
+        schedule()
+        return
+    }
+
+    window.addEventListener('load', schedule, { once: true })
 }
 
 function loadHomepageFontStylesheet() {
