@@ -35,6 +35,8 @@ function scheduleNonCriticalInitialization() {
     const run = async () => {
         const shouldLoadHeavyEnhancements = !isMobileViewport() && !prefersReducedMotion()
 
+        loadScript(versionedAssetPath('/js/gol.js')).catch(() => {})
+
         if (shouldLoadHeavyEnhancements) {
             await loadEnhancementScripts()
             initializeSmoothScroll()
@@ -169,10 +171,7 @@ function loadLucideScript() {
 async function loadEnhancementScripts() {
     await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js').catch(() => {})
     await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js').catch(() => {})
-    await Promise.allSettled([
-        loadScript(versionedAssetPath('/js/vendor/lenis.min.js')),
-        loadScript(versionedAssetPath('/js/gol.js')),
-    ])
+    await loadScript(versionedAssetPath('/js/vendor/lenis.min.js')).catch(() => {})
 }
 
 function versionedAssetPath(path) {
