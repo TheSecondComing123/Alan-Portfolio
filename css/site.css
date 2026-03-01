@@ -292,18 +292,6 @@ html:not(.lenis) {
     max-width: 66ch;
 }
 
-.work-role-line {
-    margin: -2px 0 0;
-    color: hsl(0 0% 82%);
-    font-size: 0.8rem;
-    line-height: 1.5;
-}
-
-.work-role-line strong {
-    color: var(--text);
-    font-weight: 600;
-}
-
 .blog-meta,
 .work-meta {
     font-size: 0.66rem;
