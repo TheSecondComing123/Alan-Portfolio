@@ -492,7 +492,7 @@ function setCurrentButton(id) {
 
     const active = document.getElementById(`btn-${id}`)
     if (active) {
-        active.setAttribute('aria-current', 'page')
+        active.setAttribute('aria-current', 'location')
     }
 }
 

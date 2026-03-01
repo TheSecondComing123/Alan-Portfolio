@@ -710,10 +710,10 @@ a.project-link:focus-visible {
 }
 
 /* Navigation */
-nav {
+.dockbar {
     position: fixed;
     left: 50%;
-    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%) translateZ(0);
     z-index: 30;
     display: flex;
@@ -785,11 +785,11 @@ nav {
     outline-offset: 2px;
 }
 
-.nav-button[aria-current='page'] {
+.nav-button[aria-current='location'] {
     color: var(--on-primary-container);
 }
 
-.nav-button[aria-current='page']::after {
+.nav-button[aria-current='location']::after {
     opacity: 1;
 }
 
@@ -876,6 +876,16 @@ nav {
     .contact-panel {
         max-width: 820px;
         margin-inline: auto;
+    }
+
+    .contact-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .contact-item {
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: 5px;
     }
 
     .work-grid {
@@ -990,14 +1000,18 @@ nav {
         padding: 44px 20px;
     }
 
+    .contact-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .technology-card {
         flex-basis: 116px;
     }
 }
 
 @media (max-width: 768px) {
-    nav {
-        bottom: 14px;
+    .dockbar {
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
         transform: translateX(-50%);
         width: calc(100% - 24px);
         max-width: 420px;
@@ -1044,12 +1058,6 @@ nav {
         font-size: 0.82rem;
     }
 
-    .contact-item {
-        grid-template-columns: 1fr;
-        align-items: start;
-        gap: 5px;
-    }
-
     #work.section-work .work-grid::before {
         display: none;
     }
@@ -1060,6 +1068,12 @@ nav {
 
     #work.section-work .work-card::before {
         display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .contact-list {
+        grid-template-columns: 1fr;
     }
 }
 
