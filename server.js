@@ -15,7 +15,7 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260224r'
+const ASSET_VERSION = '20260224_6741'
 const DEFAULT_SITE_URL = 'https://alanthebagel.com'
 const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })

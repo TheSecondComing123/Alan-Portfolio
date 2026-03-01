@@ -344,26 +344,27 @@ function initializeRevealAnimations() {
             selector: '.hero-kicker, .window-title, .window-subtitle, .description',
             at: 0,
             prepare(gsap, elements) {
-                gsap.set(elements, { autoAlpha: 0, y: 24, filter: 'blur(4px)' })
+                gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
             },
             to: {
                 autoAlpha: 1,
                 y: 0,
                 filter: 'blur(0px)',
-                duration: 0.62,
-                ease: 'power3.out',
-                stagger: { each: 0.075, from: 'start' },
+                duration: 0.7,
+                ease: 'expo.out',
+                stagger: { each: 0.07, from: 'start' },
             },
         },
         {
             selector: '.contact-panel, .project-card, .work-card',
-            at: 0.12,
+            at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
                     autoAlpha: 0,
-                    y: 28,
-                    scale: 0.985,
-                    rotationX: 5,
+                    y: 32,
+                    scale: 0.98,
+                    rotationX: 6,
+                    filter: 'blur(3px)',
                     transformOrigin: '50% 100%',
                 })
             },
@@ -372,21 +373,23 @@ function initializeRevealAnimations() {
                 y: 0,
                 scale: 1,
                 rotationX: 0,
-                duration: 0.66,
-                ease: 'power2.out',
-                stagger: { each: 0.11, from: 'start' },
+                filter: 'blur(0px)',
+                duration: 0.75,
+                ease: 'power3.out',
+                stagger: { each: 0.1, from: 'start' },
             },
         },
         {
             selector: '.contact-item, .technology-card',
-            at: 0.28,
+            at: 0.2,
             prepare(gsap, elements) {
                 elements.forEach((element, index) => {
                     gsap.set(element, {
                         autoAlpha: 0,
                         x: index % 2 === 0 ? -16 : 16,
-                        y: 10,
-                        scale: 0.985,
+                        y: 12,
+                        scale: 0.98,
+                        filter: 'blur(2px)',
                     })
                 })
             },
@@ -395,23 +398,26 @@ function initializeRevealAnimations() {
                 x: 0,
                 y: 0,
                 scale: 1,
-                duration: 0.48,
-                ease: 'power2.out',
-                stagger: { each: 0.05, from: 'edges' },
+                filter: 'blur(0px)',
+                duration: 0.55,
+                ease: 'power3.out',
+                stagger: { each: 0.045, from: 'edges' },
             },
         },
         {
             selector: '.project-highlights li, .work-highlights li',
-            at: 0.4,
+            at: 0.32,
             prepare(gsap, elements) {
-                gsap.set(elements, { autoAlpha: 0, x: 18 })
+                gsap.set(elements, { autoAlpha: 0, x: 18, y: 6, filter: 'blur(2px)' })
             },
             to: {
                 autoAlpha: 1,
                 x: 0,
-                duration: 0.44,
-                ease: 'power2.out',
-                stagger: { each: 0.06, from: 'start' },
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.5,
+                ease: 'power3.out',
+                stagger: { each: 0.055, from: 'start' },
             },
         },
     ]
@@ -524,31 +530,38 @@ function initializeHeroBackgroundTransition() {
     const background = document.getElementById('game-of-life-canvas')
     if (!hero || !background) return
 
-    const clamp01 = (value) => Math.max(0, Math.min(1, value))
-    const getScrollY = () => {
-        if (lenis && Number.isFinite(lenis.animatedScroll)) return lenis.animatedScroll
-        return window.scrollY || window.pageYOffset || 0
-    }
-
-    const setOpacity = (value) => {
-        background.style.setProperty('--hero-bg-opacity', clamp01(value).toFixed(3))
-    }
-
-    setOpacity(1)
+    background.style.setProperty('--hero-bg-opacity', '1')
 
     if (prefersReducedMotion()) return
+
+    const hasGSAP = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined'
+
+    if (hasGSAP) {
+        window.gsap.to(background, {
+            '--hero-bg-opacity': 0,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: hero,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true,
+                scroller: lenis ? document.body : window,
+            },
+        })
+        return
+    }
+
+    const clamp01 = (value) => Math.max(0, Math.min(1, value))
 
     const updateFromScroll = () => {
         const heroTop = hero.offsetTop
         const heroHeight = Math.max(hero.offsetHeight, 1)
-        const progress = clamp01((getScrollY() - heroTop) / heroHeight)
-        setOpacity(1 - progress)
+        const scrollY = window.scrollY || window.pageYOffset || 0
+        const progress = clamp01((scrollY - heroTop) / heroHeight)
+        background.style.setProperty('--hero-bg-opacity', (1 - progress).toFixed(3))
     }
 
     updateFromScroll()
-    if (lenis) {
-        lenis.on('scroll', updateFromScroll)
-    }
     window.addEventListener('scroll', updateFromScroll, { passive: true })
     window.addEventListener('resize', updateFromScroll)
 }

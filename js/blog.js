@@ -1,106 +1,15 @@
-let currentY = window.scrollY || window.pageYOffset || 0
-let targetY = currentY
-let wheelFrameId = null
-let anchorFrameId = null
-let isWheelSmoothing = false
 let lenis = null
-
-function isScrollableElement(element) {
-    if (!element || !(element instanceof Element)) return false
-    const style = window.getComputedStyle(element)
-    const overflowY = style.overflowY
-    const canScrollY = overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay'
-    return canScrollY && element.scrollHeight > element.clientHeight
-}
-
-function hasScrollableParent(target) {
-    let current = target
-    while (current && current !== document.body) {
-        if (isScrollableElement(current)) return true
-        current = current.parentElement
-    }
-    return false
-}
-
-function clampToPage(y) {
-    const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
-    if (y < 0) return 0
-    if (y > maxY) return maxY
-    return y
-}
-
-function stepWheelSmoothing() {
-    const delta = targetY - currentY
-    currentY += delta * 0.14
-
-    if (Math.abs(delta) < 0.4) {
-        currentY = targetY
-        window.scrollTo(0, targetY)
-        wheelFrameId = null
-        isWheelSmoothing = false
-        return
-    }
-
-    window.scrollTo(0, currentY)
-    wheelFrameId = window.requestAnimationFrame(stepWheelSmoothing)
-}
-
-function onWheel(event) {
-    if (event.ctrlKey || event.shiftKey) return
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
-    if (hasScrollableParent(event.target)) return
-
-    event.preventDefault()
-    targetY = clampToPage(targetY + event.deltaY)
-    if (!wheelFrameId) {
-        isWheelSmoothing = true
-        wheelFrameId = window.requestAnimationFrame(stepWheelSmoothing)
-    }
-}
-
-function onScroll() {
-    if (isWheelSmoothing) return
-    const y = window.scrollY || window.pageYOffset || 0
-    currentY = y
-    targetY = y
-}
 
 function smoothScrollTo(y, duration = 900) {
     if (lenis) {
-        lenis.scrollTo(clampToPage(y), {
+        lenis.scrollTo(y, {
             duration: Math.max(0.35, duration / 1000),
             easing: EASE_OUT_EXPO,
         })
         return
     }
 
-    if (anchorFrameId) {
-        window.cancelAnimationFrame(anchorFrameId)
-    }
-
-    const startY = window.scrollY || window.pageYOffset || 0
-    const target = clampToPage(y)
-    const distance = target - startY
-    const startTime = performance.now()
-
-    const tick = (now) => {
-        const elapsed = now - startTime
-        const progress = Math.min(1, elapsed / duration)
-        const eased = EASE_OUT_EXPO(progress)
-        const nextY = startY + distance * eased
-        window.scrollTo(0, nextY)
-
-        if (progress < 1) {
-            anchorFrameId = window.requestAnimationFrame(tick)
-            return
-        }
-
-        anchorFrameId = null
-        currentY = target
-        targetY = target
-    }
-
-    anchorFrameId = window.requestAnimationFrame(tick)
+    window.scrollTo({ top: y, behavior: 'smooth' })
 }
 
 function initAnchorScroll() {
@@ -134,44 +43,107 @@ function initializeSmoothScroll() {
         typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    if (!prefersReducedMotion && typeof window.Lenis !== 'undefined') {
-        lenis = new window.Lenis({
-            duration: 1.25,
-            easing: EASE_OUT_EXPO,
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            syncTouch: true,
-            touchMultiplier: 1.7,
-            wheelMultiplier: 1.0,
-            infinite: false,
+    if (prefersReducedMotion || typeof window.Lenis === 'undefined') return
+
+    lenis = new window.Lenis({
+        duration: 1.25,
+        easing: EASE_OUT_EXPO,
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        touchMultiplier: 1.7,
+        wheelMultiplier: 1.0,
+        infinite: false,
+    })
+
+    document.documentElement.classList.add('lenis')
+
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        lenis.on('scroll', () => {
+            ScrollTrigger.update()
         })
 
-        document.documentElement.classList.add('lenis')
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000)
+        })
 
+        gsap.ticker.lagSmoothing(0)
+    } else {
         const raf = (time) => {
             if (!lenis) return
             lenis.raf(time)
             window.requestAnimationFrame(raf)
         }
         window.requestAnimationFrame(raf)
-
-        window.addEventListener('resize', () => {
-            if (lenis) lenis.resize()
-        })
-
-        return
     }
 
-    document.documentElement.classList.add('lenis')
-    window.addEventListener('wheel', onWheel, { passive: false })
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', () => {
+        if (lenis) lenis.resize()
+    })
+}
+
+function initializeRevealAnimations() {
+    const prefersReducedMotion =
+        typeof window.matchMedia === 'function' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion || typeof gsap === 'undefined') return
+
+    const cards = document.querySelectorAll('.blog-grid .blog-card')
+    const articleChildren = document.querySelectorAll('.blog-article > *')
+    const backLink = document.querySelector('.blog-back-link')
+    const title = document.querySelector('.blog-page .window-title')
+    const description = document.querySelector('.blog-page .description')
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+    const headerElements = [backLink, title, description].filter(Boolean)
+    if (headerElements.length > 0) {
+        tl.from(headerElements, {
+            autoAlpha: 0,
+            y: 20,
+            filter: 'blur(6px)',
+            duration: 0.6,
+            stagger: 0.06,
+        })
+    }
+
+    if (cards.length > 0) {
+        tl.from(
+            cards,
+            {
+                autoAlpha: 0,
+                y: 24,
+                scale: 0.985,
+                rotationX: 4,
+                transformOrigin: '50% 100%',
+                filter: 'blur(3px)',
+                duration: 0.7,
+                stagger: { each: 0.09, from: 'start' },
+            },
+            headerElements.length > 0 ? '-=0.35' : 0,
+        )
+    }
+
+    if (articleChildren.length > 0) {
+        tl.from(
+            articleChildren,
+            {
+                autoAlpha: 0,
+                y: 14,
+                filter: 'blur(3px)',
+                duration: 0.5,
+                stagger: { each: 0.035, from: 'start' },
+            },
+            headerElements.length > 0 ? '-=0.3' : 0,
+        )
+    }
 }
 
 function initialize() {
     initializeSmoothScroll()
     initAnchorScroll()
+    initializeRevealAnimations()
 }
 
 if (document.readyState === 'loading') {

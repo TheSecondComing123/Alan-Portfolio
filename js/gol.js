@@ -2,17 +2,18 @@
     'use strict'
 
     const CONFIG = {
-        cellSize: 12,
-        updateInterval: 150,
-        colors: {
-            alive: 'hsl(120 41% 63%)',
-            dead: 'hsl(0 0% 11%)',
-            grid: 'hsl(0 0% 100% / 0.05)',
-        },
-        trailDecay: 0.86,
-        trailMin: 0.04,
-        trailStrength: 0.56,
-        cellTransitionSpeed: 14,
+        cellSize: 11,
+        updateInterval: 120,
+        trailDecay: 0.92,
+        trailMin: 0.02,
+        trailStrength: 0.65,
+        cellTransitionSpeed: 10,
+        glowRadius: 14,
+        glowAlpha: 0.24,
+        aliveHue: 127,
+        aliveSat: 55,
+        aliveLit: 56,
+        bgColor: 'hsl(0 0% 8%)',
     }
     const START_RETRY_MS = 150
     const MAX_START_ATTEMPTS = 40
@@ -30,6 +31,25 @@
     let lastFrameTime = 0
     let hasStarted = false
     let isAnimating = false
+    let glowGradientCache = null
+
+    function buildGlowGradient() {
+        const size = CONFIG.glowRadius * 2
+        const offscreen = document.createElement('canvas')
+        offscreen.width = size
+        offscreen.height = size
+        const offCtx = offscreen.getContext('2d')
+        const gradient = offCtx.createRadialGradient(
+            CONFIG.glowRadius, CONFIG.glowRadius, 0,
+            CONFIG.glowRadius, CONFIG.glowRadius, CONFIG.glowRadius,
+        )
+        gradient.addColorStop(0, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 70% / ${CONFIG.glowAlpha})`)
+        gradient.addColorStop(0.4, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 60% / ${CONFIG.glowAlpha * 0.5})`)
+        gradient.addColorStop(1, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 50% / 0)`)
+        offCtx.fillStyle = gradient
+        offCtx.fillRect(0, 0, size, size)
+        glowGradientCache = offscreen
+    }
 
     class Cell {
         constructor() {
@@ -74,7 +94,7 @@
     function createPattern() {
         for (let x = 0; x < cols; x++) {
             for (let y = 0; y < rows; y++) {
-                grid[x][y].randomize(0.2)
+                grid[x][y].randomize(0.16)
             }
         }
         if (cols > 20 && rows > 20) {
@@ -127,10 +147,15 @@
     }
 
     function draw(deltaSeconds = 0) {
-        ctx.fillStyle = CONFIG.colors.dead
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-
+        const w = canvas.width
+        const h = canvas.height
+        const cs = CONFIG.cellSize
         const blend = Math.min(1, Math.max(0, deltaSeconds) * CONFIG.cellTransitionSpeed)
+        const gap = Math.max(1, Math.round(cs * 0.1))
+        const inner = cs - gap
+
+        ctx.fillStyle = CONFIG.bgColor
+        ctx.fillRect(0, 0, w, h)
 
         for (let x = 0; x < cols; x++) {
             for (let y = 0; y < rows; y++) {
@@ -139,50 +164,53 @@
                 const next = current + (target - current) * blend
                 renderGrid[x][y] = next
 
+                const px = x * cs
+                const py = y * cs
+
                 if (target > 0) {
                     trailGrid[x][y] = Math.max(trailGrid[x][y], next)
                 } else {
                     const nextTrail = trailGrid[x][y] * CONFIG.trailDecay
                     trailGrid[x][y] = nextTrail
                     if (nextTrail > CONFIG.trailMin) {
-                        const alpha = Math.min(1, nextTrail * CONFIG.trailStrength)
-                        ctx.fillStyle = `hsl(120 41% 63% / ${alpha.toFixed(3)})`
-                        ctx.fillRect(
-                            x * CONFIG.cellSize,
-                            y * CONFIG.cellSize,
-                            CONFIG.cellSize - 1,
-                            CONFIG.cellSize - 1,
-                        )
+                        const t = nextTrail
+                        const alpha = Math.min(1, t * CONFIG.trailStrength)
+                        const hue = CONFIG.aliveHue - (1 - t) * 30
+                        const sat = CONFIG.aliveSat - (1 - t) * 20
+                        const lit = 20 + t * 30
+                        ctx.fillStyle = `hsla(${hue} ${sat}% ${lit}% / ${alpha.toFixed(3)})`
+                        ctx.fillRect(px, py, inner, inner)
                     }
                 }
 
                 if (next > 0.01) {
-                    ctx.globalAlpha = Math.min(1, 0.2 + next * 0.8)
-                    ctx.fillStyle = CONFIG.colors.alive
-                    ctx.fillRect(
-                        x * CONFIG.cellSize,
-                        y * CONFIG.cellSize,
-                        CONFIG.cellSize - 1,
-                        CONFIG.cellSize - 1,
-                    )
-                    ctx.globalAlpha = 1
+                    const alpha = 0.3 + next * 0.7
+                    const lit = CONFIG.aliveLit + next * 14
+                    ctx.fillStyle = `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% ${lit}% / ${alpha.toFixed(3)})`
+                    ctx.fillRect(px, py, inner, inner)
                 }
             }
         }
 
-        ctx.strokeStyle = CONFIG.colors.grid
-        ctx.lineWidth = 0.5
-        for (let x = 0; x <= cols; x++) {
-            ctx.beginPath()
-            ctx.moveTo(x * CONFIG.cellSize, 0)
-            ctx.lineTo(x * CONFIG.cellSize, canvas.height)
-            ctx.stroke()
-        }
-        for (let y = 0; y <= rows; y++) {
-            ctx.beginPath()
-            ctx.moveTo(0, y * CONFIG.cellSize)
-            ctx.lineTo(canvas.width, y * CONFIG.cellSize)
-            ctx.stroke()
+        if (glowGradientCache) {
+            const gr = CONFIG.glowRadius
+            const size = gr * 2
+            for (let x = 0; x < cols; x++) {
+                for (let y = 0; y < rows; y++) {
+                    const val = renderGrid[x][y]
+                    if (val > 0.15) {
+                        ctx.globalAlpha = Math.min(1, (val - 0.15) * 1.18)
+                        ctx.drawImage(
+                            glowGradientCache,
+                            x * cs + cs * 0.5 - gr,
+                            y * cs + cs * 0.5 - gr,
+                            size,
+                            size,
+                        )
+                    }
+                }
+            }
+            ctx.globalAlpha = 1
         }
     }
 
@@ -210,7 +238,7 @@
         canvas.width = Math.max(1, targetWidth)
         canvas.height = Math.max(1, targetHeight)
         initGrid()
-        ctx.fillStyle = CONFIG.colors.dead
+        ctx.fillStyle = CONFIG.bgColor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         draw()
     }
@@ -230,6 +258,7 @@
         if (!ctx) return
 
         hasStarted = true
+        buildGlowGradient()
         resize()
         canvas.classList.add('active')
         canvas.style.setProperty('--hero-bg-opacity', '1')
