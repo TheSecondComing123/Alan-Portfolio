@@ -35,8 +35,6 @@ function scheduleNonCriticalInitialization() {
     const run = async () => {
         const shouldLoadHeavyEnhancements = !isMobileViewport() && !prefersReducedMotion()
 
-        loadScript(versionedAssetPath('/js/gol.js')).catch(() => {})
-
         if (shouldLoadHeavyEnhancements) {
             await loadEnhancementScripts()
             initializeSmoothScroll()
