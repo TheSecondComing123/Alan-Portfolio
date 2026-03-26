@@ -47,6 +47,15 @@
 }
 
 /* Blog page layout */
+.blog-page .window {
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding: clamp(40px, 8vh, 80px) clamp(20px, 4.6vw, 48px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
 .blog-page-main {
     padding-bottom: 40px;
 }
@@ -56,8 +65,12 @@
 }
 
 .blog-page .window-title {
+    font-family: var(--font-display);
+    font-weight: 700;
     font-size: clamp(2.2rem, 4.2vw, 3.4rem);
     letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1.02;
 }
 
 .blog-page .description {

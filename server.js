@@ -115,7 +115,7 @@ app.use((req, res, next) => {
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
     res.setHeader(
         'Content-Security-Policy',
-        `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://unpkg.com https://fonts.googleapis.com https://cdn.jsdelivr.net; connect-src 'self' https://unpkg.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;`,
+        `default-src 'self'; script-src 'self' 'nonce-${cspNonce}' https://fonts.googleapis.com https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:;`,
     )
 
     if (req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/i)) {

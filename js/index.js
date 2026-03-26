@@ -1,6 +1,5 @@
-const SECTION_IDS = ['home', 'projects', 'work', 'technologies']
 const HOMEPAGE_FONT_STYLESHEET =
-    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
+    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
 const assetVersion = document.body?.dataset.assetVersion || ''
 let lenis
@@ -10,21 +9,16 @@ function prefersReducedMotion() {
 }
 
 function isMobileViewport() {
-    return window.matchMedia('(max-width: 900px)').matches
+    return window.matchMedia('(max-width: 768px)').matches
 }
 
 async function init() {
     if (!app) return
 
     try {
-        await loadComponents()
-        scheduleDeferredAssets()
         scheduleHomepageFonts()
-        initializeNavigationIcons()
-        initializeNavigationHandlers()
-        setCurrentButton('home')
-
         revealPortfolioShell()
+        initializeProjectExpand()
         initializeCardSpotlight()
         scheduleNonCriticalInitialization()
     } finally {
@@ -42,7 +36,6 @@ function scheduleNonCriticalInitialization() {
             initializeRevealAnimations()
         }
 
-        initializeScrollObserver()
         initializeHeroBackgroundTransition()
     }
 
@@ -63,24 +56,6 @@ function scheduleNonCriticalInitialization() {
             void run()
         })
     }, 0)
-}
-
-function scheduleDeferredAssets() {
-    const run = async () => {
-        scheduleDeviconStylesheetWhenNeeded()
-        await Promise.allSettled([loadLucideScript()])
-
-        if (typeof window.lucide !== 'undefined') {
-            window.lucide.createIcons()
-        }
-    }
-
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => void run(), { timeout: 1200 })
-        return
-    }
-
-    window.setTimeout(() => void run(), 250)
 }
 
 function scheduleHomepageFonts() {
@@ -113,18 +88,6 @@ function loadHomepageFontStylesheet() {
     link.rel = 'stylesheet'
     link.href = HOMEPAGE_FONT_STYLESHEET
     document.head.appendChild(link)
-}
-
-function scheduleDeviconStylesheetWhenNeeded() {
-    // Devicon no longer used: tech section is text-based now.
-}
-
-function loadDeviconStylesheet() {
-    // Devicon no longer used: tech section is text-based now.
-}
-
-function loadLucideScript() {
-    return loadScript('https://unpkg.com/lucide@0.563.0')
 }
 
 async function loadEnhancementScripts() {
@@ -212,84 +175,40 @@ function initializeSmoothScroll() {
     })
 }
 
-async function loadComponents() {
-    // Portfolio sections are server-rendered via EJS partials.
-}
+/* Project card expand/collapse */
+function initializeProjectExpand() {
+    const compactCards = document.querySelectorAll('.project-card.compact')
+    for (const card of compactCards) {
+        const expandable = card.querySelector('.project-expandable')
+        if (!expandable) continue
 
-function initializeNavigationHandlers() {
-    document.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-section]')
-        if (!button) return
+        expandable.classList.add('collapsed')
 
-        event.preventDefault()
-        const section = button.dataset.section
-        switchWindow(section)
-    })
-}
+        const btn = document.createElement('button')
+        btn.className = 'project-expand-btn'
+        btn.textContent = 'Read more'
+        btn.setAttribute('aria-expanded', 'false')
 
-function initializeNavigationIcons() {
-    const iconMap = {
-        'btn-home': 'home',
-        'btn-projects': 'briefcase',
-        'btn-work': 'building-2',
-        'btn-technologies': 'cpu',
-    }
-
-    for (const [buttonId, iconName] of Object.entries(iconMap)) {
-        const button = document.getElementById(buttonId)
-        if (!button) continue
-        const icon = document.createElement('i')
-        icon.setAttribute('data-lucide', iconName)
-        icon.className = 'icon'
-        button.appendChild(icon)
-    }
-}
-
-function switchWindow(id) {
-    const section = document.getElementById(id)
-    if (!section) return
-
-    setCurrentButton(id)
-
-    if (lenis) {
-        lenis.scrollTo(section, { offset: 0, duration: 1.2, easing: EASE_OUT_EXPO })
-    } else {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-}
-
-function initializeScrollObserver() {
-    const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
-    if (sections.length === 0) return
-
-    const getScrollY = () => {
-        if (lenis && Number.isFinite(lenis.animatedScroll)) return lenis.animatedScroll
-        return window.scrollY || window.pageYOffset || 0
-    }
-
-    const updateActiveSection = () => {
-        const scrollMid = getScrollY() + window.innerHeight * 0.45
-        let current = sections[0]
-
-        for (const section of sections) {
-            if (section.offsetTop <= scrollMid) {
-                current = section
+        btn.addEventListener('click', () => {
+            const isCollapsed = expandable.classList.contains('collapsed')
+            if (isCollapsed) {
+                expandable.style.maxHeight = expandable.scrollHeight + 'px'
+                expandable.classList.remove('collapsed')
+                btn.textContent = 'Show less'
+                btn.setAttribute('aria-expanded', 'true')
             } else {
-                break
+                expandable.style.maxHeight = '0px'
+                expandable.classList.add('collapsed')
+                btn.textContent = 'Read more'
+                btn.setAttribute('aria-expanded', 'false')
             }
-        }
+        })
 
-        setCurrentButton(current.id)
+        card.appendChild(btn)
     }
-
-    updateActiveSection()
-    if (lenis) {
-        lenis.on('scroll', updateActiveSection)
-    }
-    window.addEventListener('scroll', updateActiveSection, { passive: true })
-    window.addEventListener('resize', updateActiveSection)
 }
 
+/* Mouse-follow spotlight on project cards */
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
@@ -303,8 +222,9 @@ function initializeCardSpotlight() {
     }
 }
 
+/* GSAP scroll-triggered reveal animations */
 function initializeRevealAnimations() {
-    const sections = [...document.querySelectorAll('.window')]
+    const sections = [...document.querySelectorAll('.hero, .projects, .work, .tech')]
     if (sections.length === 0) return
 
     const hasGSAP = typeof window.gsap !== 'undefined'
@@ -312,7 +232,7 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.window-title, .window-subtitle, .description',
+            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-contact-row, .section-label',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
@@ -327,7 +247,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.contact-panel, .project-card, .work-entry',
+            selector: '.project-card, .work-card',
             at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
@@ -351,7 +271,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.contact-item, .tech-row',
+            selector: '.tech-row',
             at: 0.2,
             prepare(gsap, elements) {
                 elements.forEach((element, index) => {
@@ -482,17 +402,6 @@ function initializeRevealAnimations() {
         for (const group of sequence) {
             timeline.to(group.elements, group.to, group.at)
         }
-    }
-}
-
-function setCurrentButton(id) {
-    document.querySelectorAll('.nav-button').forEach((button) => {
-        button.removeAttribute('aria-current')
-    })
-
-    const active = document.getElementById(`btn-${id}`)
-    if (active) {
-        active.setAttribute('aria-current', 'location')
     }
 }
 
