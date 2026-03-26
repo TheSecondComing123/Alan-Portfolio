@@ -1,4 +1,4 @@
-/* Blog section layout - matches portfolio section pattern */
+/* blog section layout */
 .blog-section {
     width: min(1000px, 100%);
     margin-inline: auto;
@@ -12,7 +12,7 @@
     padding-bottom: 20px;
 }
 
-/* Top navigation breadcrumb */
+/* breadcrumbs */
 .blog-topnav {
     display: flex;
     align-items: center;
@@ -58,7 +58,7 @@
     border-radius: 2px;
 }
 
-/* Blog index page title + description */
+/* blog index page title/description */
 .blog-page-title {
     font-family: var(--font-display);
     font-weight: 700;
@@ -75,14 +75,14 @@
     max-width: 70ch;
 }
 
-/* Blog grid */
+/* blog grid */
 .blog-grid {
     display: grid;
     gap: 16px;
     margin-top: 8px;
 }
 
-/* Shared blog typography */
+/* shared blog typography */
 .blog-meta {
     font-family: var(--mono);
     font-size: 0.58rem;
@@ -134,7 +134,7 @@
     border-radius: 4px;
 }
 
-/* Blog index cards - matches project card style */
+/* blog index cards */
 .blog-page.blog-template-index .blog-card {
     background: var(--surface-2);
     border: 1px solid var(--outline-variant);
@@ -169,7 +169,7 @@
     gap: 4px;
 }
 
-/* "Read Article" link - matches project-link style */
+/* "read article" link */
 .blog-page .project-link {
     font-family: var(--mono);
     font-size: 0.62rem;
@@ -193,7 +193,7 @@
     outline-offset: 3px;
 }
 
-/* Blog post view */
+/* blog post view */
 .blog-page.blog-template-post .blog-card {
     border-radius: 0;
     border: 0;
@@ -300,7 +300,7 @@
     font-weight: 700;
 }
 
-/* Code blocks */
+/* code blocks */
 .blog-markdown pre {
     max-width: 100%;
     overflow-x: auto;
@@ -341,7 +341,7 @@
     text-decoration-color: var(--primary-light);
 }
 
-/* Blockquote */
+/* blockquote */
 .blog-markdown blockquote {
     margin: 6px 0;
     padding: 14px 18px;

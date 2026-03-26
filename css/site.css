@@ -58,7 +58,7 @@ body {
     overflow-x: hidden;
 }
 
-/* feTurbulence SVG filter referenced from the inline <svg> in the HTML */
+/* feturbulence svg filter referenced from the inline <svg> in the html */
 body::after {
     content: '';
     position: fixed;
@@ -137,7 +137,7 @@ html:not(.lenis) {
     overflow: visible; /* canvas needs to break out of the 1200px container */
 }
 
-/* pseudo-element instead of a DOM node so it doesn't affect layout */
+/* pseudo-element instead of a dom node so it doesn't affect layout */
 .hero::before {
     content: 'ALAN BAGEL';
     font-family: var(--mono);

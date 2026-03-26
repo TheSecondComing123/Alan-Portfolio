@@ -233,7 +233,7 @@ function initializeImageLightbox() {
     })
 }
 
-/* Hyperplexed-style container spotlight: one light across all cards */
+/* container spotlight definitely not stolen from hyperplexed */
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
@@ -255,7 +255,7 @@ function initializeCardSpotlight() {
     }
 }
 
-/* GSAP scroll-triggered reveal animations */
+/* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
     const sections = [...document.querySelectorAll('.hero, .projects, .work, .tech')]
     if (sections.length === 0) return
