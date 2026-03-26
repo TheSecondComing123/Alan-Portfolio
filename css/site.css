@@ -488,6 +488,35 @@ a.project-link:focus-visible {
     object-fit: cover;
     border-radius: inherit;
     display: block;
+    cursor: zoom-in;
+}
+
+/* click-to-expand lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9998; /* below grain overlay */
+    background: hsl(0 0% 0% / 0.85);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    cursor: zoom-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.lightbox.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 6px;
+    box-shadow: 0 16px 64px hsl(0 0% 0% / 0.5);
+    object-fit: contain;
 }
 
 /* grid pattern placeholder for cards without screenshots yet */

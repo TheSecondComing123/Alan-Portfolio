@@ -19,6 +19,7 @@ async function init() {
         scheduleHomepageFonts()
         revealPortfolioShell()
         initializeProjectExpand()
+        initializeImageLightbox()
         initializeCardSpotlight()
         scheduleNonCriticalInitialization()
     } finally {
@@ -175,7 +176,7 @@ function initializeSmoothScroll() {
     })
 }
 
-/* Project card expand/collapse */
+/* project card expand/collapse */
 function initializeProjectExpand() {
     const compactCards = document.querySelectorAll('.project-card.compact')
     for (const card of compactCards) {
@@ -192,7 +193,7 @@ function initializeProjectExpand() {
         btn.addEventListener('click', () => {
             const isCollapsed = expandable.classList.contains('collapsed')
             if (isCollapsed) {
-                expandable.style.maxHeight = expandable.scrollHeight + 'px'
+                expandable.style.maxHeight = `${expandable.scrollHeight  }px`
                 expandable.classList.remove('collapsed')
                 btn.textContent = 'Show less'
                 btn.setAttribute('aria-expanded', 'true')
@@ -206,6 +207,30 @@ function initializeProjectExpand() {
 
         card.appendChild(btn)
     }
+}
+
+function initializeImageLightbox() {
+    const lightbox = document.createElement('div')
+    lightbox.className = 'lightbox'
+    const lightboxImg = document.createElement('img')
+    lightbox.appendChild(lightboxImg)
+    document.body.appendChild(lightbox)
+
+    const close = () => lightbox.classList.remove('open')
+
+    lightbox.addEventListener('click', close)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close()
+    })
+
+    document.querySelectorAll('.project-media img').forEach((img) => {
+        img.addEventListener('click', (e) => {
+            e.stopPropagation()
+            lightboxImg.src = img.src
+            lightboxImg.alt = img.alt
+            lightbox.classList.add('open')
+        })
+    })
 }
 
 /* Hyperplexed-style container spotlight: one light across all cards */
