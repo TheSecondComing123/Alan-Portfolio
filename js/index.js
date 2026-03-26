@@ -212,7 +212,7 @@ function initializeProjectExpand() {
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
-    const cards = document.querySelectorAll('.project-card')
+    const cards = document.querySelectorAll('.project-card, .work-card')
     for (const card of cards) {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect()
