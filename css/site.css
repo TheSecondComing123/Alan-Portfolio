@@ -1,4 +1,3 @@
-/* Design tokens - warm phosphor palette */
 :root {
     --primary: hsl(127 55% 56%);
     --primary-light: hsl(127 58% 72%);
@@ -59,7 +58,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Film grain overlay */
+/* feTurbulence SVG filter referenced from the inline <svg> in the HTML */
 body::after {
     content: '';
     position: fixed;
@@ -78,7 +77,6 @@ main {
     backface-visibility: hidden;
 }
 
-/* Lenis smooth scroll */
 html.lenis,
 html.lenis body {
     height: auto;
@@ -117,7 +115,6 @@ html:not(.lenis) {
     margin-bottom: 14px;
 }
 
-/* Shared section spacing */
 .hero,
 .projects,
 .work,
@@ -141,10 +138,10 @@ html:not(.lenis) {
     padding-top: clamp(48px, 8vh, 96px);
     padding-bottom: clamp(24px, 4vh, 48px);
     position: relative;
-    overflow: visible;
+    overflow: visible; /* canvas needs to break out of the 1200px container */
 }
 
-/* Ghost watermark */
+/* pseudo-element instead of a DOM node so it doesn't affect layout */
 .hero::before {
     content: 'ALAN BAGEL';
     font-family: var(--mono);
@@ -161,7 +158,6 @@ html:not(.lenis) {
     line-height: 1;
 }
 
-/* Warm radial glow */
 .hero::after {
     content: '';
     position: absolute;
@@ -174,6 +170,7 @@ html:not(.lenis) {
     pointer-events: none;
 }
 
+/* breaks out of 1200px container to fill viewport width */
 .hero-background {
     position: absolute;
     top: 0;
@@ -269,7 +266,8 @@ html:not(.lenis) {
     padding-bottom: clamp(16px, 2vh, 28px);
 }
 
-/* Container spotlight */
+/* hyperplexed trick: track mouse on the container, update all cards.
+   the ::before radial gradient peeks through the 1px card gaps as a border glow. */
 .project-bento,
 .work-grid {
     --container-x: 50%;
@@ -286,7 +284,6 @@ html:not(.lenis) {
     background: transparent;
 }
 
-/* Border glow layer: container bg peeks through 1px gaps */
 .project-bento::before,
 .work-grid::before {
     content: '';
@@ -309,14 +306,13 @@ html:not(.lenis) {
     opacity: 1;
 }
 
-/* Card glow property */
+/* animatable custom property for the green glow on hover */
 @property --glow {
     syntax: '<number>';
     initial-value: 0;
     inherits: false;
 }
 
-/* Card base */
 .project-card {
     --card-mouse-x: 50%;
     --card-mouse-y: 50%;
@@ -341,7 +337,8 @@ html:not(.lenis) {
     border-color: var(--outline);
 }
 
-/* Mouse-follow spotlight on card surface - activates on CONTAINER hover */
+/* surface glow follows cursor. activates on container hover so
+   adjacent cards light up together as one continuous spotlight. */
 .project-card::after,
 .work-card::after {
     content: '';
@@ -364,7 +361,6 @@ html:not(.lenis) {
     opacity: 1;
 }
 
-/* Featured card spans 2 rows */
 .project-card.featured {
     grid-row: span 2;
     padding: 22px;
@@ -500,6 +496,7 @@ a.project-link:focus-visible {
     display: block;
 }
 
+/* grid pattern placeholder for cards without screenshots yet */
 .project-media:empty::before {
     content: '';
     position: absolute;
@@ -548,7 +545,7 @@ a.project-link:focus-visible {
     font-weight: 700;
 }
 
-/* Expand/collapse for compact cards */
+/* JS adds .collapsed and injects the button; no-JS users see everything */
 .project-expandable {
     display: flex;
     flex-direction: column;
@@ -618,8 +615,6 @@ a.project-link:focus-visible {
     box-shadow: 0 2px 12px hsl(0 0% 0% / 0.2);
     transition: border-color 0.2s ease;
 }
-
-
 
 .work-card:hover {
     border-color: var(--outline);
