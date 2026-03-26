@@ -275,20 +275,40 @@ html:not(.lenis) {
     gap: 12px;
 }
 
-/* Card base */
+/* Card base - glass */
 .project-card {
     --card-mouse-x: 50%;
     --card-mouse-y: 50%;
-    background: var(--surface-2);
-    border: 1px solid var(--outline-variant);
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
     padding: 18px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.25s ease;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        inset 0 0 12px 4px rgba(255, 255, 255, 0.02);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Top + left light edges */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.06), transparent);
+    z-index: 2;
+    pointer-events: none;
 }
 
 /* Mouse-follow spotlight */
@@ -329,7 +349,13 @@ html:not(.lenis) {
 
 .project-card:hover {
     --glow: 1;
-    border-color: hsl(127 20% 28% / 0.6);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        inset 0 0 12px 4px rgba(255, 255, 255, 0.03),
+        0 0 calc(var(--glow) * 28px) hsl(127 55% 40% / calc(var(--glow) * 0.12));
 }
 
 /* Featured card spans 2 rows */
@@ -569,18 +595,44 @@ a.project-link:focus-visible {
 }
 
 .work-card {
-    background: var(--surface-2);
-    border: 1px solid var(--outline-variant);
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
     padding: 18px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    transition: border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+        inset 0 0 12px 4px rgba(255, 255, 255, 0.02);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.work-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.06), transparent);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .work-card:hover {
-    border-color: var(--outline);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        inset 0 0 12px 4px rgba(255, 255, 255, 0.03);
 }
 
 .work-header {
