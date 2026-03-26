@@ -269,16 +269,58 @@ html:not(.lenis) {
     padding-bottom: clamp(16px, 2vh, 28px);
 }
 
+/* Container spotlight */
+.project-bento,
+.work-grid {
+    --container-x: 50%;
+    --container-y: 50%;
+    position: relative;
+}
+
 .project-bento {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
-    gap: 12px;
+    gap: 1px;
+    padding: 1px;
+    border-radius: 7px;
+    background: transparent;
+}
+
+/* Border glow layer: container bg peeks through 1px gaps */
+.project-bento::before,
+.work-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        700px circle at var(--container-x) var(--container-y),
+        hsl(127 55% 56% / 0.15),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.project-bento:hover::before,
+.work-grid:hover::before {
+    opacity: 1;
+}
+
+/* Card glow property */
+@property --glow {
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: false;
 }
 
 /* Card base */
 .project-card {
     --card-mouse-x: 50%;
     --card-mouse-y: 50%;
+    --glow: 0;
     background: var(--surface-2);
     border: 1px solid var(--outline-variant);
     border-radius: 6px;
@@ -288,40 +330,6 @@ html:not(.lenis) {
     gap: 10px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 12px hsl(0 0% 0% / 0.2);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* Mouse-follow spotlight */
-.project-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        500px circle at var(--card-mouse-x) var(--card-mouse-y),
-        hsl(127 55% 56% / 0.07),
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.project-card:hover::after {
-    opacity: 1;
-}
-
-/* Card glow */
-@property --glow {
-    syntax: '<number>';
-    initial-value: 0;
-    inherits: false;
-}
-
-.project-card {
-    --glow: 0;
     box-shadow:
         0 2px 12px hsl(0 0% 0% / 0.2),
         0 0 calc(var(--glow) * 28px) hsl(127 55% 40% / calc(var(--glow) * 0.12));
@@ -331,6 +339,29 @@ html:not(.lenis) {
 .project-card:hover {
     --glow: 1;
     border-color: var(--outline);
+}
+
+/* Mouse-follow spotlight on card surface - activates on CONTAINER hover */
+.project-card::after,
+.work-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        600px circle at var(--card-mouse-x) var(--card-mouse-y),
+        hsl(127 55% 56% / 0.06),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.project-bento:hover .project-card::after,
+.work-grid:hover .work-card::after {
+    opacity: 1;
 }
 
 /* Featured card spans 2 rows */
@@ -566,7 +597,10 @@ a.project-link:focus-visible {
 .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 1px;
+    padding: 1px;
+    border-radius: 7px;
+    background: transparent;
 }
 
 .work-card {
@@ -585,25 +619,7 @@ a.project-link:focus-visible {
     transition: border-color 0.2s ease;
 }
 
-.work-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        500px circle at var(--card-mouse-x) var(--card-mouse-y),
-        hsl(127 55% 56% / 0.07),
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
 
-.work-card:hover::after {
-    opacity: 1;
-}
 
 .work-card:hover {
     border-color: var(--outline);
@@ -624,8 +640,7 @@ a.project-link:focus-visible {
     padding: 4px 10px;
     border: 1px solid var(--outline-variant);
     border-radius: 4px;
-    margin-top: auto;
-    align-self: flex-start;
+    white-space: nowrap;
     transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 

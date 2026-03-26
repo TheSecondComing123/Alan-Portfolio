@@ -208,16 +208,24 @@ function initializeProjectExpand() {
     }
 }
 
-/* Mouse-follow spotlight on project cards */
+/* Hyperplexed-style container spotlight: one light across all cards */
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
-    const cards = document.querySelectorAll('.project-card, .work-card')
-    for (const card of cards) {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect()
-            card.style.setProperty('--card-mouse-x', `${e.clientX - rect.left}px`)
-            card.style.setProperty('--card-mouse-y', `${e.clientY - rect.top}px`)
+    const containers = document.querySelectorAll('.project-bento, .work-grid')
+    for (const container of containers) {
+        const cards = container.querySelectorAll('.project-card, .work-card')
+
+        container.addEventListener('mousemove', (e) => {
+            const containerRect = container.getBoundingClientRect()
+            container.style.setProperty('--container-x', `${e.clientX - containerRect.left}px`)
+            container.style.setProperty('--container-y', `${e.clientY - containerRect.top}px`)
+
+            for (const card of cards) {
+                const cardRect = card.getBoundingClientRect()
+                card.style.setProperty('--card-mouse-x', `${e.clientX - cardRect.left}px`)
+                card.style.setProperty('--card-mouse-y', `${e.clientY - cardRect.top}px`)
+            }
         })
     }
 }
