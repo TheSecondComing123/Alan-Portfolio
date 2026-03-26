@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="prefetch" href="<%= backHref %>" />
   <script src="/js/utils.js?v=<%= assetVersion %>" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" defer></script>
@@ -43,28 +43,25 @@
 <body class="blog-page blog-template-<%= contentTemplate %>">
   <svg aria-hidden="true" style="position:absolute;width:0;height:0"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></svg>
 
-  <nav class="blog-topnav" aria-label="Site navigation">
-    <a class="blog-topnav-home" href="/">Alan Bagel</a>
-    <span class="blog-topnav-sep">/</span>
-    <% if (contentTemplate === 'post') { %>
-      <a class="blog-topnav-link" href="/blog">Blog</a>
-    <% } else { %>
-      <span class="blog-topnav-current">Blog</span>
-    <% } %>
-  </nav>
-
   <main class="blog-page-main" role="main" aria-label="Blog content">
-    <div class="window-container">
-      <div class="window blog-page-window" id="blog">
-        <% if (contentTemplate !== 'post') { %>
-          <h1 class="window-title"><%= heading %></h1>
-          <p class="description"><%= description %></p>
+    <section class="blog-section" id="blog">
+      <nav class="blog-topnav" aria-label="Site navigation">
+        <a class="blog-topnav-home" href="/">Alan Bagel</a>
+        <span class="blog-topnav-sep">/</span>
+        <% if (contentTemplate === 'post') { %>
+          <a class="blog-topnav-link" href="/blog">Blog</a>
+        <% } else { %>
+          <span class="blog-topnav-current">Blog</span>
         <% } %>
-        <section class="blog-grid" role="list" aria-label="<%= ariaLabel %>">
-          <%- include(contentTemplate, contentData) %>
-        </section>
+      </nav>
+      <% if (contentTemplate !== 'post') { %>
+        <h1 class="blog-page-title"><%= heading %></h1>
+        <p class="blog-page-description"><%= description %></p>
+      <% } %>
+      <div class="blog-grid" role="list" aria-label="<%= ariaLabel %>">
+        <%- include(contentTemplate, contentData) %>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="site-footer" aria-label="Site footer">

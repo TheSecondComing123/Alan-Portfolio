@@ -91,13 +91,13 @@ function initializeRevealAnimations() {
 
     const cards = document.querySelectorAll('.blog-grid .blog-card')
     const articleChildren = document.querySelectorAll('.blog-article > *')
-    const backLink = document.querySelector('.blog-back-link')
-    const title = document.querySelector('.blog-page .window-title')
-    const description = document.querySelector('.blog-page .description')
+    const topnav = document.querySelector('.blog-topnav')
+    const title = document.querySelector('.blog-page-title')
+    const description = document.querySelector('.blog-page-description')
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-    const headerElements = [backLink, title, description].filter(Boolean)
+    const headerElements = [topnav, title, description].filter(Boolean)
     if (headerElements.length > 0) {
         tl.from(headerElements, {
             autoAlpha: 0,
