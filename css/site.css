@@ -102,9 +102,7 @@ html:not(.lenis) {
     pointer-events: none;
 }
 
-/* ==============================
-   SHARED
-   ============================== */
+/* --- shared --- */
 
 .section-label {
     font-family: var(--mono);
@@ -125,9 +123,7 @@ html:not(.lenis) {
     position: relative;
 }
 
-/* ==============================
-   HERO
-   ============================== */
+/* --- hero --- */
 
 .hero {
     min-height: 100vh;
@@ -257,9 +253,7 @@ html:not(.lenis) {
     font-weight: 600;
 }
 
-/* ==============================
-   PROJECTS
-   ============================== */
+/* --- projects --- */
 
 .projects {
     padding-top: clamp(20px, 3vh, 36px);
@@ -582,9 +576,7 @@ a.project-link:focus-visible {
     outline-offset: 3px;
 }
 
-/* ==============================
-   WORK
-   ============================== */
+/* --- work --- */
 
 .work {
     padding-top: clamp(16px, 2vh, 28px);
@@ -719,9 +711,7 @@ a.project-link:focus-visible {
     font-weight: 700;
 }
 
-/* ==============================
-   TECH
-   ============================== */
+/* --- tech --- */
 
 .tech {
     padding-top: clamp(12px, 2vh, 24px);
@@ -768,9 +758,7 @@ a.project-link:focus-visible {
     font-family: var(--font-body);
 }
 
-/* ==============================
-   FOOTER
-   ============================== */
+/* --- footer --- */
 
 .site-footer {
     width: min(1200px, 100%);
@@ -789,9 +777,7 @@ a.project-link:focus-visible {
     line-height: 1.4;
 }
 
-/* ==============================
-   RESPONSIVE
-   ============================== */
+/* --- responsive --- */
 
 @media (max-width: 1100px) {
     .project-bento {
