@@ -25,6 +25,7 @@ async function init() {
         setCurrentButton('home')
 
         revealPortfolioShell()
+        initializeCardSpotlight()
         scheduleNonCriticalInitialization()
     } finally {
         document.documentElement.classList.remove('js-loading')
@@ -115,51 +116,11 @@ function loadHomepageFontStylesheet() {
 }
 
 function scheduleDeviconStylesheetWhenNeeded() {
-    if (!document.querySelector('.technology-card i[class*="devicon-"]')) return
-    if (document.getElementById('devicon-stylesheet')) return
-
-    const technologiesSection = document.getElementById('technologies')
-    if (!technologiesSection) {
-        loadDeviconStylesheet()
-        return
-    }
-
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (!entries.some((entry) => entry.isIntersecting)) return
-                observer.disconnect()
-                loadDeviconStylesheet()
-            },
-            { rootMargin: '400px 0px' },
-        )
-        observer.observe(technologiesSection)
-        return
-    }
-
-    const loadOnScroll = () => {
-        const rect = technologiesSection.getBoundingClientRect()
-        if (rect.top > window.innerHeight + 400) return
-
-        window.removeEventListener('scroll', loadOnScroll)
-        window.removeEventListener('resize', loadOnScroll)
-        loadDeviconStylesheet()
-    }
-
-    window.addEventListener('scroll', loadOnScroll, { passive: true })
-    window.addEventListener('resize', loadOnScroll)
-    loadOnScroll()
+    // Devicon no longer used: tech section is text-based now.
 }
 
 function loadDeviconStylesheet() {
-    if (!document.querySelector('.technology-card i[class*="devicon-"]')) return
-    if (document.getElementById('devicon-stylesheet')) return
-
-    const link = document.createElement('link')
-    link.id = 'devicon-stylesheet'
-    link.rel = 'stylesheet'
-    link.href = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css'
-    document.head.appendChild(link)
+    // Devicon no longer used: tech section is text-based now.
 }
 
 function loadLucideScript() {
@@ -329,6 +290,19 @@ function initializeScrollObserver() {
     window.addEventListener('resize', updateActiveSection)
 }
 
+function initializeCardSpotlight() {
+    if (isMobileViewport()) return
+
+    const cards = document.querySelectorAll('.project-card')
+    for (const card of cards) {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect()
+            card.style.setProperty('--card-mouse-x', `${e.clientX - rect.left}px`)
+            card.style.setProperty('--card-mouse-y', `${e.clientY - rect.top}px`)
+        })
+    }
+}
+
 function initializeRevealAnimations() {
     const sections = [...document.querySelectorAll('.window')]
     if (sections.length === 0) return
@@ -338,7 +312,7 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.hero-kicker, .window-title, .window-subtitle, .description',
+            selector: '.window-title, .window-subtitle, .description',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
@@ -353,7 +327,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.contact-panel, .project-card, .work-card',
+            selector: '.contact-panel, .project-card, .work-entry',
             at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
@@ -377,7 +351,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.contact-item, .technology-card',
+            selector: '.contact-item, .tech-row',
             at: 0.2,
             prepare(gsap, elements) {
                 elements.forEach((element, index) => {

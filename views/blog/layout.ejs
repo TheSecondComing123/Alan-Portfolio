@@ -41,12 +41,21 @@
   <script src="/js/blog.js?v=<%= assetVersion %>" defer></script>
 </head>
 <body class="blog-page blog-template-<%= contentTemplate %>">
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></svg>
+
+  <nav class="blog-topnav" aria-label="Site navigation">
+    <a class="blog-topnav-home" href="/">Alan Bagel</a>
+    <span class="blog-topnav-sep">/</span>
+    <% if (contentTemplate === 'post') { %>
+      <a class="blog-topnav-link" href="/blog">Blog</a>
+    <% } else { %>
+      <span class="blog-topnav-current">Blog</span>
+    <% } %>
+  </nav>
+
   <main class="blog-page-main" role="main" aria-label="Blog content">
     <div class="window-container">
       <div class="window blog-page-window" id="blog">
-        <div class="blog-page-actions">
-          <a class="project-link blog-back-link" href="<%= backHref %>"><%= backLabel %></a>
-        </div>
         <% if (contentTemplate !== 'post') { %>
           <h1 class="window-title"><%= heading %></h1>
           <p class="description"><%= description %></p>
@@ -57,5 +66,9 @@
       </div>
     </div>
   </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <p class="site-footer-line">// &copy; <%= new Date().getFullYear() %> alan bagel. keep calm and eat bagels.</p>
+  </footer>
 </body>
 </html>
