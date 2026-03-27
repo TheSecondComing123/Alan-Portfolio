@@ -34,6 +34,7 @@ export default [
                 ScrollTrigger: 'readonly',
                 Lenis: 'readonly',
                 lucide: 'readonly',
+                EASE_OUT_EXPO: 'readonly',
             },
         },
         rules: {
