@@ -18,7 +18,6 @@ async function init() {
     try {
         scheduleHomepageFonts()
         revealPortfolioShell()
-        initializeProjectExpand()
         initializeImageLightbox()
         initializeCardSpotlight()
         scheduleNonCriticalInitialization()
@@ -174,39 +173,6 @@ function initializeSmoothScroll() {
             lenis.resize()
         }
     })
-}
-
-/* project card expand/collapse */
-function initializeProjectExpand() {
-    const compactCards = document.querySelectorAll('.project-card.compact')
-    for (const card of compactCards) {
-        const expandable = card.querySelector('.project-expandable')
-        if (!expandable) continue
-
-        expandable.classList.add('collapsed')
-
-        const btn = document.createElement('button')
-        btn.className = 'project-expand-btn'
-        btn.textContent = 'Read more'
-        btn.setAttribute('aria-expanded', 'false')
-
-        btn.addEventListener('click', () => {
-            const isCollapsed = expandable.classList.contains('collapsed')
-            if (isCollapsed) {
-                expandable.style.maxHeight = `${expandable.scrollHeight  }px`
-                expandable.classList.remove('collapsed')
-                btn.textContent = 'Show less'
-                btn.setAttribute('aria-expanded', 'true')
-            } else {
-                expandable.style.maxHeight = '0px'
-                expandable.classList.add('collapsed')
-                btn.textContent = 'Read more'
-                btn.setAttribute('aria-expanded', 'false')
-            }
-        })
-
-        card.appendChild(btn)
-    }
 }
 
 function initializeImageLightbox() {
