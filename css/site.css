@@ -16,7 +16,9 @@
     --font-body: 'Manrope', 'Inter', system-ui, sans-serif;
     --font-display: 'Sora', 'Manrope', 'Inter', system-ui, sans-serif;
     --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-feature-settings: 'liga' 1, 'calt' 1;
+    font-feature-settings:
+        'liga' 1,
+        'calt' 1;
     font-variant-numeric: tabular-nums;
 }
 
@@ -323,7 +325,9 @@ html:not(.lenis) {
     box-shadow:
         0 2px 12px hsl(0 0% 0% / 0.2),
         0 0 calc(var(--glow) * 28px) hsl(127 55% 40% / calc(var(--glow) * 0.12));
-    transition: --glow 0.35s ease, border-color 0.25s ease;
+    transition:
+        --glow 0.35s ease,
+        border-color 0.25s ease;
 }
 
 .project-card:hover {
@@ -418,7 +422,10 @@ html:not(.lenis) {
     border: 1px solid var(--outline-variant);
     border-radius: 4px;
     white-space: nowrap;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
 }
 
 a.project-link:hover {
@@ -503,7 +510,9 @@ a.project-link:focus-visible {
     cursor: zoom-out;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
 }
 
 .lightbox.open {
@@ -626,7 +635,10 @@ a.project-link:focus-visible {
     border: 1px solid var(--outline-variant);
     border-radius: 4px;
     white-space: nowrap;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
 }
 
 .work-link:hover {
@@ -839,7 +851,9 @@ a.project-link:focus-visible {
     box-shadow:
         0 2px 12px hsl(0 0% 0% / 0.2),
         0 0 calc(var(--glow) * 28px) hsl(127 55% 40% / calc(var(--glow) * 0.12));
-    transition: --glow 0.35s ease, border-color 0.25s ease;
+    transition:
+        --glow 0.35s ease,
+        border-color 0.25s ease;
 }
 
 .case-card:hover {

@@ -2,10 +2,7 @@ let lenis = null
 
 function smoothScrollTo(y, duration = 900) {
     if (lenis) {
-        lenis.scrollTo(y, {
-            duration: Math.max(0.35, duration / 1000),
-            easing: EASE_OUT_EXPO,
-        })
+        lenis.scrollTo(y, { duration: Math.max(0.35, duration / 1000), easing: EASE_OUT_EXPO })
         return
     }
 
@@ -40,8 +37,8 @@ function initAnchorScroll() {
 
 function initializeSmoothScroll() {
     const prefersReducedMotion =
-        typeof window.matchMedia === 'function' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        typeof window.matchMedia === 'function'
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion || typeof window.Lenis === 'undefined') return
 
@@ -84,8 +81,8 @@ function initializeSmoothScroll() {
 
 function initializeRevealAnimations() {
     const prefersReducedMotion =
-        typeof window.matchMedia === 'function' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        typeof window.matchMedia === 'function'
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReducedMotion || typeof gsap === 'undefined') return
 

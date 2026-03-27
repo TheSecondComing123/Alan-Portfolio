@@ -76,7 +76,8 @@ function buildXml(entries) {
         lines.push('  <url>')
         lines.push(`    <loc>${escapeXml(entry.loc)}</loc>`)
         if (entry.lastmod) lines.push(`    <lastmod>${escapeXml(entry.lastmod)}</lastmod>`)
-        if (entry.changefreq) lines.push(`    <changefreq>${escapeXml(entry.changefreq)}</changefreq>`)
+        if (entry.changefreq)
+            lines.push(`    <changefreq>${escapeXml(entry.changefreq)}</changefreq>`)
         if (entry.priority) lines.push(`    <priority>${escapeXml(entry.priority)}</priority>`)
         lines.push('  </url>')
     }
@@ -98,7 +99,12 @@ async function main() {
     const entries = [
         { loc: `${SITE_URL}/`, lastmod: homeLastmod, changefreq: 'weekly', priority: '1.0' },
         { loc: `${SITE_URL}/blog`, lastmod: blogLastmod, changefreq: 'weekly', priority: '0.9' },
-        { loc: `${SITE_URL}/projects`, lastmod: homeLastmod, changefreq: 'monthly', priority: '0.8' },
+        {
+            loc: `${SITE_URL}/projects`,
+            lastmod: homeLastmod,
+            changefreq: 'monthly',
+            priority: '0.8',
+        },
         ...posts.map((post) => ({
             loc: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
             lastmod: post.lastmod,

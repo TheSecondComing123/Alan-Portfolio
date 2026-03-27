@@ -92,7 +92,9 @@ function loadHomepageFontStylesheet() {
 
 async function loadEnhancementScripts() {
     await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js').catch(() => {})
-    await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js').catch(() => {})
+    await loadScript('https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js').catch(
+        () => {},
+    )
     await loadScript(versionedAssetPath('/js/vendor/lenis.min.js')).catch(() => {})
 }
 
@@ -108,7 +110,9 @@ function loadScript(src) {
 
         return new Promise((resolve, reject) => {
             existing.addEventListener('load', () => resolve(), { once: true })
-            existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true })
+            existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), {
+                once: true,
+            })
         })
     }
 
@@ -124,7 +128,9 @@ function loadScript(src) {
             },
             { once: true },
         )
-        script.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), { once: true })
+        script.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)), {
+            once: true,
+        })
         document.head.appendChild(script)
     })
 }
@@ -413,13 +419,14 @@ function initializeHeroBackgroundTransition() {
 
     if (prefersReducedMotion()) return
 
-    const hasGSAP = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined'
+    const hasGSAP =
+        typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined'
 
     if (hasGSAP) {
         window.gsap.to(background, {
             '--hero-bg-opacity': 0,
-            ease: 'none',
-            scrollTrigger: {
+            'ease': 'none',
+            'scrollTrigger': {
                 trigger: hero,
                 start: 'top top',
                 end: 'bottom top',

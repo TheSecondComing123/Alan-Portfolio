@@ -81,7 +81,12 @@ function initializeImageLightbox() {
 }
 
 function initializeRevealAnimations() {
-    if (prefersReducedMotion() || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
+    if (
+        prefersReducedMotion()
+        || typeof gsap === 'undefined'
+        || typeof ScrollTrigger === 'undefined'
+    )
+        return
 
     gsap.registerPlugin(ScrollTrigger)
 

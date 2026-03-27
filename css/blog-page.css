@@ -144,7 +144,9 @@
     flex-direction: column;
     gap: 10px;
     box-shadow: 0 2px 12px hsl(0 0% 0% / 0.2);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .blog-page.blog-template-index .blog-card:hover {
@@ -179,7 +181,10 @@
     border: 1px solid var(--outline-variant);
     border-radius: 4px;
     white-space: nowrap;
-    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
 }
 
 .blog-page .project-link:hover {
@@ -332,7 +337,9 @@
     color: var(--primary-light);
     text-decoration-color: hsl(127 55% 56% / 0.3);
     text-underline-offset: 3px;
-    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    transition:
+        color 0.15s ease,
+        text-decoration-color 0.15s ease;
 }
 
 .blog-markdown a:hover,

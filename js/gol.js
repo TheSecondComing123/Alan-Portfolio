@@ -1,4 +1,4 @@
-; (function () {
+;(function () {
     'use strict'
 
     const CONFIG = {
@@ -40,11 +40,21 @@
         offscreen.height = size
         const offCtx = offscreen.getContext('2d')
         const gradient = offCtx.createRadialGradient(
-            CONFIG.glowRadius, CONFIG.glowRadius, 0,
-            CONFIG.glowRadius, CONFIG.glowRadius, CONFIG.glowRadius,
+            CONFIG.glowRadius,
+            CONFIG.glowRadius,
+            0,
+            CONFIG.glowRadius,
+            CONFIG.glowRadius,
+            CONFIG.glowRadius,
         )
-        gradient.addColorStop(0, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 70% / ${CONFIG.glowAlpha})`)
-        gradient.addColorStop(0.4, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 60% / ${CONFIG.glowAlpha * 0.5})`)
+        gradient.addColorStop(
+            0,
+            `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 70% / ${CONFIG.glowAlpha})`,
+        )
+        gradient.addColorStop(
+            0.4,
+            `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 60% / ${CONFIG.glowAlpha * 0.5})`,
+        )
         gradient.addColorStop(1, `hsla(${CONFIG.aliveHue} ${CONFIG.aliveSat}% 50% / 0)`)
         offCtx.fillStyle = gradient
         offCtx.fillRect(0, 0, size, size)
@@ -136,9 +146,9 @@
             for (let y = 0; y < rows; y++) {
                 const neighbors = countNeighbors(x, y)
                 nextGrid[x][y].alive =
-                    grid[x][y].alive
-                        ? neighbors === 2 || neighbors === 3
-                        : neighbors === 3 || neighbors === 6
+                    grid[x][y].alive ?
+                        neighbors === 2 || neighbors === 3
+                    :   neighbors === 3 || neighbors === 6
                 if (nextGrid[x][y].alive) aliveCount++
             }
         }

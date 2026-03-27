@@ -166,18 +166,18 @@ app.get('/blog', async (_req, res, next) => {
                 {
                     '@context': 'https://schema.org',
                     '@type': 'BreadcrumbList',
-                    itemListElement: [
+                    'itemListElement': [
                         {
                             '@type': 'ListItem',
-                            position: 1,
-                            name: 'Home',
-                            item: `${SITE_URL}/`,
+                            'position': 1,
+                            'name': 'Home',
+                            'item': `${SITE_URL}/`,
                         },
                         {
                             '@type': 'ListItem',
-                            position: 2,
-                            name: 'Blog',
-                            item: `${SITE_URL}/blog`,
+                            'position': 2,
+                            'name': 'Blog',
+                            'item': `${SITE_URL}/blog`,
                         },
                     ],
                 },
@@ -230,47 +230,39 @@ app.get('/blog/:slug', async (req, res, next) => {
                 {
                     '@context': 'https://schema.org',
                     '@type': 'BreadcrumbList',
-                    itemListElement: [
+                    'itemListElement': [
                         {
                             '@type': 'ListItem',
-                            position: 1,
-                            name: 'Home',
-                            item: `${SITE_URL}/`,
+                            'position': 1,
+                            'name': 'Home',
+                            'item': `${SITE_URL}/`,
                         },
                         {
                             '@type': 'ListItem',
-                            position: 2,
-                            name: 'Blog',
-                            item: `${SITE_URL}/blog`,
+                            'position': 2,
+                            'name': 'Blog',
+                            'item': `${SITE_URL}/blog`,
                         },
                         {
                             '@type': 'ListItem',
-                            position: 3,
-                            name: post.title,
-                            item: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                            'position': 3,
+                            'name': post.title,
+                            'item': `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
                         },
                     ],
                 },
                 {
                     '@context': 'https://schema.org',
                     '@type': 'BlogPosting',
-                    headline: post.title,
-                    description: post.excerpt || 'Engineering notes from Alan Bagel.',
-                    author: {
-                        '@type': 'Person',
-                        name: 'Alan Bagel',
-                        url: `${SITE_URL}/`,
-                    },
-                    publisher: {
-                        '@type': 'Person',
-                        name: 'Alan Bagel',
-                        url: `${SITE_URL}/`,
-                    },
-                    datePublished: formatIsoDate(post.date),
-                    dateModified: formatIsoDate(post.date),
-                    mainEntityOfPage: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
-                    url: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
-                    keywords: Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
+                    'headline': post.title,
+                    'description': post.excerpt || 'Engineering notes from Alan Bagel.',
+                    'author': { '@type': 'Person', 'name': 'Alan Bagel', 'url': `${SITE_URL}/` },
+                    'publisher': { '@type': 'Person', 'name': 'Alan Bagel', 'url': `${SITE_URL}/` },
+                    'datePublished': formatIsoDate(post.date),
+                    'dateModified': formatIsoDate(post.date),
+                    'mainEntityOfPage': `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                    'url': `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
+                    'keywords': Array.isArray(post.tags) ? post.tags.join(', ') : undefined,
                 },
             ],
         })
@@ -281,10 +273,7 @@ app.get('/blog/:slug', async (req, res, next) => {
 
 app.get('/projects', (_req, res, next) => {
     try {
-        res.render('projects/index', {
-            assetVersion: ASSET_VERSION,
-            cspNonce: res.locals.cspNonce,
-        })
+        res.render('projects/index', { assetVersion: ASSET_VERSION, cspNonce: res.locals.cspNonce })
     } catch (error) {
         next(error)
     }
