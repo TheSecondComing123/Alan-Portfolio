@@ -98,6 +98,7 @@ async function main() {
     const entries = [
         { loc: `${SITE_URL}/`, lastmod: homeLastmod, changefreq: 'weekly', priority: '1.0' },
         { loc: `${SITE_URL}/blog`, lastmod: blogLastmod, changefreq: 'weekly', priority: '0.9' },
+        { loc: `${SITE_URL}/projects`, lastmod: homeLastmod, changefreq: 'monthly', priority: '0.8' },
         ...posts.map((post) => ({
             loc: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
             lastmod: post.lastmod,
