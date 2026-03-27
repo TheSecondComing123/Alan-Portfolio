@@ -279,6 +279,17 @@ app.get('/blog/:slug', async (req, res, next) => {
     }
 })
 
+app.get('/projects', (_req, res, next) => {
+    try {
+        res.render('projects/index', {
+            assetVersion: ASSET_VERSION,
+            cspNonce: res.locals.cspNonce,
+        })
+    } catch (error) {
+        next(error)
+    }
+})
+
 app.get('/', async (_req, res, next) => {
     try {
         res.render('portfolio/index', {
