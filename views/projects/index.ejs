@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects | Alan Bagel</title>
+  <meta
+    name="description"
+    content="Projects by Alan Bagel - a 2D roguelike, a full-stack ACSL training platform, and a 2D platformer in active development."
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#1b211b" />
+  <link rel="canonical" href="https://alanthebagel.com/projects" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Projects | Alan Bagel" />
+  <meta
+    property="og:description"
+    content="Projects by Alan Bagel - a 2D roguelike, a full-stack ACSL training platform, and a 2D platformer in active development."
+  />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://alanthebagel.com/projects" />
+
+  <script type="application/ld+json"<% if (typeof cspNonce !== 'undefined' && cspNonce) { %> nonce="<%= cspNonce %>"<% } %>>
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alanthebagel.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://alanthebagel.com/projects" }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>" />
+  <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="prefetch" href="/" />
+</head>
+<body>
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></svg>
+
+  <main class="projects-page-main" role="main" aria-label="Projects content">
+    <section class="projects-section" id="projects">
+      <nav class="projects-topnav" aria-label="Site navigation">
+        <a class="projects-topnav-home" href="/">Alan Bagel</a>
+        <span class="projects-topnav-sep">/</span>
+        <span class="projects-topnav-current">Projects</span>
+        <span class="projects-topnav-sep">/</span>
+        <a class="projects-topnav-link" href="/blog">Blog</a>
+      </nav>
+
+      <p class="section-label">Projects</p>
+
+      <div class="projects-list">
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">01 / Featured</p>
+              <h2 class="case-title">Microcosm</h2>
+              <p class="case-description">
+                A 2D roguelike built with Pygame and OpenGL where each run escalates through
+                denser enemy waves, tighter resource windows, and sharper decision-making. I
+                designed the combat loop around responsive controls, readable telegraphs, and
+                clear hit feedback so difficulty feels demanding but fair. Under the hood, I
+                focused heavily on performance, keeping frame pacing stable during high-entity
+                fights through aggressive update filtering and optimized collision checks.
+              </p>
+              <ul class="case-highlights">
+                <li>Procedural encounters and adaptive enemy AI with scaling based on progression, run duration, and player performance.</li>
+                <li>Frame-precise combat systems including invulnerability windows, telegraphed attacks, and tight collision handling.</li>
+                <li>Math-heavy optimization work using vectorized movement, aggressive state pruning, and low-overhead collision filtering.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">Pygame</span>
+                  <span class="tag">OpenGL</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">2D Roguelike</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">Released</p>
+              </div>
+              <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero">
+            <img src="/images/acsl-academy.png" alt="ACSL Academy learn page showing lesson cards organized by contest" loading="lazy" />
+          </div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">02</p>
+              <h2 class="case-title">ACSL Academy</h2>
+              <p class="case-description">
+                A full-stack ACSL training platform built with Next.js, Tailwind, and Supabase,
+                deployed on Vercel for fast, reliable access. The platform is structured to
+                support long-term skill growth with guided lessons, contest-style practice, and
+                immediate feedback loops.
+              </p>
+              <ul class="case-highlights">
+                <li>30+ structured lessons across core ACSL programming and CS topics with progressive difficulty pacing.</li>
+                <li>Dedicated practice problem banks and timed contest-style sets for realistic competition prep.</li>
+                <li>Account-based progress tracking, quiz workflows, and data-backed refinement of training content.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">Next.js</span>
+                  <span class="tag">Tailwind</span>
+                  <span class="tag">Supabase</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">Full-Stack Platform</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">Released</p>
+              </div>
+              <a href="https://acsl-academy.vercel.app" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">03</p>
+              <h2 class="case-title">The Legend of Rick</h2>
+              <p class="case-description">
+                A 2D platformer in Godot and GDScript centered on tight movement, readable
+                challenge design, and satisfying level flow. I've been tuning jump physics,
+                momentum, and recovery timing so controls stay consistent across both precision
+                platforming and combat sections.
+              </p>
+              <ul class="case-highlights">
+                <li>Tuned jump arcs, momentum, recovery windows, and collision behavior for consistent control feel.</li>
+                <li>Multiple stage archetypes with checkpoint flow, enemy timing systems, and clearer fail-state feedback.</li>
+                <li>Active expansion toward boss encounters and tighter pacing across gameplay and humor beats.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">Godot</span>
+                  <span class="tag">GDScript</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">2D Platformer</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">In Progress</p>
+              </div>
+              <span class="project-link muted">Coming soon</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <p class="site-footer-line">// &copy; <%= new Date().getFullYear() %> alan bagel. keep calm and eat bagels.</p>
+  </footer>
+
+  <script src="/js/utils.js?v=<%= assetVersion %>" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js" defer></script>
+  <script src="/js/vendor/lenis.min.js?v=<%= assetVersion %>" defer></script>
+  <script src="/js/projects.js?v=<%= assetVersion %>" defer></script>
+</body>
+</html>
