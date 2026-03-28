@@ -6,7 +6,7 @@
   <title>Projects | Alan Bagel</title>
   <meta
     name="description"
-    content="Projects by Alan Bagel - a 2D roguelike, a full-stack ACSL training platform, and a 2D platformer in active development."
+    content="Projects by Alan Bagel - games, compilers, terminal apps, and web platforms across Rust, Scala, TypeScript, Python, and C."
   />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1b211b" />
@@ -15,7 +15,7 @@
   <meta property="og:title" content="Projects | Alan Bagel" />
   <meta
     property="og:description"
-    content="Projects by Alan Bagel - a 2D roguelike, a full-stack ACSL training platform, and a 2D platformer in active development."
+    content="Projects by Alan Bagel - games, compilers, terminal apps, and web platforms across Rust, Scala, TypeScript, Python, and C."
   />
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://alanthebagel.com/projects" />
@@ -111,7 +111,7 @@
               <p class="case-num">02</p>
               <h2 class="case-title">ACSL Academy</h2>
               <p class="case-description">
-                A full-stack ACSL training platform built with Next.js, Tailwind, and Supabase,
+                A full-stack ACSL training platform built with SvelteKit, Tailwind, and Supabase,
                 deployed on Vercel for fast, reliable access. The platform is structured to
                 support long-term skill growth with guided lessons, contest-style practice, and
                 immediate feedback loops.
@@ -126,7 +126,7 @@
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
                 <div class="project-tags">
-                  <span class="tag">Next.js</span>
+                  <span class="tag">SvelteKit</span>
                   <span class="tag">Tailwind</span>
                   <span class="tag">Supabase</span>
                 </div>
@@ -149,6 +149,169 @@
           <div class="case-body">
             <div class="case-content">
               <p class="case-num">03</p>
+              <h2 class="case-title">tiscord</h2>
+              <p class="case-description">
+                A terminal Discord client in Rust for browsing servers, channels, and DMs
+                entirely from the command line. I built it around Ratatui for the TUI layer
+                and a direct Discord gateway integration for real-time updates. The client
+                supports message threading, reactions, search, typing indicators, and inline
+                image previews via the Kitty terminal graphics protocol. Tokens are stored
+                securely through the OS keychain.
+              </p>
+              <ul class="case-highlights">
+                <li>Real-time Discord gateway connection with message streaming, presence updates, and typing indicators.</li>
+                <li>Inline image rendering using the Kitty terminal graphics protocol for media-rich conversations.</li>
+                <li>Modular architecture across ~12,600 lines of Rust with clean separation between Discord API, TUI rendering, and token management.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">Rust</span>
+                  <span class="tag">Ratatui</span>
+                  <span class="tag">Crossterm</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">Terminal Application</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">Released</p>
+              </div>
+              <a href="https://github.com/TheSecondComing123/tiscord" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">04</p>
+              <h2 class="case-title">algo</h2>
+              <p class="case-description">
+                A custom DSL compiler that translates Python-like syntax into optimized
+                C++17 for competitive programming. The full pipeline runs from lexer through
+                parser, semantic analysis, optimizer, and codegen. The codegen is modular,
+                only emitting the stdlib functions actually used, so the output stays clean
+                and submission-ready.
+              </p>
+              <ul class="case-highlights">
+                <li>Full compiler pipeline: lexer, parser, semantic analysis, optimizer, and C++17 code generation in Scala 3.</li>
+                <li>Built-in data structures and algorithms including graphs (BFS, Dijkstra, Floyd, MST), segment trees, BIT, and DSU.</li>
+                <li>Comprehensive test suite validating expected C++ output with end-to-end compilation checks.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">Scala 3</span>
+                  <span class="tag">C++17</span>
+                  <span class="tag">SBT</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">Compiler</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">Released</p>
+              </div>
+              <a href="https://github.com/TheSecondComing123/algo" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">05</p>
+              <h2 class="case-title">Territory War</h2>
+              <p class="case-description">
+                A 1v1 turn-based territory control game where both players move simultaneously
+                on a shared grid. I designed the AI progression to ramp from reactive to
+                anticipatory strategies, with a loadout system that guarantees at least three
+                viable combinations per level so the player always has meaningful choices.
+              </p>
+              <ul class="case-highlights">
+                <li>Simultaneous turn-based gameplay with grid enclosure mechanics and territory capture rules.</li>
+                <li>6+ AI strategies (Greedy Expand, Wall, Encircle, Deny, Efficient Fill, Corner Trap) with cooldowns and switching.</li>
+                <li>Progressive difficulty with strategy unlocks, level restrictions, and a loadout guarantee system.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">esbuild</span>
+                  <span class="tag">Vitest</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">Strategy Game</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">In Progress</p>
+              </div>
+              <a href="https://github.com/TheSecondComing123/Territory-War" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">06</p>
+              <h2 class="case-title">CalcGD</h2>
+              <p class="case-description">
+                Geometry Dash ported to the TI-84 Plus CE calculator in C. Working within
+                the extreme constraints of calculator hardware meant rethinking rendering,
+                input handling, and level storage from scratch. The port includes jump and
+                fly mechanics, a level editor, and practice mode with checkpoints.
+              </p>
+              <ul class="case-highlights">
+                <li>Full gameplay loop ported to calculator hardware with jump, fly, and practice mode mechanics.</li>
+                <li>Level creation and editing system with custom level file format (8xv).</li>
+                <li>Built against the CE C/C++ Toolchain, targeting extremely limited memory and display constraints.</li>
+              </ul>
+            </div>
+            <div class="case-meta">
+              <div class="case-meta-group">
+                <p class="case-meta-label">Stack</p>
+                <div class="project-tags">
+                  <span class="tag">C</span>
+                  <span class="tag">CE Toolchain</span>
+                  <span class="tag">Make</span>
+                </div>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Type</p>
+                <p class="case-meta-value">Calculator Port</p>
+              </div>
+              <div class="case-meta-group">
+                <p class="case-meta-label">Status</p>
+                <p class="case-meta-value">Released</p>
+              </div>
+              <a href="https://github.com/TheSecondComing123/CalcGD" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card">
+          <div class="case-hero"></div>
+          <div class="case-body">
+            <div class="case-content">
+              <p class="case-num">07</p>
               <h2 class="case-title">The Legend of Rick</h2>
               <p class="case-description">
                 A 2D platformer in Godot and GDScript centered on tight movement, readable

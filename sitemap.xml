@@ -2,19 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alanthebagel.com/</loc>
-    <lastmod>2026-03-27T19:36:24.789Z</lastmod>
+    <lastmod>2026-03-28T19:25:05.832Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://alanthebagel.com/blog</loc>
-    <lastmod>2026-02-26T00:00:00.000Z</lastmod>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://alanthebagel.com/projects</loc>
-    <lastmod>2026-03-27T19:36:24.789Z</lastmod>
+    <lastmod>2026-03-28T19:25:05.832Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alanthebagel.com/blog/building-a-compiler-for-competitive-programming</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alanthebagel.com/blog/designing-ai-that-feels-fair</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alanthebagel.com/blog/porting-geometry-dash-to-a-calculator</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alanthebagel.com/blog/terminal-discord-in-rust</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://alanthebagel.com/blog/what-competitive-programming-actually-teaches-you</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
