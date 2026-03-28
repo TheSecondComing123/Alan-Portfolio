@@ -31,6 +31,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://alanthebagel.com/blog/migrating-a-live-codebase-to-typescript</loc>
+    <lastmod>2026-03-28T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://alanthebagel.com/blog/porting-geometry-dash-to-a-calculator</loc>
     <lastmod>2026-03-28T00:00:00.000Z</lastmod>
     <changefreq>monthly</changefreq>
