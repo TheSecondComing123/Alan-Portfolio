@@ -477,7 +477,7 @@ a.project-link:focus-visible {
 /* --- tech --- */
 
 .tech {
-    padding-top: clamp(12px, 2vh, 24px);
+    padding-top: 40px;
     padding-bottom: clamp(16px, 2vh, 28px);
 }
 

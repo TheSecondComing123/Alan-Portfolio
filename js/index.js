@@ -1,4 +1,4 @@
-const SECTION_IDS = ['home', 'projects', 'work', 'stack']
+const SECTION_IDS = ['home', 'featured', 'projects', 'blog']
 const HOMEPAGE_FONT_STYLESHEET =
     'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
@@ -460,8 +460,7 @@ function initializeNavigationIcons() {
     const iconMap = {
         'btn-home': 'home',
         'btn-projects': 'briefcase',
-        'btn-work': 'building-2',
-        'btn-stack': 'cpu',
+        'btn-blog': 'pen-line',
     }
 
     for (const [buttonId, iconName] of Object.entries(iconMap)) {
@@ -531,11 +530,11 @@ function initializeScrollObserver() {
 }
 
 function setCurrentButton(id) {
+    const buttonId = id === 'featured' ? 'projects' : id
     document.querySelectorAll('.nav-button').forEach((button) => {
         button.removeAttribute('aria-current')
     })
-
-    const active = document.getElementById(`btn-${id}`)
+    const active = document.getElementById(`btn-${buttonId}`)
     if (active) {
         active.setAttribute('aria-current', 'location')
     }
