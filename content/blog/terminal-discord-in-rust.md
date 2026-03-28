@@ -13,47 +13,50 @@ tags:
 
 Discord's desktop app is an Electron wrapper. It works fine, but it takes 500MB+ of RAM to show text in a box. I wanted something I could run in a tmux pane alongside my editor without context-switching out of the terminal.
 
-tiscord is a full Discord client that runs in your terminal. Browse servers, channels, and DMs. Send messages, react, search, and see typing indicators. It connects directly to Discord's gateway for real-time updates and renders everything through Ratatui.
+tiscord is a full Discord client that runs in your terminal. Browse servers, channels, and DMs. Send messages, react, search, see typing indicators. It connects directly to Discord's gateway for real-time updates and renders everything through Ratatui.
 
 ## Token storage
 
-Discord tokens are sensitive. A leaked token gives full account access. I built a dual-layer storage system:
+Discord tokens are sensitive. A leaked token gives full account access. So tiscord stores them in two tiers.
 
-**Primary: OS keyring.** On macOS, this means Keychain. On Linux, Secret Service (GNOME Keyring or KDE Wallet). On Windows, Credential Manager. The `keyring` crate abstracts this. If the keyring is available, the token never touches disk.
+The first choice is the OS keyring. On macOS that's Keychain, on Linux it's Secret Service (GNOME Keyring or KDE Wallet), on Windows it's Credential Manager. The `keyring` crate abstracts the differences. When the keyring is available, the token never touches disk.
 
-**Fallback: machine-bound encrypted file.** When the keyring isn't available (headless servers, minimal containers), the token gets encrypted with AES-256-GCM. The encryption key is derived from `hostname:username` via PBKDF2-HMAC-SHA256 with 600,000 iterations. The file format is `salt (32 bytes) || nonce (12 bytes) || ciphertext`. On Unix, the file is chmod'd to 0600.
+On headless servers or minimal containers where no keyring exists, tiscord falls back to a machine-bound encrypted file. The token gets encrypted with AES-256-GCM. The encryption key is derived from `hostname:username` via PBKDF2-HMAC-SHA256 with 600,000 iterations. The file layout is `salt (32 bytes) || nonce (12 bytes) || ciphertext`. On Unix, the file is chmod'd to 0600.
 
-The machine-binding means copying the encrypted file to a different machine won't decrypt it. Not perfect security (someone with root on the same machine can derive the same key), but it raises the bar significantly above plaintext.
+Copying the encrypted file to a different machine won't decrypt it because the key derivation inputs change. Someone with root on the same machine could still derive the same key, so it's not airtight. But it's a long way from plaintext.
 
 ## Gateway architecture
 
 Discord's real-time communication happens over a WebSocket gateway. tiscord uses Twilight's gateway implementation with custom patches for user-account support (Twilight officially only supports bot accounts).
 
-The architecture is event-driven with three async tasks communicating over `tokio::sync::mpsc` channels:
+Three async tasks communicate over `tokio::sync::mpsc` channels:
 
-- **Gateway task**: maintains the WebSocket connection, handles heartbeats and reconnection, deserializes events
-- **Action handler**: processes user actions (send message, add reaction, switch channel) and translates them into HTTP API calls
-- **TUI task**: renders the interface, captures keyboard input, dispatches actions
+- The gateway task maintains the WebSocket connection, handles heartbeats and reconnection, and deserializes events.
+- The action handler processes user actions (send message, add reaction, switch channel) and translates them into HTTP API calls.
+- The TUI task renders the interface, captures keyboard input, and dispatches actions.
 
-Shared state (guilds, channels, messages, member lists) lives in an `Arc<RwLock<Store>>` that all three tasks can read. Only the gateway task writes to it.
+Shared state (guilds, channels, messages, member lists) lives in an `Arc<RwLock<Store>>` that all tasks can read. Only the gateway task writes to it.
 
 User accounts send a non-standard READY payload compared to bot accounts. The JSON includes guild folders, friend relationships, and DM channels in formats Twilight's deserializer doesn't expect. I handle this with a fallback manual JSON parser that extracts the fields I need when Twilight's parser fails.
 
 ## Rendering images in a terminal
 
-This was the most interesting problem. Terminals are text-based, but Discord is full of images. I support three graphics protocols:
+Terminals are text-based. Discord is full of images. Bridging these two facts was the most interesting part of the project.
 
-**Kitty graphics protocol** (Kitty, WezTerm, Ghostty): the image is PNG-encoded, base64'd, and sent as escape sequences in 4096-byte chunks. The terminal decodes and renders the image inline. I calculate display size using the heuristic of 1 column = 8 pixels, 1 row = 16 pixels.
+For terminals that support the Kitty graphics protocol (Kitty, WezTerm, Ghostty), the image is PNG-encoded, base64'd, and sent as escape sequences in 4096-byte chunks. The terminal decodes and renders the image inline. Display size is calculated with a rough heuristic: 1 column = 8 pixels, 1 row = 16 pixels.
 
-**Sixel** (older terminals like xterm with sixel support): the image is quantized down to a 256-color palette using Euclidean distance in RGB space, then encoded as sixel characters. Each character represents a 1x6 pixel column. Color cycling happens per 6-row band.
+For older terminals with Sixel support (like xterm), the image is quantized down to a 256-color palette using Euclidean distance in RGB space, then encoded as sixel characters. Each character represents a 1x6 pixel column. Color cycling happens per 6-row band.
 
-**No graphics**: if neither protocol is available, images are replaced with a `[image]` placeholder.
+If neither protocol is available, images are replaced with a `[image]` placeholder.
 
-Detection is environment-based: I check `KITTY_WINDOW_ID`, `WEZTERM_EXECUTABLE`, and `TERM_PROGRAM` to determine which protocol the terminal supports. No probing sequences needed.
+Detection is environment-based. I check `KITTY_WINDOW_ID`, `WEZTERM_EXECUTABLE`, and `TERM_PROGRAM` to pick the right protocol. No probing sequences needed.
 
-## What I learned
+## Loose ends and observations
 
-- **Twilight's shard model** is designed for bots managing thousands of guilds. For a single-user client connecting to one shard, most of the complexity is unnecessary, but the abstractions are clean enough that it works without fighting the library.
-- **Terminal graphics are surprisingly capable** once you get past the escape sequence encoding. Kitty protocol in particular makes inline images feel native.
-- **Async Rust channels** are the right abstraction for event-driven TUI apps. The gateway, action handler, and renderer are completely decoupled. Any of them can block without affecting the others.
-- **Token security is a rabbit hole.** There's always a more sophisticated attack vector. Machine-bound encryption with keyring fallback is a pragmatic middle ground for a personal tool.
+Twilight's shard model is designed for bots managing thousands of guilds. For a single-user client on one shard, most of that complexity goes unused, but the abstractions stayed out of my way.
+
+Terminal graphics are more capable than I expected going in. Kitty protocol in particular makes inline images feel native once you get past the escape sequence encoding.
+
+The `tokio::sync::mpsc` channels turned out to be exactly right for structuring a TUI app like this. The gateway, action handler, and renderer run independently. Any of them can block without stalling the others.
+
+Token security is a rabbit hole you can go arbitrarily deep into. Machine-bound encryption with a keyring as the primary path felt like a reasonable place to stop for a personal tool.

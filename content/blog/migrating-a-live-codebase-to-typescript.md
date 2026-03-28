@@ -13,31 +13,32 @@ tags:
 
 Sauna is a web-based game library client. Users browse, claim, and play PC-native games directly in the browser. It was built fast by a small team and shipped as vanilla JavaScript: imperative DOM manipulation, global state, no type safety, no linting.
 
-It worked. But adding features was getting painful. Every change to the game data model risked breaking something downstream because there was no way to trace how data flowed through the app. The window manager (the code that spawns, drags, resizes, and manages game windows) was a single 300-line file that did everything.
+It worked. But adding features was getting painful. Every change to the game data model risked breaking something downstream because there was no way to trace how data flowed through the app. The window manager (spawning, dragging, resizing, managing game windows) was a single 300-line file that did everything.
 
 I did the migration in two phases: vanilla JS to Svelte components, then JavaScript to TypeScript. Both while the product was live.
 
 ## Phase 1: Svelte migration
 
-The original app rendered everything imperatively. There was a `render.js` that built HTML strings and injected them into the DOM. A `state.js` held global variables. A `library.js` fetched data and called render functions. A `modal.js` managed a single modal. A `views.js` handled tab switching. Six files, all tightly coupled through globals.
+The original app rendered everything imperatively. `render.js` built HTML strings and injected them into the DOM. `state.js` held global variables. `library.js` fetched data and called render functions. `modal.js` managed a single modal. `views.js` handled tab switching. Six files, all tightly coupled through globals.
 
-I replaced all of it with a Svelte app in one commit. The approach:
+I replaced all of it with a Svelte app in one commit.
 
-1. **Create a centralized store.** `store.svelte.js` using Svelte 5's `$state` rune replaced all the scattered state variables. Library data, current tab, search query, view mode, modal state, all in one reactive object.
+First, I created a centralized store. `store.svelte.js` using Svelte 5's `$state` rune replaced all the scattered state variables: library data, current tab, search query, view mode, modal state, all in one reactive object.
 
-2. **Componentize the UI.** Six components replaced six imperative modules:
-   - `Sidebar.svelte` (tab navigation)
-   - `Header.svelte` (search, view toggle)
-   - `GameGrid.svelte` (card layout with filtering)
-   - `GameCard.svelte` (individual game tile)
-   - `ListRow.svelte` (list view variant)
-   - `Modal.svelte` (game detail overlay)
+Then I componentized the UI. Six components replaced six imperative modules:
 
-3. **Keep the landing page vanilla.** The landing page (hero animation, steam effects, window manager) stayed as vanilla TypeScript. It communicates with the Svelte app via `postMessage` across an iframe boundary. Migrating the landing page to Svelte would have meant fighting Svelte's DOM ownership in a context where I needed pixel-level control over window positioning.
+- `Sidebar.svelte` (tab navigation)
+- `Header.svelte` (search, view toggle)
+- `GameGrid.svelte` (card layout with filtering)
+- `GameCard.svelte` (individual game tile)
+- `ListRow.svelte` (list view variant)
+- `Modal.svelte` (game detail overlay)
 
-4. **Delete the old modules.** `game-actions.js`, `library.js`, `modal.js`, `render.js`, `state.js`, `views.js`, all deleted. The `main.js` went from 53 lines of imperative setup to 5 lines mounting the Svelte app.
+The landing page (hero animation, steam effects, window manager) stayed as vanilla TypeScript. It communicates with the Svelte app via `postMessage` across an iframe boundary. Migrating it to Svelte would have meant fighting Svelte's DOM ownership in a context where I needed pixel-level control over window positioning.
 
-The result: fewer files, reactive updates instead of manual DOM patching, and components that could be reasoned about in isolation.
+Then I deleted the old modules. `game-actions.js`, `library.js`, `modal.js`, `render.js`, `state.js`, `views.js`, all gone. `main.js` went from 53 lines of imperative setup to 5 lines mounting the Svelte app.
+
+Fewer files, reactive updates instead of manual DOM patching, components that could be reasoned about in isolation.
 
 ## Phase 2: TypeScript migration
 
@@ -45,7 +46,7 @@ A week later, I converted the entire codebase to TypeScript. This was the more i
 
 ### What I typed first
 
-The game data model. This was the highest-value target because `Game` objects flow through every layer: API response, store state, component props, event handlers, window manager, and game launcher.
+The game data model. `Game` objects flow through every layer: API response, store state, component props, event handlers, window manager, game launcher. Typing this one interface had the highest return.
 
 ```typescript
 export interface Game {
@@ -70,28 +71,28 @@ With this in place, every component that receives a `Game` prop gets autocomplet
 
 ### What I didn't type
 
-The window manager's internal state. It uses absolute pixel positions, z-index stacks, and animation frame callbacks. Typing all of this would have been a large surface area for minimal benefit, since the window manager is a self-contained module that doesn't share its internal types with anything else.
+The window manager's internal state. It uses absolute pixel positions, z-index stacks, and animation frame callbacks. Typing all of this would have been a lot of surface area for minimal benefit. The window manager is self-contained; it doesn't share its internal types with anything else.
 
 I typed its public API (the functions other modules call) but left the internals as `any` in a few places. Pragmatic over pure.
 
 ### The linting setup
 
-I added ESLint and Prettier in the same commit as the TypeScript migration. This is intentional: if you add linting first, you get a massive diff of formatting changes mixed with your actual migration. If you add it after, you have to re-review everything. Adding both together means one diff that includes types, formatting, and lint fixes, and from that point forward, the codebase has guardrails.
+I added ESLint and Prettier in the same commit as the TypeScript migration. This is intentional. Add linting first and you get a massive diff of formatting changes mixed with your actual migration. Add it after and you have to re-review everything. Adding both together means one diff that includes types, formatting, and lint fixes. From that point forward, the codebase has guardrails.
 
 ### What broke
 
-Two things:
+Svelte component props were the first issue. Svelte 5 uses `$props()` for component inputs, and the types need to match what the parent passes. In several places, the parent was passing `game.id` (which could be `string | number`) to a handler that expected `string`. TypeScript caught all of these. In vanilla JS, they worked by accident because JavaScript's loose equality was papering over the type mismatch.
 
-1. **Svelte component props.** Svelte 5 uses `$props()` for component inputs. The types for these need to match what the parent passes. In several places, the parent was passing `game.id` (which could be `string | number`) to a handler that expected `string`. TypeScript caught all of these. In vanilla JS, they worked by accident because JavaScript's loose equality was papering over the type mismatch.
+The second issue was `postMessage` payloads. The landing page sends messages to the Svelte app iframe. These messages had no defined shape. I added a discriminated union for message types:
 
-2. **postMessage payloads.** The landing page sends messages to the Svelte app iframe. These messages had no defined shape. I added a discriminated union for message types:
-   ```typescript
-   type AppMessage =
-     | { type: 'launch'; gameId: string }
-     | { type: 'theme'; mode: 'light' | 'dark' }
-     | { type: 'playtime'; gameId: string; ms: number }
-   ```
-   This immediately surfaced a bug where one message sender was using `'start'` as the type but the receiver was checking for `'launch'`.
+```typescript
+type AppMessage =
+  | { type: 'launch'; gameId: string }
+  | { type: 'theme'; mode: 'light' | 'dark' }
+  | { type: 'playtime'; gameId: string; ms: number }
+```
+
+This immediately surfaced a bug where one message sender was using `'start'` as the type but the receiver was checking for `'launch'`.
 
 ### The numbers
 
@@ -103,14 +104,14 @@ Two things:
 
 ## What I'd do differently
 
-**Migrate tests first.** We had Playwright E2E tests that I added in a later commit. If I'd written them before the migration, I could have run them after each step to verify nothing broke. Instead, I was manually testing in the browser, which is slower and less thorough.
+I should have migrated tests first. We had Playwright E2E tests that I added in a later commit. If I'd written them before the migration, I could have run them after each step to verify nothing broke. Instead, I was manually testing in the browser, which is slower and less thorough.
 
-**Type the store more granularly.** The monolithic `StoreState` interface grew to 1,300+ lines as features were added. I should have split it into domain-specific stores (library store, UI store, settings store) during the migration. Doing it later meant another refactoring pass.
+I should have typed the store more granularly. The monolithic `StoreState` interface grew to 1,300+ lines as features were added. Splitting it into domain-specific stores (library, UI, settings) during the migration would have saved a later refactoring pass.
 
-**Don't touch formatting in the same commit.** I said adding linting and types together was intentional. I still think it was the right call for this project size, but for anything larger, separate commits would make the review easier.
+And despite what I said above about adding linting and types in the same commit, for anything larger than this project, separate commits would make the review easier.
 
-## The takeaway
+## Why it matters
 
-TypeScript migrations are not about types. They're about making implicit contracts explicit. The `Game` interface didn't add new information; it documented information that was already there but only existed in the developers' heads. The discriminated union for `postMessage` didn't change the protocol; it made a bug visible that had been hiding for weeks.
+TypeScript migrations are not about types. They're about making implicit contracts explicit. The `Game` interface didn't add new information. It documented information that was already there but only existed in the developers' heads. The discriminated union for `postMessage` didn't change the protocol. It made a bug visible that had been hiding for weeks.
 
-The best time to migrate is right after you've shipped and right before you start the next feature sprint. You know the codebase well enough to type it accurately, and the types will pay off immediately as you build new features.
+The best time to migrate is right after you've shipped and right before you start the next feature sprint. You know the codebase well enough to type it accurately, and the types will pay off immediately as you build new features on top of them.

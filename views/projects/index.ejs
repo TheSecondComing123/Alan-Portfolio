@@ -67,17 +67,15 @@
               <p class="case-num">01 / Featured</p>
               <h2 class="case-title">Microcosm</h2>
               <p class="case-description">
-                A 2D roguelike built with Pygame and OpenGL where each run escalates through
-                denser enemy waves, tighter resource windows, and sharper decision-making. I
-                designed the combat loop around responsive controls, readable telegraphs, and
-                clear hit feedback so difficulty feels demanding but fair. Under the hood, I
-                focused heavily on performance, keeping frame pacing stable during high-entity
-                fights through aggressive update filtering and optimized collision checks.
+                A 2D roguelike in Pygame and OpenGL. Runs escalate through denser waves and
+                tighter resource windows. I spent most of my time on two things: making combat
+                feel responsive (clear telegraphs, tight hit feedback) and keeping frame pacing
+                stable when there are 50+ entities on screen.
               </p>
               <ul class="case-highlights">
-                <li>Procedural encounters and adaptive enemy AI with scaling based on progression, run duration, and player performance.</li>
-                <li>Frame-precise combat systems including invulnerability windows, telegraphed attacks, and tight collision handling.</li>
-                <li>Math-heavy optimization work using vectorized movement, aggressive state pruning, and low-overhead collision filtering.</li>
+                <li>Enemy AI scales based on how far you've gotten, how long you've been alive, and how well you're playing.</li>
+                <li>Combat runs on frame-precise timing: i-frames, telegraphed attacks, and collision that actually matches what you see.</li>
+                <li>Heavy optimization work to keep fights smooth. Vectorized movement, aggressive culling, fast collision filtering.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -111,15 +109,15 @@
               <p class="case-num">02</p>
               <h2 class="case-title">ACSL Academy</h2>
               <p class="case-description">
-                A full-stack ACSL training platform built with SvelteKit, Tailwind, and Supabase,
-                deployed on Vercel for fast, reliable access. The platform is structured to
-                support long-term skill growth with guided lessons, contest-style practice, and
-                immediate feedback loops.
+                ACSL competition prep platform built with SvelteKit and Supabase. Lessons,
+                practice problems, and timed contest sets. I built it because the study
+                resources for ACSL were scattered and none of them tracked what you'd
+                actually learned.
               </p>
               <ul class="case-highlights">
-                <li>30+ structured lessons across core ACSL programming and CS topics with progressive difficulty pacing.</li>
-                <li>Dedicated practice problem banks and timed contest-style sets for realistic competition prep.</li>
-                <li>Account-based progress tracking, quiz workflows, and data-backed refinement of training content.</li>
+                <li>30+ lessons covering core ACSL topics, ordered by difficulty so you're not jumping between easy and hard randomly.</li>
+                <li>Timed practice sets that mimic the actual contest format.</li>
+                <li>Progress tracking per account so you can see what's sticking and what needs more work.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -151,17 +149,16 @@
               <p class="case-num">03</p>
               <h2 class="case-title">tiscord</h2>
               <p class="case-description">
-                A terminal Discord client in Rust for browsing servers, channels, and DMs
-                entirely from the command line. I built it around Ratatui for the TUI layer
-                and a direct Discord gateway integration for real-time updates. The client
-                supports message threading, reactions, search, typing indicators, and inline
-                image previews via the Kitty terminal graphics protocol. Tokens are stored
-                securely through the OS keychain.
+                Discord in your terminal. I wanted something I could keep in a tmux pane
+                without burning 500MB of RAM on Electron. Connects directly to Discord's
+                gateway over WebSocket, renders with Ratatui. Browse servers, send messages,
+                react, search, see typing indicators. Images show up inline if your terminal
+                supports Kitty or Sixel graphics.
               </p>
               <ul class="case-highlights">
-                <li>Real-time Discord gateway connection with message streaming, presence updates, and typing indicators.</li>
-                <li>Inline image rendering using the Kitty terminal graphics protocol for media-rich conversations.</li>
-                <li>Modular architecture across ~12,600 lines of Rust with clean separation between Discord API, TUI rendering, and token management.</li>
+                <li>Live gateway connection with message streaming and typing indicators. Tokens stored in OS keychain or an encrypted fallback file.</li>
+                <li>Inline image rendering via Kitty graphics protocol, with Sixel as a fallback for older terminals.</li>
+                <li>~12,600 lines of Rust. Three async tasks (gateway, actions, TUI) talking over channels so nothing blocks.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -193,16 +190,15 @@
               <p class="case-num">04</p>
               <h2 class="case-title">algo</h2>
               <p class="case-description">
-                A custom DSL compiler that translates Python-like syntax into optimized
-                C++17 for competitive programming. The full pipeline runs from lexer through
-                parser, semantic analysis, optimizer, and codegen. The codegen is modular,
-                only emitting the stdlib functions actually used, so the output stays clean
-                and submission-ready.
+                Write Python-like syntax, get C++17 out. I built this because writing C++
+                under contest pressure is mostly fighting syntax, not solving the problem.
+                The compiler only emits the stdlib functions your code actually uses, so the
+                output is short enough to read and submit directly.
               </p>
               <ul class="case-highlights">
-                <li>Full compiler pipeline: lexer, parser, semantic analysis, optimizer, and C++17 code generation in Scala 3.</li>
-                <li>Built-in data structures and algorithms including graphs (BFS, Dijkstra, Floyd, MST), segment trees, BIT, and DSU.</li>
-                <li>Comprehensive test suite validating expected C++ output with end-to-end compilation checks.</li>
+                <li>Full pipeline in Scala 3: lexer, parser, type checking, optimizer, codegen. Targets g++ -std=c++17 -O2.</li>
+                <li>Built-in graphs (BFS, Dijkstra, Floyd, MST), segment trees, BIT, DSU. If you don't use them, they don't appear in the output.</li>
+                <li>Test suite diffs compiler output against expected C++ files, then compiles the result to verify it's valid.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -234,15 +230,15 @@
               <p class="case-num">05</p>
               <h2 class="case-title">Territory War</h2>
               <p class="case-description">
-                A 1v1 turn-based territory control game where both players move simultaneously
-                on a shared grid. I designed the AI progression to ramp from reactive to
-                anticipatory strategies, with a loadout system that guarantees at least three
-                viable combinations per level so the player always has meaningful choices.
+                1v1 territory game. Both players move at the same time on a shared grid,
+                leaving trails. Enclose an area to claim it. The AI has six distinct
+                strategies and gets smarter about switching between them as levels progress.
+                Every level is beatable with multiple loadouts so there's no single "correct" answer.
               </p>
               <ul class="case-highlights">
-                <li>Simultaneous turn-based gameplay with grid enclosure mechanics and territory capture rules.</li>
-                <li>6+ AI strategies (Greedy Expand, Wall, Encircle, Deny, Efficient Fill, Corner Trap) with cooldowns and switching.</li>
-                <li>Progressive difficulty with strategy unlocks, level restrictions, and a loadout guarantee system.</li>
+                <li>Six AI strategies (Greedy Expand, Wall, Encircle, Deny, Efficient Fill, Corner Trap) with per-strategy cooldowns.</li>
+                <li>AI progression from random switching to counter-picking to anticipating your switches based on cooldown state.</li>
+                <li>Every level validated to be winnable with at least 3 different player loadout combinations.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -274,15 +270,15 @@
               <p class="case-num">06</p>
               <h2 class="case-title">CalcGD</h2>
               <p class="case-description">
-                Geometry Dash ported to the TI-84 Plus CE calculator in C. Working within
-                the extreme constraints of calculator hardware meant rethinking rendering,
-                input handling, and level storage from scratch. The port includes jump and
-                fly mechanics, a level editor, and practice mode with checkpoints.
+                Geometry Dash on a TI-84 Plus CE. 320x240 screen, 256 colors, no floating
+                point, 150KB of RAM. Jump physics use a lookup table instead of actual math.
+                Collision detection reads pixel colors from the framebuffer. Includes a level
+                editor and practice mode with checkpoints.
               </p>
               <ul class="case-highlights">
-                <li>Full gameplay loop ported to calculator hardware with jump, fly, and practice mode mechanics.</li>
-                <li>Level creation and editing system with custom level file format (8xv).</li>
-                <li>Built against the CE C/C++ Toolchain, targeting extremely limited memory and display constraints.</li>
+                <li>Jump and fly mechanics running on integer-only physics via pre-computed lookup tables.</li>
+                <li>In-game level editor with custom .8xv file format. User levels work the same as built-in ones.</li>
+                <li>Behind-sprite buffers for rendering because full double buffering would eat half the available RAM.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -314,17 +310,15 @@
               <p class="case-num">07 / Collaborative</p>
               <h2 class="case-title">Sauna</h2>
               <p class="case-description">
-                A web-based game library client that lets users play PC-native games entirely
-                in the browser without downloads. I built and maintained the frontend alongside
-                a small team (SpirrTeam), migrating the codebase from vanilla JS to Svelte 5
-                and then to full TypeScript. The client features a custom desktop window manager,
-                sandboxed game iframes with pointer-lock support, offline caching, play time
-                tracking, and a discover/claim system for free titles.
+                Browser-native game library. Play PC games without downloading anything. I
+                worked on the frontend with a small team (SpirrTeam), starting from vanilla
+                JS and migrating first to Svelte 5, then to TypeScript. The app has a custom
+                window manager that mimics a desktop OS, offline caching, and play time tracking.
               </p>
               <ul class="case-highlights">
-                <li>Custom desktop window manager with drag, resize, z-index stacking, and multi-window game launching in sandboxed iframes.</li>
-                <li>Led two major migrations: imperative DOM to Svelte 5 components, then full JavaScript-to-TypeScript conversion with linting setup.</li>
-                <li>Offline-first architecture with service worker caching, localStorage persistence, and graceful backend disconnection handling.</li>
+                <li>Custom window manager with drag, resize, and z-index stacking. Games launch in sandboxed iframes with pointer lock.</li>
+                <li>Migrated the codebase twice: imperative DOM to Svelte 5 components, then JS to TypeScript with full linting.</li>
+                <li>Works offline via service workers. Library state persists in localStorage and syncs when the backend comes back.</li>
               </ul>
             </div>
             <div class="case-meta">
@@ -356,15 +350,14 @@
               <p class="case-num">08</p>
               <h2 class="case-title">The Legend of Rick</h2>
               <p class="case-description">
-                A 2D platformer in Godot and GDScript centered on tight movement, readable
-                challenge design, and satisfying level flow. I've been tuning jump physics,
-                momentum, and recovery timing so controls stay consistent across both precision
-                platforming and combat sections.
+                2D platformer in Godot. I've been spending most of my time on jump feel:
+                the arcs, the momentum, how fast you recover after landing. The goal is
+                controls that work the same whether you're doing precision jumps or fighting.
               </p>
               <ul class="case-highlights">
-                <li>Tuned jump arcs, momentum, recovery windows, and collision behavior for consistent control feel.</li>
-                <li>Multiple stage archetypes with checkpoint flow, enemy timing systems, and clearer fail-state feedback.</li>
-                <li>Active expansion toward boss encounters and tighter pacing across gameplay and humor beats.</li>
+                <li>Jump physics tuned for consistency across precision platforming and combat sections.</li>
+                <li>Multiple stage types with checkpoint flow and enemy timing that matches the movement speed.</li>
+                <li>Boss encounters and pacing work in progress.</li>
               </ul>
             </div>
             <div class="case-meta">

@@ -9,18 +9,16 @@
                     rel="noopener noreferrer">View &nearr;</a>
             </div>
             <p class="project-description">
-                A 2D roguelike built with Pygame and OpenGL where each run escalates through
-                denser enemy waves, tighter resource windows, and sharper decision-making. I
-                designed the combat loop around responsive controls, readable telegraphs, and
-                clear hit feedback so difficulty feels demanding but fair. Under the hood, I
-                focused heavily on performance, keeping frame pacing stable during high-entity
-                fights through aggressive update filtering and optimized collision checks.
+                A 2D roguelike in Pygame and OpenGL. Runs escalate through denser waves and
+                tighter resource windows. I spent most of my time on two things: making combat
+                feel responsive (clear telegraphs, tight hit feedback) and keeping frame pacing
+                stable when there are 50+ entities on screen.
             </p>
             <div class="project-media" aria-hidden="true"></div>
             <ul class="project-highlights">
-                <li>Procedural encounters and adaptive enemy AI with scaling based on progression, run duration, and player performance.</li>
-                <li>Frame-precise combat systems including invulnerability windows, telegraphed attacks, and tight collision handling.</li>
-                <li>Math-heavy optimization work using vectorized movement, aggressive state pruning, and low-overhead collision filtering.</li>
+                <li>Enemy AI scales based on how far you've gotten, how long you've been alive, and how well you're playing.</li>
+                <li>Combat runs on frame-precise timing: i-frames, telegraphed attacks, and collision that matches what you see.</li>
+                <li>Heavy optimization work to keep fights smooth. Vectorized movement, aggressive culling, fast collision filtering.</li>
             </ul>
         </article>
 
