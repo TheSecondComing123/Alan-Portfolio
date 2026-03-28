@@ -416,10 +416,10 @@ function initializeRevealAnimations() {
 
 function initializeHeroBackgroundTransition() {
     const hero = document.getElementById('home')
-    const background = document.getElementById('game-of-life-canvas')
-    if (!hero || !background) return
+    const golContainer = document.querySelector('.gol-container')
+    if (!hero || !golContainer) return
 
-    background.style.setProperty('--hero-bg-opacity', '1')
+    golContainer.style.opacity = '1'
 
     if (prefersReducedMotion()) return
 
@@ -427,10 +427,10 @@ function initializeHeroBackgroundTransition() {
         typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined'
 
     if (hasGSAP) {
-        window.gsap.to(background, {
-            '--hero-bg-opacity': 0,
-            'ease': 'none',
-            'scrollTrigger': {
+        window.gsap.to(golContainer, {
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
                 trigger: hero,
                 start: 'top top',
                 end: 'bottom top',
@@ -448,7 +448,7 @@ function initializeHeroBackgroundTransition() {
         const heroHeight = Math.max(hero.offsetHeight, 1)
         const scrollY = window.scrollY || window.pageYOffset || 0
         const progress = clamp01((scrollY - heroTop) / heroHeight)
-        background.style.setProperty('--hero-bg-opacity', (1 - progress).toFixed(3))
+        golContainer.style.opacity = (1 - progress).toFixed(3)
     }
 
     updateFromScroll()

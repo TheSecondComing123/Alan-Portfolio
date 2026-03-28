@@ -2,7 +2,7 @@
     'use strict'
 
     const CONFIG = {
-        cellSize: 11,
+        cellSize: 8,
         updateInterval: 120,
         trailDecay: 0.92,
         trailMin: 0.02,
@@ -72,8 +72,6 @@
     }
 
     function initGrid() {
-        cols = Math.floor(canvas.width / CONFIG.cellSize)
-        rows = Math.floor(canvas.height / CONFIG.cellSize)
         grid = Array(cols)
             .fill(null)
             .map(() =>
@@ -238,15 +236,19 @@
 
     function resize() {
         if (!canvas) return
-        const hero = document.getElementById('home')
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight
-        const heroHeight = hero ? hero.offsetHeight : viewportHeight
-        const rect = canvas.getBoundingClientRect()
-        const targetWidth = Math.round(rect.width || viewportWidth)
-        const targetHeight = Math.round(rect.height || heroHeight)
-        canvas.width = Math.max(1, targetWidth)
-        canvas.height = Math.max(1, targetHeight)
+        const container = canvas.parentElement
+        if (!container) return
+        const rect = container.getBoundingClientRect()
+        const dpr = window.devicePixelRatio || 1
+        const w = rect.width
+        const h = rect.height
+        canvas.width = Math.floor(w * dpr)
+        canvas.height = Math.floor(h * dpr)
+        canvas.style.width = `${w}px`
+        canvas.style.height = `${h}px`
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        cols = Math.floor(w / CONFIG.cellSize)
+        rows = Math.floor(h / CONFIG.cellSize)
         initGrid()
         ctx.fillStyle = CONFIG.bgColor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
@@ -270,8 +272,6 @@
         hasStarted = true
         buildGlowGradient()
         resize()
-        canvas.classList.add('active')
-        canvas.style.setProperty('--hero-bg-opacity', '1')
         lastUpdate = performance.now()
         lastFrameTime = lastUpdate
         animate(lastUpdate)

@@ -133,65 +133,30 @@ html:not(.lenis) {
     min-height: 100dvh;
     display: flex;
     align-items: center;
-    padding-top: clamp(48px, 8vh, 96px);
-    padding-bottom: clamp(24px, 4vh, 48px);
-    position: relative;
-    overflow: visible; /* canvas needs to break out of the 1200px container */
 }
 
-/* pseudo-element instead of a dom node so it doesn't affect layout */
-.hero::before {
-    content: 'ALAN BAGEL';
-    font-family: var(--mono);
-    font-weight: 800;
-    font-size: clamp(60px, 10vw, 110px);
-    color: hsl(0 0% 9%);
-    position: absolute;
-    top: clamp(28px, 5vh, 60px);
-    left: clamp(20px, 4.6vw, 48px);
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 0;
-    letter-spacing: -0.04em;
-    line-height: 1;
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    width: 100%;
 }
 
-.hero::after {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 20%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(ellipse at center, hsl(0 0% 12%) 0%, transparent 70%);
-    z-index: 0;
-    pointer-events: none;
+.gol-container {
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background: var(--surface);
+    overflow: hidden;
+    align-self: center;
+    transition: opacity 0.3s ease;
 }
 
-/* breaks out of 1200px container to fill viewport width */
-.hero-background {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 100vw;
+.gol-container canvas {
+    width: 100%;
     height: 100%;
-    transform: translateX(-50%);
-    z-index: 0;
-    opacity: calc(var(--hero-bg-opacity, 0) * 0.28);
-    pointer-events: none;
-    transition: opacity 0.2s linear;
-}
-
-.hero-background.active {
-    --hero-bg-opacity: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: block;
 }
 
 .hero-name {
@@ -1114,6 +1079,16 @@ a.project-link:focus-visible {
 }
 
 @media (max-width: 768px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .gol-container {
+        aspect-ratio: auto;
+        height: 200px;
+    }
+
     .hero-name {
         white-space: normal;
     }
