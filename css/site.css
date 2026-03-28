@@ -220,6 +220,55 @@ html:not(.lenis) {
     font-weight: 600;
 }
 
+/* --- featured --- */
+
+.featured {
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding: 80px clamp(20px, 4.6vw, 48px) 60px;
+    border-top: 1px solid var(--outline-variant);
+}
+
+.featured-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.featured-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 14px;
+    max-width: 680px;
+}
+
+.featured-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.featured-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid var(--outline-variant);
+    border-radius: 5px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.featured-link:hover {
+    color: var(--text);
+    border-color: var(--outline);
+}
+
 /* --- projects --- */
 
 .projects {
