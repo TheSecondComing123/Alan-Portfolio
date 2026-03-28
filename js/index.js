@@ -233,7 +233,7 @@ function initializeCardSpotlight() {
 
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
-    const sections = [...document.querySelectorAll('.hero, .projects, .tech')]
+    const sections = [...document.querySelectorAll('.hero, .featured, .projects, .blog-preview, .tech')]
     if (sections.length === 0) return
 
     const hasGSAP = typeof window.gsap !== 'undefined'
@@ -253,6 +253,19 @@ function initializeRevealAnimations() {
                 duration: 0.7,
                 ease: 'expo.out',
                 stagger: { each: 0.07, from: 'start' },
+            },
+        },
+        {
+            selector: '.gol-container',
+            at: 0.12,
+            prepare(gsap, elements) {
+                gsap.set(elements, { autoAlpha: 0, scale: 0.97 })
+            },
+            to: {
+                autoAlpha: 1,
+                scale: 1,
+                duration: 0.8,
+                ease: 'power3.out',
             },
         },
         {
@@ -277,6 +290,35 @@ function initializeRevealAnimations() {
                 duration: 0.75,
                 ease: 'power3.out',
                 stagger: { each: 0.1, from: 'start' },
+            },
+        },
+        {
+            selector: '.featured-title, .featured-desc, .featured-tags, .featured-link',
+            at: 0,
+            prepare(gsap, elements) {
+                gsap.set(elements, { autoAlpha: 0, y: 24, filter: 'blur(4px)' })
+            },
+            to: {
+                autoAlpha: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.65,
+                ease: 'power3.out',
+                stagger: { each: 0.08, from: 'start' },
+            },
+        },
+        {
+            selector: '.blog-preview-entry',
+            at: 0,
+            prepare(gsap, elements) {
+                gsap.set(elements, { autoAlpha: 0, y: 16 })
+            },
+            to: {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.5,
+                ease: 'power3.out',
+                stagger: { each: 0.06, from: 'start' },
             },
         },
         {
