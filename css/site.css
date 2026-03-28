@@ -3,14 +3,14 @@
     --primary-light: hsl(127 58% 72%);
     --primary-container: hsl(127 36% 22%);
     --on-primary-container: hsl(127 70% 88%);
-    --bg: hsl(25 6% 7%);
-    --surface: hsl(25 5% 10%);
-    --surface-2: hsl(25 4% 12%);
-    --surface-3: hsl(25 4% 15%);
-    --outline: hsl(25 4% 28%);
-    --outline-variant: hsl(25 3% 21%);
-    --text: hsl(40 8% 95%);
-    --muted: hsl(25 5% 60%);
+    --bg: hsl(0 0% 7%);
+    --surface: hsl(0 0% 10%);
+    --surface-2: hsl(0 0% 12%);
+    --surface-3: hsl(0 0% 15%);
+    --outline: hsl(0 0% 28%);
+    --outline-variant: hsl(0 0% 21%);
+    --text: hsl(0 0% 95%);
+    --muted: hsl(0 0% 60%);
     --state-hover: hsl(127 58% 72% / 0.1);
     --state-focus: hsl(127 58% 72% / 0.16);
     --font-body: 'Manrope', 'Inter', system-ui, sans-serif;
@@ -145,7 +145,7 @@ html:not(.lenis) {
     font-family: var(--mono);
     font-weight: 800;
     font-size: clamp(60px, 10vw, 110px);
-    color: hsl(25 4% 9%);
+    color: hsl(0 0% 9%);
     position: absolute;
     top: clamp(28px, 5vh, 60px);
     left: clamp(20px, 4.6vw, 48px);
@@ -163,7 +163,7 @@ html:not(.lenis) {
     left: 20%;
     width: 60%;
     height: 60%;
-    background: radial-gradient(ellipse at center, hsl(30 15% 12%) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, hsl(0 0% 12%) 0%, transparent 70%);
     z-index: 0;
     pointer-events: none;
 }
@@ -369,7 +369,7 @@ html:not(.lenis) {
     font-size: 0.58rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: hsl(25 3% 34%);
+    color: hsl(0 0% 34%);
 }
 
 .project-num.featured {
@@ -440,8 +440,8 @@ a.project-link:focus-visible {
 }
 
 .project-link.muted {
-    color: hsl(25 3% 30%);
-    border-color: hsl(25 3% 18%);
+    color: hsl(0 0% 30%);
+    border-color: hsl(0 0% 18%);
     cursor: default;
 }
 
@@ -549,7 +549,7 @@ a.project-link:focus-visible {
     font: 500 0.58rem/1 var(--mono);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: hsl(25 3% 22%);
+    color: hsl(0 0% 22%);
 }
 
 .project-highlights {
@@ -657,7 +657,7 @@ a.project-link:focus-visible {
     font-size: 0.54rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: hsl(25 3% 34%);
+    color: hsl(0 0% 34%);
 }
 
 .work-title {
@@ -875,7 +875,7 @@ a.project-link:focus-visible {
     margin: 0 auto;
     padding: 12px clamp(20px, 4.6vw, 48px) 32px;
     text-align: center;
-    color: hsl(25 3% 22%);
+    color: hsl(0 0% 22%);
     display: block;
 }
 
@@ -983,7 +983,7 @@ a.project-link:focus-visible {
 
 .case-hero {
     aspect-ratio: 16 / 7;
-    background: linear-gradient(135deg, hsl(127 10% 8%), hsl(25 5% 10%));
+    background: linear-gradient(135deg, hsl(127 10% 8%), hsl(0 0% 10%));
     position: relative;
     overflow: hidden;
 }
@@ -1087,7 +1087,7 @@ a.project-link:focus-visible {
     font-size: 0.56rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: hsl(25 3% 34%);
+    color: hsl(0 0% 34%);
 }
 
 .case-meta-value {
