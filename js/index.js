@@ -1,4 +1,4 @@
-const SECTION_IDS = ['home', 'featured', 'projects', 'blog']
+const SECTION_IDS = ['home', 'featured', 'projects', 'blog', 'stack']
 const HOMEPAGE_FONT_STYLESHEET =
     'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
@@ -471,7 +471,12 @@ function initializeHeroBackgroundTransition() {
 }
 
 function initializeNavigationIcons() {
-    const iconMap = { 'btn-home': 'home', 'btn-projects': 'briefcase', 'btn-blog': 'pen-line' }
+    const iconMap = {
+        'btn-home': 'home',
+        'btn-projects': 'briefcase',
+        'btn-blog': 'pen-line',
+        'btn-stack': 'cpu',
+    }
 
     for (const [buttonId, iconName] of Object.entries(iconMap)) {
         const button = document.getElementById(buttonId)

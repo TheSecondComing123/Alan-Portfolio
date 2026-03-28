@@ -682,7 +682,7 @@ a.project-link:focus-visible {
 .site-footer {
     width: min(1200px, 100%);
     margin: 0 auto;
-    padding: 12px clamp(20px, 4.6vw, 48px) 32px;
+    padding: 12px clamp(20px, 4.6vw, 48px) 80px;
     text-align: center;
     color: hsl(0 0% 22%);
     display: block;
