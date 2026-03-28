@@ -1,0 +1,17 @@
+<% if (typeof recentPosts !== 'undefined' && recentPosts.length > 0) { %>
+<section class="blog-preview" id="blog">
+    <p class="section-label">Blog</p>
+    <div class="blog-preview-grid">
+        <% recentPosts.forEach(function(post) { %>
+        <div class="blog-preview-entry">
+            <p class="blog-preview-title"><a href="/blog/<%= post.slug %>"><%= post.title %></a></p>
+            <p class="blog-preview-date"><%= post.date %></p>
+            <p class="blog-preview-excerpt"><%= post.excerpt %></p>
+        </div>
+        <% }) %>
+    </div>
+    <div class="blog-preview-all">
+        <a href="/blog" class="project-link">Read all posts &nearr;</a>
+    </div>
+</section>
+<% } %>

@@ -281,9 +281,24 @@ app.get('/projects', (_req, res, next) => {
 
 app.get('/', async (_req, res, next) => {
     try {
+        const posts = await getBlogPosts()
+        const recentPosts = posts.slice(0, 3).map((post) => {
+            const vm = buildPostViewModel(post)
+            return {
+                title: vm.title,
+                slug: vm.slug,
+                excerpt: vm.excerpt || '',
+                date: new Date(vm.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                }),
+            }
+        })
         res.render('portfolio/index', {
             assetVersion: ASSET_VERSION,
             cspNonce: res.locals.cspNonce,
+            recentPosts,
         })
     } catch (error) {
         next(error)
