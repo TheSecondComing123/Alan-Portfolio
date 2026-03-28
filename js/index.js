@@ -213,9 +213,9 @@ function initializeImageLightbox() {
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
-    const containers = document.querySelectorAll('.project-bento, .work-grid')
+    const containers = document.querySelectorAll('.project-grid')
     for (const container of containers) {
-        const cards = container.querySelectorAll('.project-card, .work-card')
+        const cards = container.querySelectorAll('.grid-card')
 
         container.addEventListener('mousemove', (e) => {
             const containerRect = container.getBoundingClientRect()
@@ -233,7 +233,7 @@ function initializeCardSpotlight() {
 
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
-    const sections = [...document.querySelectorAll('.hero, .projects, .work, .tech')]
+    const sections = [...document.querySelectorAll('.hero, .projects, .tech')]
     if (sections.length === 0) return
 
     const hasGSAP = typeof window.gsap !== 'undefined'
@@ -256,7 +256,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.project-card, .work-card',
+            selector: '.grid-card',
             at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
@@ -305,7 +305,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.project-highlights li, .work-highlights li',
+            selector: '.grid-card-desc',
             at: 0.32,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, x: 18, y: 6, filter: 'blur(2px)' })

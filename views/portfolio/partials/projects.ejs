@@ -1,49 +1,66 @@
 <section class="projects" id="projects">
-    <p class="section-label">Projects</p>
-    <div class="project-bento">
-        <article class="project-card featured">
-            <p class="project-num featured">01 / Featured</p>
-            <div class="project-header">
-                <h2 class="project-title">Microcosm <span class="project-tech">Python / Pygame / OpenGL</span></h2>
-                <a href="https://alandabagel.itch.io/microcosm" class="project-link" target="_blank"
-                    rel="noopener noreferrer">View &nearr;</a>
-            </div>
-            <p class="project-description">
-                A 2D roguelike in Pygame and OpenGL. Runs escalate through denser waves and
-                tighter resource windows. I spent most of my time on two things: making combat
-                feel responsive (clear telegraphs, tight hit feedback) and keeping frame pacing
-                stable when there are 50+ entities on screen.
-            </p>
-            <div class="project-media" aria-hidden="true"></div>
-            <ul class="project-highlights">
-                <li>Enemy AI scales based on how far you've gotten, how long you've been alive, and how well you're playing.</li>
-                <li>Combat runs on frame-precise timing: i-frames, telegraphed attacks, and collision that matches what you see.</li>
-                <li>Heavy optimization work to keep fights smooth. Vectorized movement, aggressive culling, fast collision filtering.</li>
-            </ul>
-        </article>
-
-        <article class="project-card compact">
-            <p class="project-num">02</p>
-            <div class="project-header">
-                <h2 class="project-title">ACSL Academy <span class="project-tech">SvelteKit / Tailwind / Supabase</span></h2>
-                <a href="https://acsl-academy.vercel.app" class="project-link" target="_blank"
-                    rel="noopener noreferrer">View &nearr;</a>
-            </div>
-            <div class="project-media"><img src="/images/acsl-academy.png" alt="ACSL Academy learn page showing lesson cards organized by contest" loading="lazy" /></div>
-            <p class="project-description">
-                A full-stack ACSL training platform with guided lessons, practice problems, and contest-style prep.
+    <div class="project-grid">
+        <article class="grid-card">
+            <p class="grid-card-num">01</p>
+            <h2 class="grid-card-title">Microcosm <span class="grid-card-tech">Python / Pygame / OpenGL</span></h2>
+            <p class="grid-card-desc">
+                2D roguelike. Runs escalate through denser waves and tighter resource windows.
+                Combat tuned around responsive controls, clear telegraphs, and tight hit feedback.
             </p>
         </article>
-
-        <article class="project-card compact">
-            <p class="project-num">03</p>
-            <div class="project-header">
-                <h2 class="project-title">The Legend of Rick <span class="project-tech">Godot / GDScript</span></h2>
-                <span class="project-link muted">Coming soon</span>
-            </div>
-            <div class="project-media" aria-hidden="true"></div>
-            <p class="project-description">
-                A 2D platformer centered on tight movement, readable challenge design, and satisfying level flow.
+        <article class="grid-card">
+            <p class="grid-card-num">02</p>
+            <h2 class="grid-card-title">ACSL Academy <span class="grid-card-tech">SvelteKit / Tailwind / Supabase</span></h2>
+            <p class="grid-card-desc">
+                ACSL competition prep platform with lessons, practice problems, and timed
+                contest sets. Progress tracking per account.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">03</p>
+            <h2 class="grid-card-title">algo <span class="grid-card-tech">Scala 3 / C++17 / SBT</span></h2>
+            <p class="grid-card-desc">
+                Write Python-like syntax, get C++17 out. Compiler only emits the stdlib
+                functions your code actually uses.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">Work</p>
+            <h2 class="grid-card-title">Unbound Labs <span class="grid-card-tech">Electron / EJS / Express.js</span></h2>
+            <p class="grid-card-desc">
+                Frontend lead. Built the interface for a privacy-first Electron browser,
+                a proxy stack, 100+ unblocked games, and an AI assistant.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">04</p>
+            <h2 class="grid-card-title">Territory War <span class="grid-card-tech">TypeScript / esbuild / Vitest</span></h2>
+            <p class="grid-card-desc">
+                1v1 territory game. Both players move simultaneously. Six AI strategies
+                with cooldowns and progressive difficulty.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">Work</p>
+            <h2 class="grid-card-title">Sauna <span class="grid-card-tech">Svelte 5 / TypeScript / Tailwind</span></h2>
+            <p class="grid-card-desc">
+                Browser-native game library. Play PC games without downloading anything.
+                Custom window manager, offline caching, play time tracking.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">05</p>
+            <h2 class="grid-card-title">CalcGD <span class="grid-card-tech">C / CE Toolchain / Make</span></h2>
+            <p class="grid-card-desc">
+                Geometry Dash on a TI-84 Plus CE. Integer-only physics via lookup tables.
+                Includes a level editor and practice mode.
+            </p>
+        </article>
+        <article class="grid-card">
+            <p class="grid-card-num">06</p>
+            <h2 class="grid-card-title">The Legend of Rick <span class="grid-card-tech">Godot / GDScript</span></h2>
+            <p class="grid-card-desc">
+                2D platformer. Jump feel tuning and level flow. In progress.
             </p>
         </article>
     </div>

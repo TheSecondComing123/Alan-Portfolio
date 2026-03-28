@@ -116,8 +116,6 @@ html:not(.lenis) {
 }
 
 .hero,
-.projects,
-.work,
 .tech {
     width: min(1200px, 100%);
     margin-inline: auto;
@@ -269,52 +267,7 @@ html:not(.lenis) {
     border-color: var(--outline);
 }
 
-/* --- projects --- */
-
-.projects {
-    padding-top: clamp(20px, 3vh, 36px);
-    padding-bottom: clamp(16px, 2vh, 28px);
-}
-
-/* hyperplexed trick: track mouse on the container, update all cards.
-   the ::before radial gradient peeks through the 1px card gaps as a border glow. */
-.project-bento,
-.work-grid {
-    --container-x: 50%;
-    --container-y: 50%;
-    position: relative;
-}
-
-.project-bento {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 6px;
-    padding: 6px;
-    border-radius: 10px;
-    background: transparent;
-}
-
-.project-bento::before,
-.work-grid::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        700px circle at var(--container-x) var(--container-y),
-        hsl(127 55% 56% / 0.15),
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.project-bento:hover::before,
-.work-grid:hover::before {
-    opacity: 1;
-}
+/* --- project grid --- */
 
 /* animatable custom property for the green glow on hover */
 @property --glow {
@@ -323,17 +276,52 @@ html:not(.lenis) {
     inherits: false;
 }
 
-.project-card {
+.projects {
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding: clamp(16px, 2vh, 28px) clamp(20px, 4.6vw, 48px);
+}
+
+.project-grid {
+    --container-x: 50%;
+    --container-y: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    position: relative;
+}
+
+.project-grid::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 16px;
+    background: radial-gradient(
+        700px circle at var(--container-x) var(--container-y),
+        hsl(127 55% 56% / 0.12),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.project-grid:hover::before {
+    opacity: 1;
+}
+
+.grid-card {
     --card-mouse-x: 50%;
     --card-mouse-y: 50%;
     --glow: 0;
     background: var(--surface-2);
     border: 1px solid var(--outline-variant);
-    border-radius: 6px;
-    padding: 18px;
+    border-radius: 8px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     position: relative;
     overflow: hidden;
     box-shadow:
@@ -344,15 +332,12 @@ html:not(.lenis) {
         border-color 0.25s ease;
 }
 
-.project-card:hover {
+.grid-card:hover {
     --glow: 1;
     border-color: var(--outline);
 }
 
-/* surface glow follows cursor. activates on container hover so
-   adjacent cards light up together as one continuous spotlight. */
-.project-card::after,
-.work-card::after {
+.grid-card::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -368,63 +353,36 @@ html:not(.lenis) {
     z-index: 1;
 }
 
-.project-bento:hover .project-card::after,
-.work-grid:hover .work-card::after {
+.project-grid:hover .grid-card::after {
     opacity: 1;
 }
 
-.project-card.featured {
-    grid-row: span 2;
-    padding: 22px;
-}
-
-.project-num {
+.grid-card-num {
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: hsl(0 0% 34%);
-}
-
-.project-num.featured {
     color: var(--primary);
 }
 
-.project-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-}
-
-.project-title {
+.grid-card-title {
     font-family: var(--font-display);
     font-weight: 700;
-    color: var(--text);
+    font-size: 1.1rem;
+    line-height: 1.3;
 }
 
-.project-card.featured .project-title {
-    font-size: 1.25rem;
-    line-height: 1.2;
-}
-
-.project-card.compact .project-title {
-    font-size: 0.98rem;
-    line-height: 1.2;
-}
-
-.project-tech {
+.grid-card-tech {
     font-family: var(--mono);
     font-size: 0.62rem;
-    font-weight: 400;
     color: var(--muted);
-    letter-spacing: 0.01em;
-    margin-left: 6px;
+    font-weight: 400;
 }
 
-.project-tech::before {
-    content: '/ ';
-    color: var(--outline);
+.grid-card-desc {
+    font-size: 0.88rem;
+    color: hsl(0 0% 68%);
+    line-height: 1.7;
 }
 
 .project-link {
@@ -459,12 +417,6 @@ a.project-link:focus-visible {
     cursor: default;
 }
 
-.project-description {
-    font-size: 0.88rem;
-    line-height: 1.7;
-    color: var(--muted);
-}
-
 .project-tags {
     display: flex;
     flex-wrap: wrap;
@@ -484,32 +436,6 @@ a.project-link:focus-visible {
     letter-spacing: 0.04em;
     font-family: var(--mono);
     min-height: 20px;
-}
-
-.project-media {
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid var(--outline-variant);
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
-}
-
-.project-card.featured .project-media {
-    aspect-ratio: 16 / 7;
-}
-
-.project-card.compact .project-media {
-    aspect-ratio: 16 / 9;
-}
-
-.project-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: inherit;
-    display: block;
-    cursor: zoom-in;
 }
 
 /* click-to-expand lightbox */
@@ -542,197 +468,10 @@ a.project-link:focus-visible {
     object-fit: contain;
 }
 
-/* grid pattern placeholder for cards without screenshots yet */
-.project-media:empty::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(90deg, hsl(0 0% 100% / 0.015) 1px, transparent 1px),
-        linear-gradient(0deg, hsl(0 0% 100% / 0.015) 1px, transparent 1px);
-    background-size: 16px 16px;
-    opacity: 0.6;
-}
-
-.project-media:empty::after {
-    content: 'screenshot';
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    font: 500 0.58rem/1 var(--mono);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: hsl(0 0% 22%);
-}
-
-.project-highlights {
-    list-style: none;
-    display: grid;
-    gap: 8px;
-    margin-top: 4px;
-}
-
-.project-highlights li {
-    position: relative;
-    padding-left: 14px;
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.6;
-}
-
-.project-highlights li::before {
-    content: '*';
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: var(--primary);
-    font-family: var(--mono);
-    font-weight: 700;
-}
-
 .projects-view-all {
     display: flex;
     justify-content: center;
     margin-top: 16px;
-}
-
-/* --- work --- */
-
-.work {
-    padding-top: clamp(16px, 2vh, 28px);
-    padding-bottom: clamp(16px, 2vh, 28px);
-}
-
-.work-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    padding: 6px;
-    border-radius: 10px;
-    background: transparent;
-}
-
-.work-card {
-    --card-mouse-x: 50%;
-    --card-mouse-y: 50%;
-    background: var(--surface-2);
-    border: 1px solid var(--outline-variant);
-    border-radius: 6px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 12px hsl(0 0% 0% / 0.2);
-    transition: border-color 0.2s ease;
-}
-
-.work-card:hover {
-    border-color: var(--outline);
-}
-
-.work-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-}
-
-.work-link {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 4px 10px;
-    border: 1px solid var(--outline-variant);
-    border-radius: 4px;
-    white-space: nowrap;
-    transition:
-        color 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
-}
-
-.work-link:hover {
-    color: var(--on-primary-container);
-    background: hsl(127 18% 14% / 0.4);
-    border-color: hsl(127 20% 28% / 0.6);
-}
-
-.work-link:focus-visible {
-    outline: 2px solid var(--primary-light);
-    outline-offset: 3px;
-}
-
-.work-status {
-    font-family: var(--mono);
-    font-size: 0.54rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: hsl(0 0% 34%);
-}
-
-.work-title {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-}
-
-.work-role {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--primary);
-    letter-spacing: 0.02em;
-}
-
-.work-description {
-    font-size: 0.88rem;
-    line-height: 1.7;
-    color: var(--muted);
-}
-
-.work-tech {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    color: var(--muted);
-    letter-spacing: 0.01em;
-    margin-left: 6px;
-}
-
-.work-tech::before {
-    content: '/ ';
-    color: var(--outline);
-}
-
-.work-highlights {
-    list-style: none;
-    display: grid;
-    gap: 6px;
-    margin-top: 4px;
-    padding-top: 10px;
-    border-top: 1px solid var(--outline-variant);
-}
-
-.work-highlights li {
-    position: relative;
-    padding-left: 14px;
-    color: var(--muted);
-    font-size: 0.8rem;
-    line-height: 1.6;
-}
-
-.work-highlights li::before {
-    content: '-';
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: var(--primary);
-    font-family: var(--mono);
-    font-weight: 700;
 }
 
 /* --- tech --- */
@@ -1116,17 +855,6 @@ a.project-link:focus-visible {
 
 /* --- responsive --- */
 
-@media (max-width: 1100px) {
-    .project-bento {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .project-card.featured {
-        grid-row: auto;
-    }
-}
-
 @media (max-width: 768px) {
     .hero-grid {
         grid-template-columns: 1fr;
@@ -1140,10 +868,6 @@ a.project-link:focus-visible {
 
     .hero-name {
         white-space: normal;
-    }
-
-    .work-grid {
-        grid-template-columns: 1fr;
     }
 
     .tech-row {
@@ -1161,12 +885,8 @@ a.project-link:focus-visible {
         gap: 10px;
     }
 
-    .project-card {
-        padding: 14px;
-    }
-
-    .project-card.featured {
-        padding: 14px;
+    .project-grid {
+        grid-template-columns: 1fr;
     }
 
     .case-body {
