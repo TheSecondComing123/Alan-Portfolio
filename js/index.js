@@ -22,7 +22,6 @@ async function init() {
         initializeNavigationHandlers()
         setCurrentButton('home')
         revealPortfolioShell()
-        initializeImageLightbox()
         initializeCardSpotlight()
         scheduleNonCriticalInitialization()
     } finally {
@@ -185,30 +184,6 @@ function initializeSmoothScroll() {
     })
 }
 
-function initializeImageLightbox() {
-    const lightbox = document.createElement('div')
-    lightbox.className = 'lightbox'
-    const lightboxImg = document.createElement('img')
-    lightbox.appendChild(lightboxImg)
-    document.body.appendChild(lightbox)
-
-    const close = () => lightbox.classList.remove('open')
-
-    lightbox.addEventListener('click', close)
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close()
-    })
-
-    document.querySelectorAll('.project-media img').forEach((img) => {
-        img.addEventListener('click', (e) => {
-            e.stopPropagation()
-            lightboxImg.src = img.src
-            lightboxImg.alt = img.alt
-            lightbox.classList.add('open')
-        })
-    })
-}
-
 /* container spotlight definitely not stolen from hyperplexed */
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
@@ -233,7 +208,9 @@ function initializeCardSpotlight() {
 
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
-    const sections = [...document.querySelectorAll('.hero, .featured, .projects, .blog-preview, .tech')]
+    const sections = [
+        ...document.querySelectorAll('.hero, .featured, .projects, .blog-preview, .tech'),
+    ]
     if (sections.length === 0) return
 
     const hasGSAP = typeof window.gsap !== 'undefined'
@@ -261,12 +238,7 @@ function initializeRevealAnimations() {
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, scale: 0.97 })
             },
-            to: {
-                autoAlpha: 1,
-                scale: 1,
-                duration: 0.8,
-                ease: 'power3.out',
-            },
+            to: { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power3.out' },
         },
         {
             selector: '.grid-card',
@@ -499,11 +471,7 @@ function initializeHeroBackgroundTransition() {
 }
 
 function initializeNavigationIcons() {
-    const iconMap = {
-        'btn-home': 'home',
-        'btn-projects': 'briefcase',
-        'btn-blog': 'pen-line',
-    }
+    const iconMap = { 'btn-home': 'home', 'btn-projects': 'briefcase', 'btn-blog': 'pen-line' }
 
     for (const [buttonId, iconName] of Object.entries(iconMap)) {
         const button = document.getElementById(buttonId)

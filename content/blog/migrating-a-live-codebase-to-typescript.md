@@ -50,20 +50,20 @@ The game data model. `Game` objects flow through every layer: API response, stor
 
 ```typescript
 export interface Game {
-  id: string | number;
-  title: string;
-  img: string;
-  link?: string;
-  _index?: number;
+    id: string | number
+    title: string
+    img: string
+    link?: string
+    _index?: number
 }
 
 interface StoreState {
-  library: Game[];
-  allGames: Game[];
-  currentTab: 'home' | 'discover';
-  viewmode: 'list' | 'grid';
-  searchQuery: string;
-  modalOpen: boolean;
+    library: Game[]
+    allGames: Game[]
+    currentTab: 'home' | 'discover'
+    viewmode: 'list' | 'grid'
+    searchQuery: string
+    modalOpen: boolean
 }
 ```
 
@@ -87,9 +87,9 @@ The second issue was `postMessage` payloads. The landing page sends messages to 
 
 ```typescript
 type AppMessage =
-  | { type: 'launch'; gameId: string }
-  | { type: 'theme'; mode: 'light' | 'dark' }
-  | { type: 'playtime'; gameId: string; ms: number }
+    | { type: 'launch'; gameId: string }
+    | { type: 'theme'; mode: 'light' | 'dark' }
+    | { type: 'playtime'; gameId: string; ms: number }
 ```
 
 This immediately surfaced a bug where one message sender was using `'start'` as the type but the receiver was checking for `'launch'`.

@@ -13,13 +13,13 @@ tags:
 
 People think competitive programming is about memorizing algorithms. Learn Dijkstra, learn segment trees, learn suffix arrays, and you'll do well. This is wrong in the same way that memorizing chess openings makes you a good chess player. The openings matter, but they're maybe 10% of the game.
 
-What competitive programming actually trains is problem decomposition under constraints. You have a problem statement, a time limit (both computational and personal), and you need to find the key observation that reduces it to something solvable. The algorithm you reach for is secondary. The insight that tells you *which* algorithm to reach for is the skill.
+What competitive programming actually trains is problem decomposition under constraints. You have a problem statement, a time limit (both computational and personal), and you need to find the key observation that reduces it to something solvable. The algorithm you reach for is secondary. The insight that tells you _which_ algorithm to reach for is the skill.
 
 ## Pattern recognition, not memorization
 
 After solving a few hundred problems, you start seeing patterns before you see solutions. A problem mentions "minimum cost to connect all nodes" and you don't think "Kruskal's algorithm." You think "MST" and then evaluate whether Kruskal's or Prim's fits the constraints better.
 
-This is a different kind of knowledge than textbook learning. Textbooks teach you algorithms in isolation. Competitive programming teaches you to recognize *when* each algorithm applies. That's harder. It's also more useful.
+This is a different kind of knowledge than textbook learning. Textbooks teach you algorithms in isolation. Competitive programming teaches you to recognize _when_ each algorithm applies. That's harder. It's also more useful.
 
 I built a whole compiler (algo) partly because of this. The language has built-in graph operations, segment trees, and DSU because these are the patterns I reach for most often. The compiler is a crystallization of accumulated pattern recognition.
 

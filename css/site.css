@@ -259,7 +259,9 @@ html:not(.lenis) {
     padding: 6px 14px;
     border: 1px solid var(--outline-variant);
     border-radius: 5px;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease;
 }
 
 .featured-link:hover {
