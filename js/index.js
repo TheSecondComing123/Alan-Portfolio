@@ -1,3 +1,4 @@
+const SECTION_IDS = ['home', 'projects', 'work', 'stack']
 const HOMEPAGE_FONT_STYLESHEET =
     'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
@@ -16,7 +17,10 @@ async function init() {
     if (!app) return
 
     try {
-        scheduleHomepageFonts()
+        scheduleDeferredAssets()
+        initializeNavigationIcons()
+        initializeNavigationHandlers()
+        setCurrentButton('home')
         revealPortfolioShell()
         initializeImageLightbox()
         initializeCardSpotlight()
@@ -36,6 +40,7 @@ function scheduleNonCriticalInitialization() {
             initializeRevealAnimations()
         }
 
+        initializeScrollObserver()
         initializeHeroBackgroundTransition()
     }
 
@@ -58,26 +63,21 @@ function scheduleNonCriticalInitialization() {
     }, 0)
 }
 
-function scheduleHomepageFonts() {
-    const run = () => {
-        loadHomepageFontStylesheet()
-    }
+function scheduleDeferredAssets() {
+    const run = async () => {
+        await Promise.allSettled([loadHomepageFontStylesheet(), loadLucideScript()])
 
-    const schedule = () => {
-        if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(run, { timeout: 2000 })
-            return
+        if (typeof window.lucide !== 'undefined') {
+            window.lucide.createIcons()
         }
-
-        window.setTimeout(run, 1200)
     }
 
-    if (document.readyState === 'complete') {
-        schedule()
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => void run(), { timeout: 1200 })
         return
     }
 
-    window.addEventListener('load', schedule, { once: true })
+    window.setTimeout(() => void run(), 250)
 }
 
 function loadHomepageFontStylesheet() {
@@ -88,6 +88,10 @@ function loadHomepageFontStylesheet() {
     link.rel = 'stylesheet'
     link.href = HOMEPAGE_FONT_STYLESHEET
     document.head.appendChild(link)
+}
+
+function loadLucideScript() {
+    return loadScript('https://cdn.jsdelivr.net/npm/lucide@0.563.0/dist/umd/lucide.min.js')
 }
 
 async function loadEnhancementScripts() {
@@ -450,6 +454,91 @@ function initializeHeroBackgroundTransition() {
     updateFromScroll()
     window.addEventListener('scroll', updateFromScroll, { passive: true })
     window.addEventListener('resize', updateFromScroll)
+}
+
+function initializeNavigationIcons() {
+    const iconMap = {
+        'btn-home': 'home',
+        'btn-projects': 'briefcase',
+        'btn-work': 'building-2',
+        'btn-stack': 'cpu',
+    }
+
+    for (const [buttonId, iconName] of Object.entries(iconMap)) {
+        const button = document.getElementById(buttonId)
+        if (!button) continue
+        const icon = document.createElement('i')
+        icon.setAttribute('data-lucide', iconName)
+        icon.className = 'icon'
+        button.appendChild(icon)
+    }
+}
+
+function initializeNavigationHandlers() {
+    document.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-section]')
+        if (!button) return
+
+        event.preventDefault()
+        const section = button.dataset.section
+        switchWindow(section)
+    })
+}
+
+function switchWindow(id) {
+    const section = document.getElementById(id)
+    if (!section) return
+
+    setCurrentButton(id)
+
+    if (lenis) {
+        lenis.scrollTo(section, { offset: 0, duration: 1.2, easing: EASE_OUT_EXPO })
+    } else {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+}
+
+function initializeScrollObserver() {
+    const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(Boolean)
+    if (sections.length === 0) return
+
+    const getScrollY = () => {
+        if (lenis && Number.isFinite(lenis.animatedScroll)) return lenis.animatedScroll
+        return window.scrollY || window.pageYOffset || 0
+    }
+
+    const updateActiveSection = () => {
+        const scrollMid = getScrollY() + window.innerHeight * 0.45
+        let current = sections[0]
+
+        for (const section of sections) {
+            if (section.offsetTop <= scrollMid) {
+                current = section
+            } else {
+                break
+            }
+        }
+
+        setCurrentButton(current.id)
+    }
+
+    updateActiveSection()
+    if (lenis) {
+        lenis.on('scroll', updateActiveSection)
+    }
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+}
+
+function setCurrentButton(id) {
+    document.querySelectorAll('.nav-button').forEach((button) => {
+        button.removeAttribute('aria-current')
+    })
+
+    const active = document.getElementById(`btn-${id}`)
+    if (active) {
+        active.setAttribute('aria-current', 'location')
+    }
 }
 
 init()

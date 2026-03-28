@@ -62,6 +62,26 @@
     <%- include('./partials/technologies') %>
   </main>
 
+  <nav class="dockbar" role="navigation" aria-label="Main navigation">
+    <a
+      class="nav-button"
+      data-section="home"
+      href="#home"
+      aria-label="Home"
+      aria-current="location"
+      id="btn-home"
+    ></a>
+    <a class="nav-button" data-section="projects" href="#projects" aria-label="Projects" id="btn-projects"></a>
+    <a class="nav-button" data-section="work" href="#work" aria-label="Work" id="btn-work"></a>
+    <a
+      class="nav-button"
+      data-section="stack"
+      href="#stack"
+      aria-label="Stack"
+      id="btn-stack"
+    ></a>
+  </nav>
+
   <footer class="site-footer" aria-label="Site footer">
     <p class="site-footer-line">// &copy; <%= new Date().getFullYear() %> alan bagel. keep calm and eat bagels.</p>
   </footer>

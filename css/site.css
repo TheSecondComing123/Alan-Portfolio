@@ -274,9 +274,9 @@ html:not(.lenis) {
 .project-bento {
     display: grid;
     grid-template-columns: 1.3fr 1fr;
-    gap: 1px;
-    padding: 1px;
-    border-radius: 7px;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 10px;
     background: transparent;
 }
 
@@ -593,9 +593,9 @@ a.project-link:focus-visible {
 .work-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    padding: 1px;
-    border-radius: 7px;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 10px;
     background: transparent;
 }
 
@@ -768,6 +768,106 @@ a.project-link:focus-visible {
     font-family: var(--font-body);
 }
 
+/* --- dockbar --- */
+
+.dockbar {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%) translateZ(0);
+    z-index: 30;
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--outline-variant);
+    background: hsl(0 0% 10% / 0.9);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.nav-button {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.nav-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--state-hover);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-button::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-button:hover,
+.nav-button:focus {
+    color: var(--text);
+}
+
+.nav-button:hover::before,
+.nav-button:focus::before {
+    opacity: 1;
+}
+
+.nav-button:focus-visible::before {
+    opacity: 1;
+    background: var(--state-focus);
+}
+
+.nav-button:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+.nav-button[aria-current='location'] {
+    color: var(--text);
+}
+
+.nav-button[aria-current='location']::after {
+    opacity: 1;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    position: relative;
+    z-index: 1;
+}
+
 /* --- footer --- */
 
 .site-footer {
@@ -790,7 +890,7 @@ a.project-link:focus-visible {
 /* --- projects page --- */
 
 .projects-page-main {
-    max-width: 800px;
+    max-width: 1060px;
     margin: 0 auto;
     padding: 60px 24px 80px;
 }
@@ -820,7 +920,7 @@ a.project-link:focus-visible {
 }
 
 .projects-topnav-current {
-    color: var(--text);
+    color: var(--primary);
 }
 
 .projects-topnav-link {
@@ -966,7 +1066,7 @@ a.project-link:focus-visible {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: var(--outline);
+    background: var(--primary);
 }
 
 .case-meta {
@@ -1051,6 +1151,21 @@ a.project-link:focus-visible {
 
     .projects-page-main {
         padding: 32px 16px 60px;
+    }
+
+    .dockbar {
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        transform: translateX(-50%);
+        width: calc(100% - 24px);
+        max-width: 420px;
+        gap: 6px;
+        padding: 6px 8px;
+    }
+
+    .nav-button {
+        flex: 1;
+        width: auto;
+        height: 42px;
     }
 }
 
