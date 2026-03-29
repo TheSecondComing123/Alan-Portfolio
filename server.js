@@ -96,9 +96,23 @@ function buildPostViewModel(post) {
     return {
         ...post,
         meta: buildPostMeta(post),
+        year: parseDateInput(post.date).getFullYear(),
         slugEncoded: encodeURIComponent(post.slug),
         renderedMarkdown: markdown.render(post.content || ''),
     }
+}
+
+function groupPostsByYear(posts) {
+    const groups = []
+    let currentYear = null
+    for (const post of posts) {
+        if (post.year !== currentYear) {
+            groups.push({ year: post.year, posts: [] })
+            currentYear = post.year
+        }
+        groups[groups.length - 1].posts.push(post)
+    }
+    return groups
 }
 
 app.disable('x-powered-by')
@@ -146,6 +160,7 @@ app.get('/blog', async (_req, res, next) => {
     try {
         const posts = await getBlogPosts()
         const viewPosts = posts.map(buildPostViewModel)
+        const groups = groupPostsByYear(viewPosts)
 
         res.render('blog/layout', {
             pageTitle: 'Alan Bagel | Blog',
@@ -161,7 +176,7 @@ app.get('/blog', async (_req, res, next) => {
             description: BLOG_INDEX_DESCRIPTION,
             ariaLabel: 'Blog articles',
             contentTemplate: 'index',
-            contentData: { posts: viewPosts },
+            contentData: { groups },
             structuredData: [
                 {
                     '@context': 'https://schema.org',

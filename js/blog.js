@@ -87,14 +87,13 @@ function initializeRevealAnimations() {
     if (prefersReducedMotion || typeof gsap === 'undefined') return
 
     const cards = document.querySelectorAll('.blog-grid .blog-card')
+    const yearHeaders = document.querySelectorAll('.blog-year')
     const articleChildren = document.querySelectorAll('.blog-article > *')
     const topnav = document.querySelector('.topnav')
-    const title = document.querySelector('.blog-page-title')
-    const description = document.querySelector('.blog-page-description')
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-    const headerElements = [topnav, title, description].filter(Boolean)
+    const headerElements = [topnav, ...yearHeaders].filter(Boolean)
     if (headerElements.length > 0) {
         tl.from(headerElements, {
             autoAlpha: 0,
