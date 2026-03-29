@@ -41,7 +41,7 @@
   </script>
 
   <link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>" />
-  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
   <link rel="prefetch" href="/blog" />
   <link rel="prefetch" href="/projects" />
 
@@ -50,6 +50,16 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .hero-name, .hero-tagline, .hero-bio, .hero-contact-row,
+      .section-label, .project-item, .project-item-desc,
+      .blog-preview-entry, .tech-category {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        filter: none !important;
+      }
+    </style>
   </noscript>
 
 </head>

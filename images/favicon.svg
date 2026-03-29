@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#1b211b"/>
+  <!-- bagel body: rounded puffy shape -->
+  <ellipse cx="16" cy="17" rx="10" ry="9" fill="#c89254"/>
+  <!-- top highlight for dome/puffiness -->
+  <ellipse cx="16" cy="14.5" rx="9" ry="7" fill="#daa66c"/>
+  <!-- inner shadow around the hole -->
+  <ellipse cx="16" cy="16" rx="4" ry="3.5" fill="#8b6234"/>
+  <!-- the hole -->
+  <ellipse cx="16" cy="15.5" rx="3.2" ry="2.8" fill="#1b211b"/>
+  <!-- sesame seeds -->
+  <ellipse cx="10.5" cy="13" rx="1.2" ry="0.6" transform="rotate(-30 10.5 13)" fill="#f5e6c8" opacity="0.85"/>
+  <ellipse cx="14" cy="10.5" rx="1.1" ry="0.55" transform="rotate(15 14 10.5)" fill="#f5e6c8" opacity="0.85"/>
+  <ellipse cx="19.5" cy="11" rx="1.1" ry="0.55" transform="rotate(-10 19.5 11)" fill="#f5e6c8" opacity="0.8"/>
+  <ellipse cx="22" cy="15" rx="1" ry="0.5" transform="rotate(40 22 15)" fill="#f5e6c8" opacity="0.75"/>
+  <ellipse cx="9" cy="17" rx="1" ry="0.5" transform="rotate(-50 9 17)" fill="#f5e6c8" opacity="0.7"/>
+  <ellipse cx="17" cy="9.5" rx="0.9" ry="0.45" transform="rotate(5 17 9.5)" fill="#f5e6c8" opacity="0.8"/>
+  <ellipse cx="21" cy="19" rx="0.9" ry="0.45" transform="rotate(25 21 19)" fill="#f5e6c8" opacity="0.65"/>
+</svg>

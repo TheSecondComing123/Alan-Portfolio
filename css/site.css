@@ -618,6 +618,8 @@ a.project-link:focus-visible {
     color: var(--muted);
     text-decoration: none;
     transition: color 0.15s ease;
+    padding: 12px 4px;
+    margin: -12px -4px;
 }
 
 .topnav a:hover {
@@ -820,6 +822,10 @@ a.project-link:focus-visible {
 
     .case-body {
         grid-template-columns: 1fr;
+    }
+
+    .case-hero:empty {
+        display: none;
     }
 
     .projects-page-main {

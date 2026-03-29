@@ -33,7 +33,7 @@
 
   <link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>" />
   <link rel="stylesheet" href="/css/vendor/lenis.css?v=<%= assetVersion %>" />
-  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
@@ -42,6 +42,16 @@
     rel="stylesheet"
   />
   <link rel="prefetch" href="/" />
+  <noscript>
+    <style>
+      .topnav, .section-label, .case-card {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        filter: none !important;
+      }
+    </style>
+  </noscript>
 </head>
 <body>
   <svg aria-hidden="true" style="position:absolute;width:0;height:0"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></svg>
