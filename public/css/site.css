@@ -107,6 +107,40 @@ html:not(.lenis) {
 
 /* --- shared --- */
 
+.topnav {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.topnav a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.topnav a:hover {
+    color: var(--text);
+}
+
+.topnav a:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.topnav-sep {
+    color: var(--outline);
+}
+
+.topnav-current {
+    color: var(--text);
+}
+
 .section-label {
     font-family: var(--mono);
     font-size: 0.72rem;
@@ -278,7 +312,6 @@ html:not(.lenis) {
     padding-bottom: 36px;
     margin-inline: -20px;
     border-bottom: 1px solid var(--outline-variant);
-    border-radius: 6px;
     transition: background 0.2s ease;
 }
 
