@@ -227,31 +227,72 @@ html:not(.lenis) {
     border-top: 1px solid var(--outline-variant);
 }
 
+.featured-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: start;
+}
+
+.featured-label {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
 .featured-title {
     font-family: var(--font-display);
-    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.15;
 }
 
 .featured-desc {
     font-size: 0.9rem;
-    color: var(--muted);
+    color: hsl(0 0% 68%);
     line-height: 1.7;
-    margin-top: 14px;
-    max-width: 680px;
+    margin-top: 16px;
+}
+
+.featured-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 6px;
+}
+
+.featured-meta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.featured-meta-label {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.featured-meta-value {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
 }
 
 .featured-tags {
     display: flex;
     gap: 6px;
-    margin-top: 16px;
     flex-wrap: wrap;
 }
 
 .featured-link {
     display: inline-block;
-    margin-top: 18px;
+    margin-top: 4px;
     font-family: var(--mono);
     font-size: 0.68rem;
     color: var(--muted);
@@ -891,6 +932,11 @@ a.project-link:focus-visible {
     .gol-container {
         aspect-ratio: auto;
         height: 200px;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 
     .hero-name {
