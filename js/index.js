@@ -226,6 +226,20 @@ function initializeRevealAnimations() {
             to: { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power3.out' },
         },
         {
+            selector: '.section-label',
+            at: 0,
+            prepare(gsap, elements) {
+                gsap.set(elements, { autoAlpha: 0, y: 14, filter: 'blur(3px)' })
+            },
+            to: {
+                autoAlpha: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.5,
+                ease: 'power3.out',
+            },
+        },
+        {
             selector: '.project-item, .work-entry',
             at: 0.08,
             prepare(gsap, elements) {
