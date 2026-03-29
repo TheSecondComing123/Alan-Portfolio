@@ -1,6 +1,6 @@
 const SECTION_IDS = ['home', 'projects', 'blog']
 const HOMEPAGE_FONT_STYLESHEET =
-    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
+    'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap'
 const app = document.getElementById('app')
 const assetVersion = document.body?.dataset.assetVersion || ''
 let lenis
@@ -185,7 +185,7 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-contact-row',
+            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-now, .hero-contact-row',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })

@@ -194,6 +194,23 @@ html:not(.lenis) {
     margin-top: 20px;
 }
 
+.hero-now {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.hero-now a {
+    color: var(--muted-light);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.hero-now a:hover {
+    color: var(--text);
+}
+
 .hero-contact-row {
     display: flex;
     flex-direction: column;
@@ -257,8 +274,16 @@ html:not(.lenis) {
 }
 
 .project-item {
+    padding: 20px;
     padding-bottom: 36px;
+    margin-inline: -20px;
     border-bottom: 1px solid var(--outline-variant);
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.project-item:hover {
+    background: hsl(0 0% 9%);
 }
 
 .project-item.work {
@@ -508,40 +533,62 @@ a.project-link:focus-visible {
     border-top: 1px solid var(--outline-variant);
 }
 
-.blog-preview-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+.blog-preview-list {
+    display: flex;
+    flex-direction: column;
+}
+
+a.blog-preview-entry {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 20px;
+    margin-inline: -20px;
+    border-bottom: 1px solid var(--outline-variant);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+a.blog-preview-entry:hover {
+    background: hsl(0 0% 9%);
+}
+
+a.blog-preview-entry:last-child {
+    border-bottom: none;
+}
+
+.blog-preview-main {
+    flex: 1;
+    min-width: 0;
 }
 
 .blog-preview-title {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.3;
-}
-
-.blog-preview-title a {
     color: var(--text);
-    text-decoration: none;
     transition: color 0.15s ease;
 }
 
-.blog-preview-title a:hover {
+a.blog-preview-entry:hover .blog-preview-title {
     color: var(--primary);
-}
-
-.blog-preview-date {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: var(--muted);
-    margin-top: 6px;
 }
 
 .blog-preview-excerpt {
     font-size: 0.82rem;
     color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.6;
+    margin-top: 4px;
+    line-height: 1.5;
+}
+
+.blog-preview-meta {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .blog-preview-all {
@@ -602,9 +649,13 @@ a.project-link:focus-visible {
         margin-top: 16px;
     }
 
-    .blog-preview-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+    a.blog-preview-entry {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .blog-preview-meta {
+        order: -1;
     }
 
     .dockbar {

@@ -1,17 +1,19 @@
 <% if (typeof recentPosts !== 'undefined' && recentPosts.length > 0) { %>
 <section class="blog-preview" id="blog">
     <p class="section-label">Blog</p>
-    <div class="blog-preview-grid">
+    <div class="blog-preview-list">
         <% recentPosts.forEach(function(post) { %>
-        <div class="blog-preview-entry">
-            <p class="blog-preview-title"><span class="item-symbol">//</span> <a href="/blog/<%= post.slug %>"><%= post.title %></a></p>
-            <p class="blog-preview-date"><%= post.date %><% if (post.readTime) { %> · <%= post.readTime %><% } %></p>
-            <p class="blog-preview-excerpt"><%= post.excerpt %></p>
-        </div>
+        <a href="/blog/<%= post.slug %>" class="blog-preview-entry">
+            <div class="blog-preview-main">
+                <p class="blog-preview-title"><%= post.title %></p>
+                <p class="blog-preview-excerpt"><%= post.excerpt %></p>
+            </div>
+            <span class="blog-preview-meta"><%= post.readTime || post.date %></span>
+        </a>
         <% }) %>
     </div>
     <div class="blog-preview-all">
-        <a href="/blog" class="project-link">Read all posts &nearr;</a>
+        <a href="/blog" class="project-link">All posts &nearr;</a>
     </div>
 </section>
 <% } %>

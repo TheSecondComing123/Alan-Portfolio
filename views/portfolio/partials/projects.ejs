@@ -1,19 +1,32 @@
 <section class="projects" id="projects">
     <p class="section-label">Projects</p>
     <div class="project-list">
-        <article class="project-item pinned">
+        <article class="project-item pinned has-showcase">
             <div class="project-item-header">
                 <span class="item-symbol">*</span>
                 <h2 class="project-item-title">tiscord</h2>
                 <span class="project-item-tech">Rust / Ratatui / Crossterm</span>
             </div>
-            <p class="project-item-desc">
-                Discord in your terminal. Connects to the gateway over WebSocket,
-                renders everything with Ratatui. Browse servers, send messages, react,
-                search, see typing indicators. Images show inline if your terminal
-                does Kitty or Sixel. 12k+ lines of Rust.
-            </p>
-            <a href="https://github.com/TheSecondComing123/tiscord" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            <div class="project-item-body">
+                <div class="project-item-content">
+                    <p class="project-item-desc">
+                        Discord in your terminal. Connects to the gateway over WebSocket,
+                        renders everything with Ratatui. Browse servers, send messages, react,
+                        search, see typing indicators. Images show inline if your terminal
+                        does Kitty or Sixel.
+                    </p>
+                    <ul class="project-item-details">
+                        <li>* 12k+ lines of Rust</li>
+                        <li>* real-time gateway with heartbeat and resume</li>
+                        <li>* encrypted token storage via OS keyring</li>
+                        <li>* inline images via Kitty / Sixel protocols</li>
+                    </ul>
+                    <a href="https://github.com/TheSecondComing123/tiscord" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+                </div>
+                <div class="showcase-media">
+                    <img src="/images/tiscord.png" alt="tiscord TUI showing a Discord server with channels, messages, and inline images" loading="lazy" />
+                </div>
+            </div>
         </article>
 
         <article class="project-item">
