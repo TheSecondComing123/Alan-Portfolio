@@ -44,19 +44,6 @@ function initializeSmoothScroll() {
     })
 }
 
-function initializeCardSpotlight() {
-    if (window.matchMedia('(max-width: 768px)').matches) return
-
-    const cards = document.querySelectorAll('.case-card')
-    for (const card of cards) {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect()
-            card.style.setProperty('--card-mouse-x', `${e.clientX - rect.left}px`)
-            card.style.setProperty('--card-mouse-y', `${e.clientY - rect.top}px`)
-        })
-    }
-}
-
 function initializeImageLightbox() {
     const lightbox = document.createElement('div')
     lightbox.className = 'lightbox'
@@ -104,7 +91,7 @@ function initializeRevealAnimations() {
         })
     }
 
-    const topnav = document.querySelector('.projects-topnav')
+    const topnav = document.querySelector('.topnav')
     const title = document.querySelector('.projects-page-main .section-label')
     const cards = document.querySelectorAll('.case-card')
 
@@ -125,12 +112,9 @@ function initializeRevealAnimations() {
     cards.forEach((card, index) => {
         gsap.from(card, {
             autoAlpha: 0,
-            y: 32,
-            scale: 0.98,
-            rotationX: 6,
-            transformOrigin: '50% 100%',
+            y: 24,
             filter: 'blur(3px)',
-            duration: 0.75,
+            duration: 0.7,
             ease: 'power3.out',
             scrollTrigger: {
                 trigger: card,
@@ -145,7 +129,6 @@ function initializeRevealAnimations() {
 
 function initialize() {
     initializeSmoothScroll()
-    initializeCardSpotlight()
     initializeImageLightbox()
     initializeRevealAnimations()
 }

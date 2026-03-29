@@ -88,7 +88,7 @@ function initializeRevealAnimations() {
 
     const cards = document.querySelectorAll('.blog-grid .blog-card')
     const articleChildren = document.querySelectorAll('.blog-article > *')
-    const topnav = document.querySelector('.blog-topnav')
+    const topnav = document.querySelector('.topnav')
     const title = document.querySelector('.blog-page-title')
     const description = document.querySelector('.blog-page-description')
 

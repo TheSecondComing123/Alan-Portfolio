@@ -45,13 +45,13 @@
 
   <main class="blog-page-main" role="main" aria-label="Blog content">
     <section class="blog-section" id="blog">
-      <nav class="blog-topnav" aria-label="Site navigation">
-        <a class="blog-topnav-home" href="/">Alan Bagel</a>
-        <span class="blog-topnav-sep">/</span>
+      <nav class="topnav" aria-label="Site navigation">
+        <a href="/">Alan Bagel</a>
+        <span class="topnav-sep">/</span>
         <% if (contentTemplate === 'post') { %>
-          <a class="blog-topnav-link" href="/blog">Blog</a>
+          <a href="/blog">Blog</a>
         <% } else { %>
-          <span class="blog-topnav-current">Blog</span>
+          <span class="topnav-current">Blog</span>
         <% } %>
       </nav>
       <% if (contentTemplate !== 'post') { %>

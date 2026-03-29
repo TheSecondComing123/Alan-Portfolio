@@ -232,13 +232,6 @@ html:not(.lenis) {
 
 /* --- project grid --- */
 
-/* animatable custom property for the green glow on hover */
-@property --glow {
-    syntax: '<number>';
-    initial-value: 0;
-    inherits: false;
-}
-
 .projects {
     width: min(1200px, 100%);
     margin-inline: auto;
@@ -346,12 +339,6 @@ a.project-link:focus-visible {
     color: hsl(0 0% 30%);
     border-color: hsl(0 0% 18%);
     cursor: default;
-}
-
-.project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
 }
 
 .tag {
@@ -628,47 +615,43 @@ a.project-link:focus-visible {
 /* --- projects page --- */
 
 .projects-page-main {
-    max-width: 1060px;
-    margin: 0 auto;
-    padding: 60px 24px 80px;
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding: clamp(48px, 6vh, 80px) clamp(20px, 4.6vw, 48px) clamp(16px, 2vh, 28px);
 }
 
-.projects-topnav {
+.topnav {
     display: flex;
     align-items: baseline;
     gap: 6px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     font-family: var(--mono);
     font-size: 0.72rem;
     letter-spacing: 0.03em;
 }
 
-.projects-topnav-home {
+.topnav a {
     color: var(--muted);
     text-decoration: none;
     transition: color 0.15s ease;
 }
 
-.projects-topnav-home:hover {
+.topnav a:hover {
     color: var(--text);
 }
 
-.projects-topnav-sep {
+.topnav a:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.topnav-sep {
     color: var(--outline);
 }
 
-.projects-topnav-current {
+.topnav-current {
     color: var(--primary);
-}
-
-.projects-topnav-link {
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s ease;
-}
-
-.projects-topnav-link:hover {
-    color: var(--text);
 }
 
 .projects-list {
@@ -678,45 +661,16 @@ a.project-link:focus-visible {
 }
 
 .case-card {
-    --card-mouse-x: 50%;
-    --card-mouse-y: 50%;
-    --glow: 0;
-    background: var(--surface-2);
+    background: var(--surface);
     border: 1px solid var(--outline-variant);
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     position: relative;
-    box-shadow:
-        0 2px 12px hsl(0 0% 0% / 0.2),
-        0 0 calc(var(--glow) * 28px) hsl(127 55% 40% / calc(var(--glow) * 0.12));
-    transition:
-        --glow 0.35s ease,
-        border-color 0.25s ease;
+    transition: border-color 0.25s ease;
 }
 
 .case-card:hover {
-    --glow: 1;
     border-color: var(--outline);
-}
-
-.case-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        600px circle at var(--card-mouse-x) var(--card-mouse-y),
-        hsl(127 55% 56% / 0.06),
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.case-card:hover::after {
-    opacity: 1;
 }
 
 .case-hero {
@@ -885,7 +839,7 @@ a.project-link:focus-visible {
     }
 
     .projects-page-main {
-        padding: 32px 16px 60px;
+        padding: 32px clamp(16px, 4vw, 24px) 60px;
     }
 
     .dockbar {

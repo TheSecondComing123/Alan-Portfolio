@@ -48,12 +48,12 @@
 
   <main class="projects-page-main" role="main" aria-label="Projects content">
     <section class="projects-section" id="projects">
-      <nav class="projects-topnav" aria-label="Site navigation">
-        <a class="projects-topnav-home" href="/">Alan Bagel</a>
-        <span class="projects-topnav-sep">/</span>
-        <span class="projects-topnav-current">Projects</span>
-        <span class="projects-topnav-sep">/</span>
-        <a class="projects-topnav-link" href="/blog">Blog</a>
+      <nav class="topnav" aria-label="Site navigation">
+        <a href="/">Alan Bagel</a>
+        <span class="topnav-sep">/</span>
+        <span class="topnav-current">Projects</span>
+        <span class="topnav-sep">/</span>
+        <a href="/blog">Blog</a>
       </nav>
 
       <p class="section-label">Projects</p>
@@ -64,7 +64,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">01 / Featured</p>
+              <p class="case-num"><span class="item-symbol">*</span> featured</p>
               <h2 class="case-title">Microcosm</h2>
               <p class="case-description">
                 A 2D roguelike in Pygame and OpenGL. Runs escalate through denser waves and
@@ -81,11 +81,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">Python</span>
-                  <span class="tag">Pygame</span>
-                  <span class="tag">OpenGL</span>
-                </div>
+                <p class="case-meta-value">Python / Pygame / OpenGL</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -106,7 +102,7 @@
           </div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">02</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">ACSL Academy</h2>
               <p class="case-description">
                 ACSL competition prep platform built with SvelteKit and Supabase. Lessons,
@@ -123,11 +119,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">SvelteKit</span>
-                  <span class="tag">Tailwind</span>
-                  <span class="tag">Supabase</span>
-                </div>
+                <p class="case-meta-value">SvelteKit / Tailwind / Supabase</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -146,7 +138,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">03</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">tiscord</h2>
               <p class="case-description">
                 Discord in your terminal. I wanted something I could keep in a tmux pane
@@ -164,11 +156,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">Rust</span>
-                  <span class="tag">Ratatui</span>
-                  <span class="tag">Crossterm</span>
-                </div>
+                <p class="case-meta-value">Rust / Ratatui / Crossterm</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -187,7 +175,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">04</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">algo</h2>
               <p class="case-description">
                 Write Python-like syntax, get C++17 out. I built this because writing C++
@@ -204,11 +192,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">Scala 3</span>
-                  <span class="tag">C++17</span>
-                  <span class="tag">SBT</span>
-                </div>
+                <p class="case-meta-value">Scala 3 / C++17 / SBT</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -227,7 +211,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">05</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">Territory War</h2>
               <p class="case-description">
                 1v1 territory game. Both players move at the same time on a shared grid,
@@ -244,11 +228,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">TypeScript</span>
-                  <span class="tag">esbuild</span>
-                  <span class="tag">Vitest</span>
-                </div>
+                <p class="case-meta-value">TypeScript / esbuild / Vitest</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -267,7 +247,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">06</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">CalcGD</h2>
               <p class="case-description">
                 Geometry Dash on a TI-84 Plus CE. 320x240 screen, 256 colors, no floating
@@ -284,11 +264,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">C</span>
-                  <span class="tag">CE Toolchain</span>
-                  <span class="tag">Make</span>
-                </div>
+                <p class="case-meta-value">C / CE Toolchain / Make</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -307,7 +283,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">07 / Collaborative</p>
+              <p class="case-num"><span class="item-symbol">$</span> collaborative</p>
               <h2 class="case-title">Sauna</h2>
               <p class="case-description">
                 Browser-native game library. Play PC games without downloading anything. I
@@ -324,11 +300,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">Svelte 5</span>
-                  <span class="tag">TypeScript</span>
-                  <span class="tag">Tailwind</span>
-                </div>
+                <p class="case-meta-value">Svelte 5 / TypeScript / Tailwind</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
@@ -347,7 +319,7 @@
           <div class="case-hero"></div>
           <div class="case-body">
             <div class="case-content">
-              <p class="case-num">08</p>
+              <p class="case-num"><span class="item-symbol">&gt;</span></p>
               <h2 class="case-title">The Legend of Rick</h2>
               <p class="case-description">
                 2D platformer in Godot. I've been spending most of my time on jump feel:
@@ -363,10 +335,7 @@
             <div class="case-meta">
               <div class="case-meta-group">
                 <p class="case-meta-label">Stack</p>
-                <div class="project-tags">
-                  <span class="tag">Godot</span>
-                  <span class="tag">GDScript</span>
-                </div>
+                <p class="case-meta-value">Godot / GDScript</p>
               </div>
               <div class="case-meta-group">
                 <p class="case-meta-label">Type</p>
