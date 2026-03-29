@@ -213,9 +213,19 @@ html:not(.lenis) {
     border-radius: 2px;
 }
 
-.contact-symbol {
+.contact-symbol,
+.item-symbol {
     color: var(--primary);
     font-weight: 600;
+    font-family: var(--mono);
+}
+
+.item-symbol {
+    font-size: 0.82rem;
+    opacity: 0.7;
+}
+
+.contact-symbol {
     margin-right: 4px;
 }
 
@@ -325,8 +335,8 @@ html:not(.lenis) {
 }
 
 .project-item.work {
-    padding-left: 16px;
-    border-left: 2px solid hsl(127 40% 36%);
+    padding-left: 14px;
+    border-left: 2px solid var(--primary);
 }
 
 .project-item:last-child {
@@ -376,19 +386,6 @@ html:not(.lenis) {
     color: var(--primary);
 }
 
-/* --- work label --- */
-
-.project-item-label {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--primary);
-    padding: 3px 8px;
-    border: 1px solid hsl(127 30% 30% / 0.5);
-    border-radius: 3px;
-    background: hsl(127 30% 20% / 0.15);
-}
 
 .project-link {
     font-family: var(--mono);
@@ -639,16 +636,6 @@ a.project-link:focus-visible {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-}
-
-.blog-preview-entry {
-    padding-left: 16px;
-    border-left: 2px solid var(--outline-variant);
-    transition: border-color 0.2s ease;
-}
-
-.blog-preview-entry:hover {
-    border-left-color: var(--primary);
 }
 
 .blog-preview-title {
