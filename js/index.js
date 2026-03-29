@@ -203,7 +203,7 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-contact-row, .section-label',
+            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-contact-row',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
