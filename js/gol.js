@@ -1,8 +1,9 @@
 ;(function () {
     'use strict'
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
     const CONFIG = {
-        cellSize: 6,
+        cellSize: isMobile ? 8 : 6,
         updateInterval: 120,
         trailDecay: 0.92,
         trailMin: 0.02,
@@ -202,7 +203,7 @@
             }
         }
 
-        if (glowGradientCache) {
+        if (glowGradientCache && !isMobile) {
             const gr = CONFIG.glowRadius
             const size = gr * 2
             for (let x = 0; x < cols; x++) {
@@ -227,7 +228,9 @@
     function animate(timestamp) {
         isAnimating = true
         animationId = requestAnimationFrame(animate)
-        const deltaSeconds = lastFrameTime ? (timestamp - lastFrameTime) / 1000 : 0
+        const rawDelta = lastFrameTime ? (timestamp - lastFrameTime) / 1000 : 0
+        // cap delta to prevent speed burst after rAF throttle (mobile scroll)
+        const deltaSeconds = Math.min(rawDelta, 0.05)
         lastFrameTime = timestamp
         if (timestamp - lastUpdate >= CONFIG.updateInterval) {
             updateGame()

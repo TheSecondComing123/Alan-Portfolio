@@ -1,4 +1,4 @@
-const SECTION_IDS = ['home', 'featured', 'projects', 'blog', 'stack']
+const SECTION_IDS = ['home', 'projects', 'blog', 'stack']
 const HOMEPAGE_FONT_STYLESHEET =
     'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
@@ -22,7 +22,6 @@ async function init() {
         initializeNavigationHandlers()
         setCurrentButton('home')
         revealPortfolioShell()
-        initializeCardSpotlight()
         scheduleNonCriticalInitialization()
     } finally {
         document.documentElement.classList.remove('js-loading')
@@ -184,17 +183,10 @@ function initializeSmoothScroll() {
     })
 }
 
-/* container spotlight definitely not stolen from hyperplexed */
-function initializeCardSpotlight() {
-    if (isMobileViewport()) return
-
-    // spotlight effect removed: project section is now a stacked list, not a card grid
-}
-
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
     const sections = [
-        ...document.querySelectorAll('.hero, .featured, .projects, .blog-preview, .tech'),
+        ...document.querySelectorAll('.hero, .projects, .blog-preview, .tech'),
     ]
     if (sections.length === 0) return
 
@@ -220,6 +212,7 @@ function initializeRevealAnimations() {
         {
             selector: '.gol-container',
             at: 0.25,
+            skip: window.matchMedia('(max-width: 768px)').matches,
             prepare(gsap, elements) {
                 gsap.set(elements, {
                     autoAlpha: 0,
@@ -250,7 +243,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.project-item, .work-entry',
+            selector: '.project-item',
             at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
@@ -266,21 +259,6 @@ function initializeRevealAnimations() {
                 duration: 0.6,
                 ease: 'power3.out',
                 stagger: { each: 0.1, from: 'start' },
-            },
-        },
-        {
-            selector: '.featured-title, .featured-desc, .featured-meta-group, .featured-link',
-            at: 0,
-            prepare(gsap, elements) {
-                gsap.set(elements, { autoAlpha: 0, y: 24, filter: 'blur(4px)' })
-            },
-            to: {
-                autoAlpha: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                duration: 0.65,
-                ease: 'power3.out',
-                stagger: { each: 0.08, from: 'start' },
             },
         },
         {
@@ -346,6 +324,7 @@ function initializeRevealAnimations() {
         sectionSequences.set(section, sequence)
 
         for (const group of revealPlan) {
+            if (group.skip) continue
             const targets = section.querySelectorAll(group.selector)
             const elements = []
 
@@ -558,7 +537,7 @@ function initializeScrollObserver() {
 }
 
 function setCurrentButton(id) {
-    const buttonId = id === 'featured' ? 'projects' : id
+    const buttonId = id
     document.querySelectorAll('.nav-button').forEach((button) => {
         button.removeAttribute('aria-current')
     })
