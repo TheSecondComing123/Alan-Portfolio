@@ -312,7 +312,17 @@
 
         canvas.addEventListener('click', (e) => {
             const { x, y } = canvasToGrid(e)
-            if (x >= 1 && x < cols - 2 && y >= 1 && y < rows - 2) {
+            if (x >= 2 && x < cols - 3 && y >= 2 && y < rows - 3) {
+                // clear a 5x5 area so hover-painted cells don't corrupt the glider
+                for (let i = -1; i <= 3; i++) {
+                    for (let j = -1; j <= 3; j++) {
+                        const nx = x - 1 + i
+                        const ny = y - 1 + j
+                        if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+                            grid[nx][ny].alive = false
+                        }
+                    }
+                }
                 addGlider(x - 1, y - 1)
             }
         })
