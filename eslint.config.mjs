@@ -35,6 +35,7 @@ export default [
                 Lenis: 'readonly',
                 lucide: 'readonly',
                 EASE_OUT_EXPO: 'readonly',
+                initLightbox: 'readonly',
             },
         },
         rules: {

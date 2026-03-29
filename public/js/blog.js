@@ -140,6 +140,9 @@ function initialize() {
     initializeSmoothScroll()
     initAnchorScroll()
     initializeRevealAnimations()
+    if (typeof initLightbox === 'function') {
+        initLightbox('.blog-markdown img, .showcase-media img')
+    }
 }
 
 if (document.readyState === 'loading') {

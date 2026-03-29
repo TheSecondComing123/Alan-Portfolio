@@ -23,6 +23,9 @@ async function init() {
         setCurrentButton('home')
         revealPortfolioShell()
         scheduleNonCriticalInitialization()
+        if (typeof initLightbox === 'function') {
+            initLightbox('.showcase-media img')
+        }
     } finally {
         document.documentElement.classList.remove('js-loading')
     }
