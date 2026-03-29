@@ -1,69 +1,62 @@
 <section class="projects" id="projects">
-    <div class="project-grid">
-        <article class="grid-card">
-            <p class="grid-card-num">01</p>
-            <h2 class="grid-card-title">Microcosm <span class="grid-card-tech">Python / Pygame / OpenGL</span></h2>
-            <p class="grid-card-desc">
-                2D roguelike. Runs escalate through denser waves and tighter resource windows.
-                Combat tuned around responsive controls, clear telegraphs, and tight hit feedback.
+    <div class="project-list">
+        <article class="project-item">
+            <div class="project-item-header">
+                <h2 class="project-item-title">Microcosm</h2>
+                <span class="project-item-tech">Python / Pygame / OpenGL</span>
+            </div>
+            <p class="project-item-desc">
+                2D roguelike where runs escalate through denser waves and tighter resource
+                windows. I spent most of my time on two things: making combat feel responsive
+                (clear telegraphs, tight hit feedback) and keeping frame pacing stable when
+                there are 50+ entities on screen.
             </p>
+            <a href="https://alandabagel.itch.io/microcosm" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
         </article>
-        <article class="grid-card">
-            <p class="grid-card-num">02</p>
-            <h2 class="grid-card-title">ACSL Academy <span class="grid-card-tech">SvelteKit / Tailwind / Supabase</span></h2>
-            <p class="grid-card-desc">
-                ACSL competition prep platform with lessons, practice problems, and timed
-                contest sets. Progress tracking per account.
+
+        <article class="project-item">
+            <div class="project-item-header">
+                <h2 class="project-item-title">algo</h2>
+                <span class="project-item-tech">Scala 3 / C++17</span>
+            </div>
+            <p class="project-item-desc">
+                Write Python-like syntax, get C++17 out. I built this because writing C++
+                under contest pressure is mostly fighting syntax. The compiler only emits the
+                stdlib functions your code actually uses, so the output is short enough to
+                submit directly.
             </p>
+            <a href="https://github.com/TheSecondComing123/algo" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
         </article>
-        <article class="grid-card">
-            <p class="grid-card-num">03</p>
-            <h2 class="grid-card-title">algo <span class="grid-card-tech">Scala 3 / C++17 / SBT</span></h2>
-            <p class="grid-card-desc">
-                Write Python-like syntax, get C++17 out. Compiler only emits the stdlib
-                functions your code actually uses.
+
+        <article class="project-item">
+            <div class="project-item-header">
+                <h2 class="project-item-title">ACSL Academy</h2>
+                <span class="project-item-tech">SvelteKit / Tailwind / Supabase</span>
+            </div>
+            <p class="project-item-desc">
+                ACSL competition prep platform. I built it because the study resources were
+                scattered and none of them tracked what you'd actually learned. 30+ lessons,
+                timed contest sets, progress tracking per account.
             </p>
-        </article>
-        <article class="grid-card">
-            <p class="grid-card-num">Work</p>
-            <h2 class="grid-card-title">Unbound Labs <span class="grid-card-tech">Electron / EJS / Express.js</span></h2>
-            <p class="grid-card-desc">
-                Frontend lead. Built the interface for a privacy-first Electron browser,
-                a proxy stack, 100+ unblocked games, and an AI assistant.
-            </p>
-        </article>
-        <article class="grid-card">
-            <p class="grid-card-num">04</p>
-            <h2 class="grid-card-title">Territory War <span class="grid-card-tech">TypeScript / esbuild / Vitest</span></h2>
-            <p class="grid-card-desc">
-                1v1 territory game. Both players move simultaneously. Six AI strategies
-                with cooldowns and progressive difficulty.
-            </p>
-        </article>
-        <article class="grid-card">
-            <p class="grid-card-num">Work</p>
-            <h2 class="grid-card-title">Sauna <span class="grid-card-tech">Svelte 5 / TypeScript / Tailwind</span></h2>
-            <p class="grid-card-desc">
-                Browser-native game library. Play PC games without downloading anything.
-                Custom window manager, offline caching, play time tracking.
-            </p>
-        </article>
-        <article class="grid-card">
-            <p class="grid-card-num">05</p>
-            <h2 class="grid-card-title">CalcGD <span class="grid-card-tech">C / CE Toolchain / Make</span></h2>
-            <p class="grid-card-desc">
-                Geometry Dash on a TI-84 Plus CE. Integer-only physics via lookup tables.
-                Includes a level editor and practice mode.
-            </p>
-        </article>
-        <article class="grid-card">
-            <p class="grid-card-num">06</p>
-            <h2 class="grid-card-title">The Legend of Rick <span class="grid-card-tech">Godot / GDScript</span></h2>
-            <p class="grid-card-desc">
-                2D platformer. Jump feel tuning and level flow. In progress.
-            </p>
+            <a href="https://acsl-academy.vercel.app" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
         </article>
     </div>
+
+    <div class="work-list">
+        <div class="work-entry">
+            <span class="work-entry-role">Frontend Lead</span>
+            <span class="work-entry-at">at</span>
+            <a href="https://unboundlabs.dev" class="work-entry-company" target="_blank" rel="noopener noreferrer">Unbound Labs</a>
+            <span class="work-entry-stack">Electron / EJS / Express.js</span>
+        </div>
+        <div class="work-entry">
+            <span class="work-entry-role">Frontend Developer</span>
+            <span class="work-entry-at">at</span>
+            <a href="https://github.com/SpirrTeam/Sauna" class="work-entry-company" target="_blank" rel="noopener noreferrer">Spirr Team</a>
+            <span class="work-entry-stack">Svelte 5 / TypeScript / Tailwind</span>
+        </div>
+    </div>
+
     <div class="projects-view-all">
         <a href="/projects" class="project-link">View all projects &nearr;</a>
     </div>

@@ -188,22 +188,7 @@ function initializeSmoothScroll() {
 function initializeCardSpotlight() {
     if (isMobileViewport()) return
 
-    const containers = document.querySelectorAll('.project-grid')
-    for (const container of containers) {
-        const cards = container.querySelectorAll('.grid-card')
-
-        container.addEventListener('mousemove', (e) => {
-            const containerRect = container.getBoundingClientRect()
-            container.style.setProperty('--container-x', `${e.clientX - containerRect.left}px`)
-            container.style.setProperty('--container-y', `${e.clientY - containerRect.top}px`)
-
-            for (const card of cards) {
-                const cardRect = card.getBoundingClientRect()
-                card.style.setProperty('--card-mouse-x', `${e.clientX - cardRect.left}px`)
-                card.style.setProperty('--card-mouse-y', `${e.clientY - cardRect.top}px`)
-            }
-        })
-    }
+    // spotlight effect removed: project section is now a stacked list, not a card grid
 }
 
 /* gsap scroll-triggered reveal animations */
@@ -241,25 +226,20 @@ function initializeRevealAnimations() {
             to: { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power3.out' },
         },
         {
-            selector: '.grid-card',
+            selector: '.project-item, .work-entry',
             at: 0.08,
             prepare(gsap, elements) {
                 gsap.set(elements, {
                     autoAlpha: 0,
-                    y: 32,
-                    scale: 0.98,
-                    rotationX: 6,
+                    y: 20,
                     filter: 'blur(3px)',
-                    transformOrigin: '50% 100%',
                 })
             },
             to: {
                 autoAlpha: 1,
                 y: 0,
-                scale: 1,
-                rotationX: 0,
                 filter: 'blur(0px)',
-                duration: 0.75,
+                duration: 0.6,
                 ease: 'power3.out',
                 stagger: { each: 0.1, from: 'start' },
             },
@@ -319,19 +299,17 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.grid-card-desc',
-            at: 0.32,
+            selector: '.project-item-desc',
+            at: 0.2,
             prepare(gsap, elements) {
-                gsap.set(elements, { autoAlpha: 0, x: 18, y: 6, filter: 'blur(2px)' })
+                gsap.set(elements, { autoAlpha: 0, y: 10 })
             },
             to: {
                 autoAlpha: 1,
-                x: 0,
                 y: 0,
-                filter: 'blur(0px)',
                 duration: 0.5,
                 ease: 'power3.out',
-                stagger: { each: 0.055, from: 'start' },
+                stagger: { each: 0.06, from: 'start' },
             },
         },
     ]
