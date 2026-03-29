@@ -284,12 +284,6 @@ html:not(.lenis) {
     line-height: 1.5;
 }
 
-.featured-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
 .featured-link {
     display: inline-block;
     margin-top: 4px;
