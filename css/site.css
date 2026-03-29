@@ -175,7 +175,7 @@ html:not(.lenis) {
     font-size: 0.88rem;
     color: var(--muted);
     line-height: 1.5;
-    margin-top: 2px;
+    margin-top: 14px;
 }
 
 .hero-bio {
@@ -184,14 +184,14 @@ html:not(.lenis) {
     color: var(--muted);
     max-width: 520px;
     line-height: 1.68;
-    margin-top: 4px;
+    margin-top: 18px;
 }
 
 .hero-contact-row {
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
-    margin-top: 14px;
+    margin-top: 28px;
     font-family: var(--mono);
     font-size: 0.62rem;
     color: var(--muted);
