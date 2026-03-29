@@ -190,10 +190,10 @@ html:not(.lenis) {
 .hero-contact-row {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     margin-top: 28px;
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -216,6 +216,7 @@ html:not(.lenis) {
 .contact-symbol {
     color: var(--primary);
     font-weight: 600;
+    margin-right: 4px;
 }
 
 /* --- featured --- */
@@ -323,6 +324,11 @@ html:not(.lenis) {
     border-bottom: 1px solid var(--outline-variant);
 }
 
+.project-item.work {
+    padding-left: 16px;
+    border-left: 2px solid hsl(127 40% 36%);
+}
+
 .project-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
@@ -374,11 +380,11 @@ html:not(.lenis) {
 
 .project-item-label {
     font-family: var(--mono);
-    font-size: 0.56rem;
+    font-size: 0.6rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--primary);
-    padding: 2px 7px;
+    padding: 3px 8px;
     border: 1px solid hsl(127 30% 30% / 0.5);
     border-radius: 3px;
     background: hsl(127 30% 20% / 0.15);
@@ -633,6 +639,16 @@ a.project-link:focus-visible {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+}
+
+.blog-preview-entry {
+    padding-left: 16px;
+    border-left: 2px solid var(--outline-variant);
+    transition: border-color 0.2s ease;
+}
+
+.blog-preview-entry:hover {
+    border-left-color: var(--primary);
 }
 
 .blog-preview-title {
