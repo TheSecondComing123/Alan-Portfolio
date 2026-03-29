@@ -65,15 +65,9 @@
 }
 
 .blog-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.blog-tags .tag {
-    background: hsl(127 18% 14% / 0.4);
-    border-color: hsl(127 20% 28% / 0.6);
-    color: hsl(127 30% 72%);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--muted);
 }
 
 .blog-title-link {
@@ -178,7 +172,6 @@
 .blog-heading .blog-tags {
     margin-top: 10px;
     margin-bottom: 10px;
-    gap: 5px;
 }
 
 /* Blog article content */

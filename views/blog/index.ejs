@@ -11,11 +11,7 @@
           <p class="blog-meta"><%= post.meta %></p>
           <h2 class="blog-title"><span class="item-symbol">//</span> <a class="blog-title-link" href="/blog/<%= post.slugEncoded %>"><%= post.title %></a></h2>
           <% if (post.tags && post.tags.length > 0) { %>
-            <div class="blog-tags" role="list" aria-label="Article topics">
-              <% post.tags.forEach((tag) => { %>
-                <span class="tag" role="listitem"><%= tag %></span>
-              <% }) %>
-            </div>
+            <p class="blog-tags"><%= post.tags.join(' / ') %></p>
           <% } %>
         </div>
         <a class="project-link project-link-inline" href="/blog/<%= post.slugEncoded %>">Read Article</a>

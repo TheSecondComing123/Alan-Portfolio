@@ -4,11 +4,7 @@
       <p class="blog-meta"><%= post.meta %></p>
       <h1 class="blog-title"><%= post.title %></h1>
       <% if (post.tags && post.tags.length > 0) { %>
-        <div class="blog-tags" role="list" aria-label="Article topics">
-          <% post.tags.forEach((tag) => { %>
-            <span class="tag" role="listitem"><%= tag %></span>
-          <% }) %>
-        </div>
+        <p class="blog-tags"><%= post.tags.join(' / ') %></p>
       <% } %>
     </div>
   </header>

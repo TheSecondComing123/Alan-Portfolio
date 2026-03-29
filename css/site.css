@@ -341,21 +341,6 @@ a.project-link:focus-visible {
     cursor: default;
 }
 
-.tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 7px;
-    border-radius: 3px;
-    border: 1px solid hsl(127 20% 28% / 0.6);
-    background: hsl(127 18% 14% / 0.4);
-    color: hsl(127 30% 72%);
-    font-size: 0.58rem;
-    line-height: 1;
-    letter-spacing: 0.04em;
-    font-family: var(--mono);
-    min-height: 20px;
-}
-
 /* click-to-expand lightbox */
 .lightbox {
     position: fixed;
