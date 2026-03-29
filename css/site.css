@@ -485,8 +485,8 @@ a.project-link:focus-visible {
 /* --- tech --- */
 
 .tech {
-    padding-top: 40px;
-    padding-bottom: clamp(16px, 2vh, 28px);
+    padding-top: 48px;
+    padding-bottom: 40px;
 }
 
 .tech-compact {
@@ -496,9 +496,9 @@ a.project-link:focus-visible {
 
 .tech-row {
     display: grid;
-    grid-template-columns: 100px minmax(0, 1fr);
+    grid-template-columns: 110px minmax(0, 1fr);
     gap: 0 clamp(16px, 2vw, 32px);
-    padding: 12px;
+    padding: 16px 12px;
     margin: 0 -12px;
     border-top: 1px solid var(--outline-variant);
     border-radius: 2px;
@@ -515,17 +515,17 @@ a.project-link:focus-visible {
 
 .tech-row-label {
     font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--primary);
-    padding-top: 2px;
+    padding-top: 3px;
 }
 
 .tech-row-items {
-    font-size: 0.88rem;
-    color: var(--muted);
-    line-height: 1.6;
+    font-size: 0.92rem;
+    color: hsl(0 0% 68%);
+    line-height: 1.7;
     font-family: var(--font-body);
 }
 
