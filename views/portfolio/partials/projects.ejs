@@ -8,10 +8,10 @@
                 <span class="project-item-tech">Rust / Ratatui / Crossterm</span>
             </div>
             <p class="project-item-desc">
-                Discord in your terminal. Connects directly to Discord's gateway over
-                WebSocket, renders with Ratatui. Browse servers, send messages, react,
-                search, see typing indicators. Images show up inline if your terminal
-                supports Kitty or Sixel graphics.
+                Discord in your terminal. Connects to the gateway over WebSocket,
+                renders everything with Ratatui. Browse servers, send messages, react,
+                search, see typing indicators. Images show inline if your terminal
+                does Kitty or Sixel. 12k+ lines of Rust.
             </p>
             <a href="https://github.com/TheSecondComing123/tiscord" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
         </article>
@@ -38,10 +38,9 @@
                 <span class="project-item-tech">Electron / EJS / Express.js</span>
             </div>
             <p class="project-item-desc">
-                Frontend lead. Built the interface for Unbound Browser from scratch, a
-                privacy-first Electron browser that doesn't track you. Also shipped UI for
-                a Scramjet proxy stack, 100+ unblocked games, community chat, and an AI
-                assistant. Made it all feel like one product.
+                Frontend lead. Built the interface for a privacy-first Electron
+                browser from scratch. Scramjet proxy stack, 100+ game library,
+                community chat, AI assistant. Made it all feel like one product.
             </p>
             <a href="https://unboundlabs.dev" class="project-item-link" target="_blank" rel="noopener noreferrer">Visit &nearr;</a>
         </article>
@@ -69,29 +68,40 @@
             </div>
             <p class="project-item-desc">
                 Frontend dev on a browser-based game library. Play PC games without
-                downloading anything. I built the game library UI and a custom desktop
-                window manager, then migrated the codebase from vanilla JS to Svelte 5 to
+                downloading anything. I built the library UI and a custom desktop window
+                manager, then migrated the codebase from vanilla JS to Svelte 5 to
                 TypeScript.
             </p>
             <a href="https://github.com/SpirrTeam/Sauna" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
         </article>
 
-        <article class="project-item">
+        <article class="project-item has-showcase">
             <div class="project-item-header">
                 <span class="item-symbol">&gt;</span>
                 <h2 class="project-item-title">ACSL Academy</h2>
                 <span class="project-item-tech">SvelteKit / Tailwind / Supabase</span>
             </div>
-            <p class="project-item-desc">
-                ACSL competition prep platform. I built it because the study resources were
-                scattered and none of them tracked what you'd actually learned. 30+ lessons,
-                timed contest sets, progress tracking per account.
-            </p>
-            <a href="https://acsl-academy.vercel.app" class="project-item-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+            <div class="project-item-body">
+                <div class="project-item-content">
+                    <p class="project-item-desc">
+                        ACSL competition prep platform I built to teach students at my school.
+                        The existing study resources were scattered across random PDFs and
+                        forum posts, and none of them tracked what you'd actually learned.
+                        Used by 10+ students for contest prep.
+                    </p>
+                    <ul class="project-item-details">
+                        <li>* 30+ lessons across all four contest categories</li>
+                        <li>* timed practice sets that mirror real contest format</li>
+                        <li>* per-account progress tracking with Supabase auth</li>
+                        <li>* mixed quiz mode pulling from every topic at random</li>
+                    </ul>
+                    <a href="https://acsl-academy.vercel.app" class="project-link" target="_blank" rel="noopener noreferrer">View project &nearr;</a>
+                </div>
+                <div class="showcase-media">
+                    <img src="/images/acsl-academy.png" alt="ACSL Academy screenshot showing lesson cards and quiz interface" loading="lazy" />
+                </div>
+            </div>
         </article>
     </div>
 
-    <div class="projects-view-all">
-        <a href="/projects" class="project-link">View all projects &nearr;</a>
-    </div>
 </section>

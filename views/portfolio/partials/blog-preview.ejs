@@ -5,7 +5,7 @@
         <% recentPosts.forEach(function(post) { %>
         <div class="blog-preview-entry">
             <p class="blog-preview-title"><span class="item-symbol">//</span> <a href="/blog/<%= post.slug %>"><%= post.title %></a></p>
-            <p class="blog-preview-date"><%= post.date %></p>
+            <p class="blog-preview-date"><%= post.date %><% if (post.readTime) { %> · <%= post.readTime %><% } %></p>
             <p class="blog-preview-excerpt"><%= post.excerpt %></p>
         </div>
         <% }) %>

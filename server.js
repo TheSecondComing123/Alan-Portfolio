@@ -15,7 +15,7 @@ const BLOG_PAGE_TITLE = 'Blog'
 const BLOG_INDEX_DESCRIPTION =
     'Long-form notes on building products, optimizing systems, and improving as an engineer.'
 const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
-const ASSET_VERSION = '20260328_8013'
+const ASSET_VERSION = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 8) || Date.now().toString(36)
 const DEFAULT_SITE_URL = 'https://alanthebagel.com'
 const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '')
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
@@ -286,14 +286,6 @@ app.get('/blog/:slug', async (req, res, next) => {
     }
 })
 
-app.get('/projects', (_req, res, next) => {
-    try {
-        res.render('projects/index', { assetVersion: ASSET_VERSION, cspNonce: res.locals.cspNonce })
-    } catch (error) {
-        next(error)
-    }
-})
-
 app.get('/', async (_req, res, next) => {
     try {
         const posts = await getBlogPosts()
@@ -303,6 +295,7 @@ app.get('/', async (_req, res, next) => {
                 title: vm.title,
                 slug: vm.slug,
                 excerpt: vm.excerpt || '',
+                readTime: vm.readTime || '',
                 date: new Date(vm.date).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'short',
@@ -324,15 +317,7 @@ app.get('/index.html', (_req, res) => {
     res.redirect(301, '/')
 })
 
-app.use(
-    express.static(path.join(__dirname, '.'), {
-        setHeaders: (res, filePath) => {
-            if (filePath.endsWith('.html')) {
-                res.setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400')
-            }
-        },
-    }),
-)
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use((_req, res) => {
     res.status(404)

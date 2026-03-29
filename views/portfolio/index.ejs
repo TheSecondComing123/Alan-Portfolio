@@ -43,7 +43,6 @@
   <link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>" />
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
   <link rel="prefetch" href="/blog" />
-  <link rel="prefetch" href="/projects" />
 
   <noscript>
     <link
@@ -51,9 +50,9 @@
       rel="stylesheet"
     />
     <style>
-      .hero-name, .hero-tagline, .hero-bio, .hero-contact-row,
+      .hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-contact-row,
       .section-label, .project-item, .project-item-desc,
-      .blog-preview-entry, .tech-category {
+      .blog-preview-entry {
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
@@ -69,21 +68,18 @@
     <%- include('./partials/home') %>
     <%- include('./partials/projects') %>
     <%- include('./partials/blog-preview') %>
-    <%- include('./partials/technologies') %>
   </main>
 
   <nav class="dockbar" role="navigation" aria-label="Main navigation">
-    <a
-      class="nav-button"
-      data-section="home"
-      href="#home"
-      aria-label="Home"
-      aria-current="location"
-      id="btn-home"
-    ></a>
-    <a class="nav-button" data-section="projects" href="#projects" aria-label="Projects" id="btn-projects"></a>
-    <a class="nav-button" data-section="blog" href="#blog" aria-label="Blog" id="btn-blog"></a>
-    <a class="nav-button" data-section="stack" href="#stack" aria-label="Stack" id="btn-stack"></a>
+    <a class="nav-button" data-section="home" href="#home" aria-label="Home" aria-current="location" id="btn-home">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    </a>
+    <a class="nav-button" data-section="projects" href="#projects" aria-label="Projects" id="btn-projects">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+    </a>
+    <a class="nav-button" data-section="blog" href="#blog" aria-label="Blog" id="btn-blog">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 21h8"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>
+    </a>
   </nav>
 
   <footer class="site-footer" aria-label="Site footer">

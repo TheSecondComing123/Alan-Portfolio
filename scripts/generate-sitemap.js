@@ -4,7 +4,7 @@ const matter = require('gray-matter')
 
 const ROOT = path.join(__dirname, '..')
 const BLOG_DIR = path.join(ROOT, 'content', 'blog')
-const OUTPUT_PATH = path.join(ROOT, 'sitemap.xml')
+const OUTPUT_PATH = path.join(ROOT, 'public', 'sitemap.xml')
 const DEFAULT_SITE_URL = 'https://alanthebagel.com'
 const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '')
 
@@ -91,20 +91,14 @@ async function main() {
     const homeLastmod = await getLatestModified([
         path.join(ROOT, 'server.js'),
         path.join(ROOT, 'views', 'portfolio', 'index.ejs'),
-        path.join(ROOT, 'js', 'index.js'),
-        path.join(ROOT, 'css', 'site.css'),
+        path.join(ROOT, 'public', 'js', 'index.js'),
+        path.join(ROOT, 'public', 'css', 'site.css'),
     ])
     const blogLastmod = posts[0]?.lastmod || homeLastmod
 
     const entries = [
         { loc: `${SITE_URL}/`, lastmod: homeLastmod, changefreq: 'weekly', priority: '1.0' },
         { loc: `${SITE_URL}/blog`, lastmod: blogLastmod, changefreq: 'weekly', priority: '0.9' },
-        {
-            loc: `${SITE_URL}/projects`,
-            lastmod: homeLastmod,
-            changefreq: 'monthly',
-            priority: '0.8',
-        },
         ...posts.map((post) => ({
             loc: `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`,
             lastmod: post.lastmod,

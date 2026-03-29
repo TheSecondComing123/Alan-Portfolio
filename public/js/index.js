@@ -1,4 +1,4 @@
-const SECTION_IDS = ['home', 'projects', 'blog', 'stack']
+const SECTION_IDS = ['home', 'projects', 'blog']
 const HOMEPAGE_FONT_STYLESHEET =
     'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap'
 const app = document.getElementById('app')
@@ -62,13 +62,7 @@ function scheduleNonCriticalInitialization() {
 }
 
 function scheduleDeferredAssets() {
-    const run = async () => {
-        await Promise.allSettled([loadHomepageFontStylesheet(), loadLucideScript()])
-
-        if (typeof window.lucide !== 'undefined') {
-            window.lucide.createIcons()
-        }
-    }
+    const run = () => loadHomepageFontStylesheet()
 
     if ('requestIdleCallback' in window) {
         window.requestIdleCallback(() => void run(), { timeout: 1200 })
@@ -86,10 +80,6 @@ function loadHomepageFontStylesheet() {
     link.rel = 'stylesheet'
     link.href = HOMEPAGE_FONT_STYLESHEET
     document.head.appendChild(link)
-}
-
-function loadLucideScript() {
-    return loadScript('https://cdn.jsdelivr.net/npm/lucide@0.563.0/dist/umd/lucide.min.js')
 }
 
 async function loadEnhancementScripts() {
@@ -186,7 +176,7 @@ function initializeSmoothScroll() {
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
     const sections = [
-        ...document.querySelectorAll('.hero, .projects, .blog-preview, .tech'),
+        ...document.querySelectorAll('.hero, .projects, .blog-preview'),
     ]
     if (sections.length === 0) return
 
@@ -195,7 +185,7 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-contact-row',
+            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-contact-row',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
@@ -276,31 +266,6 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.tech-row',
-            at: 0.2,
-            prepare(gsap, elements) {
-                elements.forEach((element, index) => {
-                    gsap.set(element, {
-                        autoAlpha: 0,
-                        x: index % 2 === 0 ? -16 : 16,
-                        y: 12,
-                        scale: 0.98,
-                        filter: 'blur(2px)',
-                    })
-                })
-            },
-            to: {
-                autoAlpha: 1,
-                x: 0,
-                y: 0,
-                scale: 1,
-                filter: 'blur(0px)',
-                duration: 0.55,
-                ease: 'power3.out',
-                stagger: { each: 0.045, from: 'edges' },
-            },
-        },
-        {
             selector: '.project-item-desc',
             at: 0.2,
             prepare(gsap, elements) {
@@ -312,6 +277,24 @@ function initializeRevealAnimations() {
                 duration: 0.5,
                 ease: 'power3.out',
                 stagger: { each: 0.06, from: 'start' },
+            },
+        },
+        {
+            selector: '.showcase-media',
+            at: 0.15,
+            prepare(gsap, elements) {
+                gsap.set(elements, {
+                    autoAlpha: 0,
+                    clipPath: 'inset(6% 6% 6% 6%)',
+                    scale: 0.96,
+                })
+            },
+            to: {
+                autoAlpha: 1,
+                clipPath: 'inset(0% 0% 0% 0%)',
+                scale: 1,
+                duration: 0.8,
+                ease: 'expo.out',
             },
         },
     ]
@@ -463,21 +446,7 @@ function initializeHeroBackgroundTransition() {
 }
 
 function initializeNavigationIcons() {
-    const iconMap = {
-        'btn-home': 'home',
-        'btn-projects': 'briefcase',
-        'btn-blog': 'pen-line',
-        'btn-stack': 'cpu',
-    }
-
-    for (const [buttonId, iconName] of Object.entries(iconMap)) {
-        const button = document.getElementById(buttonId)
-        if (!button) continue
-        const icon = document.createElement('i')
-        icon.setAttribute('data-lucide', iconName)
-        icon.className = 'icon'
-        button.appendChild(icon)
-    }
+    // icons are now inline SVGs in the template
 }
 
 function initializeNavigationHandlers() {
@@ -514,7 +483,16 @@ function initializeScrollObserver() {
     }
 
     const updateActiveSection = () => {
-        const scrollMid = getScrollY() + window.innerHeight * 0.45
+        const scrollY = getScrollY()
+        const remainingScroll = document.documentElement.scrollHeight - scrollY - window.innerHeight
+        const atBottom = remainingScroll < window.innerHeight * 0.1
+
+        if (atBottom) {
+            setCurrentButton(sections[sections.length - 1].id)
+            return
+        }
+
+        const scrollMid = scrollY + window.innerHeight * 0.45
         let current = sections[0]
 
         for (const section of sections) {

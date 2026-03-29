@@ -8,7 +8,7 @@ export default [
     { ignores: ['node_modules/**', 'simulations/**', '.claude/**', 'coverage/**', 'dist/**'] },
     js.configs.recommended,
     {
-        files: ['server.js', 'api/**/*.js'],
+        files: ['server.js', 'api/**/*.js', 'scripts/**/*.js'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'commonjs',
@@ -23,7 +23,7 @@ export default [
         },
     },
     {
-        files: ['js/**/*.js'],
+        files: ['public/js/**/*.js'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'script',
