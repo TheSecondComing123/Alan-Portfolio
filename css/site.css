@@ -344,51 +344,18 @@ html:not(.lenis) {
     color: var(--primary);
 }
 
-/* --- work entries --- */
+/* --- work label --- */
 
-.work-list {
-    margin-top: 36px;
-    padding-top: 28px;
-    border-top: 1px solid var(--outline-variant);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.work-entry {
-    font-size: 0.85rem;
-    color: var(--muted);
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.work-entry-role {
-    color: var(--text);
-    font-weight: 600;
-}
-
-.work-entry-at {
-    color: var(--muted);
-}
-
-.work-entry-company {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.15s ease;
-}
-
-.work-entry-company:hover {
-    color: var(--primary-light);
-}
-
-.work-entry-stack {
+.project-item-label {
     font-family: var(--mono);
-    font-size: 0.58rem;
-    color: var(--muted);
-    margin-left: 4px;
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    padding: 2px 7px;
+    border: 1px solid hsl(127 30% 30% / 0.5);
+    border-radius: 3px;
+    background: hsl(127 30% 20% / 0.15);
 }
 
 .project-link {
