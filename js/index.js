@@ -245,7 +245,7 @@ function initializeRevealAnimations() {
             },
         },
         {
-            selector: '.featured-label, .featured-title, .featured-desc, .featured-meta-group, .featured-link',
+            selector: '.featured-title, .featured-desc, .featured-meta-group, .featured-link',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 24, filter: 'blur(4px)' })

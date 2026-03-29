@@ -234,15 +234,6 @@ html:not(.lenis) {
     align-items: start;
 }
 
-.featured-label {
-    font-family: var(--mono);
-    font-size: 0.56rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--primary);
-    margin-bottom: 10px;
-}
-
 .featured-title {
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 3vw, 2rem);
