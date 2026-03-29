@@ -219,11 +219,21 @@ function initializeRevealAnimations() {
         },
         {
             selector: '.gol-container',
-            at: 0.12,
+            at: 0.25,
             prepare(gsap, elements) {
-                gsap.set(elements, { autoAlpha: 0, scale: 0.97 })
+                gsap.set(elements, {
+                    autoAlpha: 0,
+                    clipPath: 'inset(8% 8% 8% 8%)',
+                    scale: 0.95,
+                })
             },
-            to: { autoAlpha: 1, scale: 1, duration: 0.8, ease: 'power3.out' },
+            to: {
+                autoAlpha: 1,
+                clipPath: 'inset(0% 0% 0% 0%)',
+                scale: 1,
+                duration: 0.9,
+                ease: 'expo.out',
+            },
         },
         {
             selector: '.section-label',
@@ -390,7 +400,9 @@ function initializeRevealAnimations() {
     for (const [section, sequence] of sectionSequences) {
         if (sequence.length === 0) continue
 
-        if (inViewOnInit(section)) {
+        const isHero = section.classList.contains('hero')
+
+        if (!isHero && inViewOnInit(section)) {
             for (const group of sequence) {
                 for (const element of group.elements) {
                     element.style.opacity = '1'
@@ -403,6 +415,15 @@ function initializeRevealAnimations() {
 
         for (const group of sequence) {
             group.prepare(gsap, group.elements)
+        }
+
+        if (isHero) {
+            // hero always animates on load, no scroll trigger
+            const timeline = gsap.timeline({ delay: 0.4 })
+            for (const group of sequence) {
+                timeline.to(group.elements, group.to, group.at)
+            }
+            continue
         }
 
         const timeline = gsap.timeline({

@@ -2,7 +2,7 @@
     'use strict'
 
     const CONFIG = {
-        cellSize: 8,
+        cellSize: 6,
         updateInterval: 120,
         trailDecay: 0.92,
         trailMin: 0.02,
@@ -32,6 +32,8 @@
     let hasStarted = false
     let isAnimating = false
     let glowGradientCache = null
+    let mouseX = -1
+    let mouseY = -1
 
     function buildGlowGradient() {
         const size = CONFIG.glowRadius * 2
@@ -102,7 +104,7 @@
     function createPattern() {
         for (let x = 0; x < cols; x++) {
             for (let y = 0; y < rows; y++) {
-                grid[x][y].randomize(0.16)
+                grid[x][y].randomize(0.22)
             }
         }
         if (cols > 20 && rows > 20) {
@@ -275,6 +277,44 @@
         lastUpdate = performance.now()
         lastFrameTime = lastUpdate
         animate(lastUpdate)
+
+        function canvasToGrid(e) {
+            const rect = canvas.getBoundingClientRect()
+            const x = Math.floor((e.clientX - rect.left) / CONFIG.cellSize)
+            const y = Math.floor((e.clientY - rect.top) / CONFIG.cellSize)
+            return { x, y }
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            const { x, y } = canvasToGrid(e)
+            if (x === mouseX && y === mouseY) return
+            mouseX = x
+            mouseY = y
+            // paint a small cluster around the cursor
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    const nx = x + dx
+                    const ny = y + dy
+                    if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+                        grid[nx][ny].alive = true
+                    }
+                }
+            }
+        })
+
+        canvas.addEventListener('mouseleave', () => {
+            mouseX = -1
+            mouseY = -1
+        })
+
+        canvas.addEventListener('click', (e) => {
+            const { x, y } = canvasToGrid(e)
+            if (x >= 1 && x < cols - 2 && y >= 1 && y < rows - 2) {
+                addGlider(x - 1, y - 1)
+            }
+        })
+
+        canvas.style.cursor = 'crosshair'
 
         window.addEventListener('resize', resize)
         window.addEventListener('pagehide', stopAnimation)
