@@ -24,7 +24,7 @@
 
     function createLightbox() {
         const closeBtn = el('button', {
-            className: 'lightbox-dot lightbox-dot--close',
+            'className': 'lightbox-dot lightbox-dot--close',
             'aria-label': 'Close',
         })
 
@@ -40,12 +40,16 @@
         const titlebar = el('div', { className: 'lightbox-titlebar' }, [dots, filenameEl])
         const win = el('div', { className: 'lightbox-window' }, [titlebar, bodyEl])
 
-        backdrop = el('div', {
-            className: 'lightbox-backdrop',
-            role: 'dialog',
-            'aria-modal': 'true',
-            'aria-label': 'Image preview',
-        }, [win])
+        backdrop = el(
+            'div',
+            {
+                'className': 'lightbox-backdrop',
+                'role': 'dialog',
+                'aria-modal': 'true',
+                'aria-label': 'Image preview',
+            },
+            [win],
+        )
 
         backdrop.addEventListener('click', function (e) {
             if (e.target === backdrop) closeLightbox()

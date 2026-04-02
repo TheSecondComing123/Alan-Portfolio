@@ -18,6 +18,7 @@ const BLOG_ARTICLE_DESCRIPTION = 'Article details and implementation notes.'
 const ASSET_VERSION = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 8) || Date.now().toString(36)
 const DEFAULT_SITE_URL = 'https://alanthebagel.com'
 const SITE_URL = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/, '')
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'turkeysandwich179@outlook.com'
 const markdown = new MarkdownIt({ html: false, linkify: true, typographer: true })
 const LENIS_DIST_DIR = path.join(__dirname, 'node_modules', 'lenis', 'dist')
 
@@ -306,6 +307,7 @@ app.get('/', async (_req, res, next) => {
         res.render('portfolio/index', {
             assetVersion: ASSET_VERSION,
             cspNonce: res.locals.cspNonce,
+            contactEmail: CONTACT_EMAIL,
             recentPosts,
         })
     } catch (error) {
