@@ -151,9 +151,9 @@ html:not(.lenis) {
 }
 
 .hero {
-    width: min(1200px, 100%);
-    margin-inline: auto;
-    padding-inline: clamp(20px, 4.6vw, 48px);
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 0;
     position: relative;
 }
 
@@ -164,31 +164,60 @@ html:not(.lenis) {
     min-height: 100svh;
     min-height: 100dvh;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--surface);
 }
 
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: clamp(32px, 5vw, 64px);
-    align-items: center;
+.hero-overlay {
+    position: relative;
+    z-index: 2;
     width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding: clamp(28px, 5vw, 56px);
 }
 
 .gol-container {
-    aspect-ratio: 4 / 3;
-    border-radius: 8px;
-    border: 1px solid var(--outline-variant);
-    background: var(--surface);
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
+    border: none;
+    background: hsl(120 9% 8%);
     overflow: hidden;
-    align-self: center;
     transition: opacity 0.3s ease;
+    z-index: 0;
 }
 
 .gol-container canvas {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+.hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, hsl(120 13% 6% / 0.82) 0%, hsl(120 13% 6% / 0.58) 34%, hsl(120 13% 6% / 0.16) 66%, hsl(120 13% 6% / 0.34) 100%),
+        radial-gradient(circle at 18% 42%, hsl(106 52% 32% / 0.16), transparent 38%),
+        radial-gradient(circle at 84% 18%, hsl(96 66% 48% / 0.12), transparent 32%);
+}
+
+.hero-text {
+    position: relative;
+    max-width: min(620px, 100%);
 }
 
 .hero-name {
@@ -198,10 +227,7 @@ html:not(.lenis) {
     letter-spacing: -0.04em;
     line-height: 0.95;
     white-space: nowrap;
-    background: linear-gradient(135deg, #4ade80, #a3e635);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
 }
 
 .hero-tagline {
@@ -237,7 +263,9 @@ html:not(.lenis) {
 
 .hero-now a {
     color: var(--muted-light);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+    text-decoration-thickness: 1px;
     transition: color 0.15s ease;
 }
 
@@ -387,7 +415,6 @@ html:not(.lenis) {
     color: var(--primary);
 }
 
-
 .project-link {
     font-family: var(--mono);
     font-size: 0.62rem;
@@ -455,7 +482,6 @@ a.project-link:focus-visible {
     border-radius: 8px;
     border: 1px solid var(--outline-variant);
 }
-
 
 /* --- dockbar --- */
 
@@ -646,24 +672,29 @@ a.blog-preview-entry:hover .blog-preview-title {
     font-size: 0.66rem;
     letter-spacing: 0.04em;
     line-height: 1.4;
+    color: hsl(0 0% 52%);
 }
 
 /* --- responsive --- */
 
 @media (max-width: 768px) {
-    .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
-
-    .gol-container {
-        aspect-ratio: 16 / 7;
-        height: auto;
-        max-height: 180px;
+    .hero-overlay {
+        align-items: end;
+        padding: 20px;
     }
 
     .hero-name {
         white-space: normal;
+    }
+
+    .hero-text {
+        max-width: 100%;
+    }
+
+    .hero-scrim {
+        background:
+            linear-gradient(180deg, hsl(120 13% 6% / 0.42) 0%, hsl(120 13% 6% / 0.18) 24%, hsl(120 13% 6% / 0.62) 100%),
+            radial-gradient(circle at 50% 14%, hsl(98 70% 44% / 0.12), transparent 34%);
     }
 
     .hero-contact-row {

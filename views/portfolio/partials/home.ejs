@@ -1,5 +1,9 @@
 <section class="hero" id="home">
-    <div class="hero-grid">
+    <div class="gol-container">
+        <canvas id="game-of-life-canvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-overlay">
         <div class="hero-text">
             <h1 class="hero-name">ALAN BAGEL</h1>
             <p class="hero-tagline">I write code that runs fast and breaks less.</p>
@@ -12,14 +16,11 @@
             <p class="hero-availability">Open to frontend and systems work.</p>
             <p class="hero-now">Currently building <a href="https://github.com/TheSecondComing123/tiscord" target="_blank" rel="noopener noreferrer">tiscord</a>.</p>
             <div class="hero-contact-row">
-                <a href="mailto:turkeysandwich179@outlook.com" aria-label="Email"><span class="contact-symbol">@</span> turkeysandwich179@outlook.com</a>
-                <a href="https://github.com/TheSecondComing123" target="_blank" rel="me noopener noreferrer" aria-label="GitHub"><span class="contact-symbol">&gt;</span> github.com/TheSecondComing123</a>
-                <a href="https://itch.io/profile/alandabagel" target="_blank" rel="noopener noreferrer" aria-label="Itch.io"><span class="contact-symbol">#</span> itch.io/alandabagel</a>
-                <a href="/blog" aria-label="Blog"><span class="contact-symbol">~</span> alanthebagel.com/blog</a>
+                <a href="mailto:<%= typeof contactEmail !== 'undefined' ? contactEmail : 'turkeysandwich179@outlook.com' %>"><span class="contact-symbol">@</span> <%= typeof contactEmail !== 'undefined' ? contactEmail : 'turkeysandwich179@outlook.com' %></a>
+                <a href="https://github.com/TheSecondComing123" target="_blank" rel="me noopener noreferrer"><span class="contact-symbol">&gt;</span> github.com/TheSecondComing123</a>
+                <a href="https://itch.io/profile/alandabagel" target="_blank" rel="noopener noreferrer"><span class="contact-symbol">#</span> itch.io/alandabagel</a>
+                <a href="/blog"><span class="contact-symbol">~</span> alanthebagel.com/blog</a>
             </div>
-        </div>
-        <div class="gol-container">
-            <canvas id="game-of-life-canvas" aria-hidden="true"></canvas>
         </div>
     </div>
 </section>

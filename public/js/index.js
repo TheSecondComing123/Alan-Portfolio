@@ -178,9 +178,7 @@ function initializeSmoothScroll() {
 
 /* gsap scroll-triggered reveal animations */
 function initializeRevealAnimations() {
-    const sections = [
-        ...document.querySelectorAll('.hero, .projects, .blog-preview'),
-    ]
+    const sections = [...document.querySelectorAll('.hero, .projects, .blog-preview')]
     if (sections.length === 0) return
 
     const hasGSAP = typeof window.gsap !== 'undefined'
@@ -188,7 +186,8 @@ function initializeRevealAnimations() {
 
     const revealPlan = [
         {
-            selector: '.hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-now, .hero-contact-row',
+            selector:
+                '.hero-name, .hero-tagline, .hero-bio, .hero-availability, .hero-now, .hero-contact-row',
             at: 0,
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 28, filter: 'blur(6px)' })
@@ -207,16 +206,12 @@ function initializeRevealAnimations() {
             at: 0.25,
             skip: window.matchMedia('(max-width: 768px)').matches,
             prepare(gsap, elements) {
-                gsap.set(elements, {
-                    autoAlpha: 0,
-                    clipPath: 'inset(8% 8% 8% 8%)',
-                    scale: 0.95,
-                })
+                gsap.set(elements, { autoAlpha: 0, scale: 1.04, filter: 'blur(4px)' })
             },
             to: {
                 autoAlpha: 1,
-                clipPath: 'inset(0% 0% 0% 0%)',
                 scale: 1,
+                filter: 'blur(0px)',
                 duration: 0.9,
                 ease: 'expo.out',
             },
@@ -227,23 +222,13 @@ function initializeRevealAnimations() {
             prepare(gsap, elements) {
                 gsap.set(elements, { autoAlpha: 0, y: 14, filter: 'blur(3px)' })
             },
-            to: {
-                autoAlpha: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                duration: 0.5,
-                ease: 'power3.out',
-            },
+            to: { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power3.out' },
         },
         {
             selector: '.project-item',
             at: 0.08,
             prepare(gsap, elements) {
-                gsap.set(elements, {
-                    autoAlpha: 0,
-                    y: 20,
-                    filter: 'blur(3px)',
-                })
+                gsap.set(elements, { autoAlpha: 0, y: 20, filter: 'blur(3px)' })
             },
             to: {
                 autoAlpha: 1,
@@ -286,11 +271,7 @@ function initializeRevealAnimations() {
             selector: '.showcase-media',
             at: 0.15,
             prepare(gsap, elements) {
-                gsap.set(elements, {
-                    autoAlpha: 0,
-                    clipPath: 'inset(6% 6% 6% 6%)',
-                    scale: 0.96,
-                })
+                gsap.set(elements, { autoAlpha: 0, clipPath: 'inset(6% 6% 6% 6%)', scale: 0.96 })
             },
             to: {
                 autoAlpha: 1,
