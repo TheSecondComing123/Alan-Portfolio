@@ -145,6 +145,63 @@ app.use((req, res, next) => {
     next()
 })
 
+// --- /api/time : Ed25519-signed timestamp for the obfuscation project ---
+// Returns a signed payload that an offline WASM client can verify with the
+// embedded public key. The signed payload is (caller_nonce16 || unix_ms_le8
+// || day_le4). Caller passes a fresh nonce per request; the signature binds
+// the response to that nonce so it cannot be replayed across boots without
+// also replaying the nonce, which client-side WASM can refuse if it is not
+// the nonce it just generated. Private key lives in Vercel env. Failure to
+// load the key returns a 500 on this route only; the rest of the site is
+// unaffected.
+const _ED25519_PRIV_PEM = process.env.ED25519_PRIV_PEM
+let _ed25519SignKey
+function _getEd25519SignKey() {
+    if (_ed25519SignKey) return _ed25519SignKey
+    if (!_ED25519_PRIV_PEM) return null
+    _ed25519SignKey = crypto.createPrivateKey(_ED25519_PRIV_PEM)
+    return _ed25519SignKey
+}
+app.options('/api/time', (_req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
+    res.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+    res.set('Access-Control-Allow-Headers', '*')
+    res.set('Access-Control-Max-Age', '86400')
+    res.status(204).end()
+})
+app.get('/api/time', (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
+    res.set('Cache-Control', 'no-store')
+    res.set('Content-Type', 'application/json; charset=utf-8')
+    const key = _getEd25519SignKey()
+    if (!key) return res.status(500).end('{"error":"signing-key-missing"}')
+    let nonce
+    try {
+        const n = (req.query.n || '').toString().replace(/-/g, '+').replace(/_/g, '/')
+        nonce = Buffer.from(n, 'base64')
+    } catch {
+        return res.status(400).end('{"error":"bad-nonce"}')
+    }
+    if (nonce.length !== 16) {
+        return res.status(400).end('{"error":"nonce-must-be-16-bytes"}')
+    }
+    const now = Date.now()
+    const day = Math.floor(now / 86_400_000)
+    const payload = Buffer.alloc(28)
+    nonce.copy(payload, 0)
+    payload.writeBigUInt64LE(BigInt(now), 16)
+    payload.writeUInt32LE(day, 24)
+    const sig = crypto.sign(null, payload, key)
+    return res.end(
+        JSON.stringify({
+            nonce: nonce.toString('base64'),
+            ts: String(now),
+            day,
+            sig: sig.toString('base64'),
+        }),
+    )
+})
+
 app.get('/js/vendor/lenis.min.js', (_req, res) => {
     res.sendFile(path.join(LENIS_DIST_DIR, 'lenis.min.js'))
 })
